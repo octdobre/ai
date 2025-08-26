@@ -1,11 +1,43 @@
-# ai
+# 🧠 AI Dev Playground
 
-Welcome to the **ai** repository! This repository serves as a collection of artificial intelligence projects, experiments, and resources. Here, you'll find a variety of implementations, research explorations, and tools related to machine learning, deep learning, and other AI domains.
+Welcome, builder! 👋 This repo is a friendly, hands-on collection of small AI projects, prompting patterns, and reusable tools. It’s designed for developers who want practical examples, concise guides, and copy‑pasteable building blocks. ⚙️✨
 
-## What you'll find in this repository
-- Example projects demonstrating AI concepts
-- Experimentation with different machine learning algorithms
-- Research notes and resources
-- Utilities and tools for AI development
+### Highlights
+- Guides and patterns for prompting in `generative/prompting/`
+- Space for modality-specific examples in `generative/{audio,image,text,video}/`
+- Tooling scaffolds for LLMs and MCP integrations in `tools/`
 
-Whether you're a beginner looking to learn about AI or an experienced practitioner seeking inspiration, this repository aims to provide valuable examples and insights.
+## 🚀 Prompting
+
+High-signal guides and reusable patterns for crafting effective prompts across tasks and models.
+
+- [Pre-prompting](generative/prompting/pre_prompting.md): Set context and constraints before the ask.
+- [Persona pattern](generative/prompting/persona_pattern.md): Structure a model's role, voice, and constraints.
+- [Word completion](generative/prompting/word_completion.md): Encourage targeted completions with minimal context.
+- [Grammar and prompting](generative/prompting/prompting_grammar.md): How nouns, verbs, and modifiers shape LLM outputs.
+
+## 📦 Repository layout
+
+```
+.
+├─ agentic/
+├─ generative/
+│  ├─ audio/
+│  ├─ image/
+│  ├─ prompting/
+│  │  ├─ persona_pattern.md
+│  │  ├─ pre_prompting.md
+│  │  ├─ prompting_grammar.md
+│  │  └─ word_completion.md
+│  ├─ text/
+│  └─ video/
+├─ tools/
+│  ├─ llm/
+│  └─ mcp/
+└─ README.md
+```
+
+
+## Acknowledgements
+
+All content in this repository is fully AI-generated. 🤖✨😄🧪
