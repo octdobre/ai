@@ -268,7 +268,7 @@ expected output—you make it easier for an LLM to produce accurate, useful resp
 
 <div style="height: 24px;"></div>
 
-## Documentation and Further Reading 📖
-1. Microsoft Learn — Prompt engineering concepts (clarity, avoid ambiguous pronouns): [https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering)
-2. OpenAI — Best practices (clear, specific instructions; style and tone control): [https://platform.openai.com/docs/guides/prompt-engineering](https://platform.openai.com/docs/guides/prompt-engineering)
-3. Anthropic — Prompting with Claude (be specific and concrete; resolve references): [https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
+## Further Reading 🔗
+- [Microsoft Learn — Prompt engineering concepts](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering)
+- [OpenAI — Best practices](https://platform.openai.com/docs/guides/prompt-engineering)
+- [Anthropic — Prompting with Claude](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)

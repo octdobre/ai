@@ -1,8 +1,8 @@
-## Persona Pattern for Prompting ✨
+# Persona Pattern for Prompting ✨
 
 The persona pattern asks the model to “act as” a specific role with a defined voice, expertise, and constraints. By shaping the assistant’s identity and goals, you improve consistency, tone, depth, and structure of outputs.
 
-### Understanding the core template 🧩
+## Understanding the core template 🧩
 Imagine you ask for a trip plan and get a polite wall of text. Helpful? Kind of. Precise? Not really. Now watch the same request evolve as we add one ingredient at a time from the template.
 
 1) We start with identity.
@@ -86,7 +86,7 @@ Effect on output:
 The reply executes immediately on the exact deliverable, with the requested alternatives.
 ```
 
-### Core template
+## Core template
 Use this as a compact starting point. Fill brackets with specifics.
 
 ```text
@@ -107,7 +107,7 @@ Tip: Keep the persona (role, audience, style, constraints) consistent across the
 
 ## Examples 📚
 
-### 1) General expert persona 🧭
+### I. General expert persona 🧭
 ```text
 Act as: A meticulous travel planner specializing in budget European trips.
 Audience: A couple in their 30s traveling for 7 days in May.
@@ -119,7 +119,7 @@ Outputs: 7-day itinerary table + packing checklist + daily budget.
 Task: Draft the itinerary and highlight 2 alternatives for rainy days.
 ```
 
-### 2) Socratic teaching persona 🎓
+### II. Socratic teaching persona 🎓
 ```text
 Act as: A Socratic math tutor.
 Audience: A high-school student.
@@ -138,7 +138,7 @@ Task: Help the student understand why the derivative of sin(x) is cos(x).
 
 Use these to steer depth, stack choices, and output formats.
 
-### Frontend Engineer (React + TypeScript) 🎨
+### I. Frontend Engineer (React + TypeScript) 🎨
 ```text
 Act as: A senior frontend engineer specializing in React 18 + TypeScript.
 Audience: Mid-level web devs.
@@ -149,7 +149,7 @@ Outputs: Component code, usage example, and a11y checklist.
 Task: Create a controlled `Autocomplete` component with keyboard navigation and ARIA roles.
 ```
 
-### Backend Engineer (Python + FastAPI) 🐍
+### II. Backend Engineer (Python + FastAPI) 🐍
 ```text
 Act as: A backend engineer specializing in FastAPI and Pydantic.
 Audience: Backend team.
@@ -160,7 +160,7 @@ Outputs: Endpoint code, Pydantic models, error mapping, and pytest cases.
 Task: Add a POST /orders endpoint with idempotency and input validation.
 ```
 
-### Backend Engineer (Node.js + Express) 🛠️
+### III. Backend Engineer (Node.js + Express) 🛠️
 ```text
 Act as: A senior Node.js backend engineer using Express and TypeScript.
 Audience: Server engineers.
@@ -171,7 +171,7 @@ Outputs: Route, service, schema, error middleware, and unit tests.
 Task: Implement a rate-limited webhook receiver with HMAC verification.
 ```
 
-### DevOps/SRE ⚙️
+### IV. DevOps/SRE ⚙️
 ```text
 Act as: A DevOps/SRE focusing on CI/CD and reliability.
 Audience: Platform team.
@@ -219,12 +219,12 @@ Act as a compliance officer. Answer only with HIPAA-safe guidance; redact PHI.
 
 ---
 
-## Documentation 📖
+## Further Reading 🔗
 
-- Persona pattern overview — arXiv: [A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT](https://arxiv.org/abs/2302.11382)
-- Prompt engineering — OpenAI: [Best practices](https://platform.openai.com/docs/guides/prompt-engineering)
-- Prompt design — Google Vertex AI: [Prompt design strategies](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/prompt-design-strategies)
-- Prompt engineering — Anthropic: [Establish context and role](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering#establish-context-and-role)
-- Prompt engineering — Microsoft Learn: [Techniques and guidelines](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering)
+- [A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT](https://arxiv.org/abs/2302.11382)
+- [Best practices](https://platform.openai.com/docs/guides/prompt-engineering)
+- [Prompt design strategies](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/prompt-design-strategies)
+- [Establish context and role](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering#establish-context-and-role)
+- [Techniques and guidelines](https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering)
 
 

@@ -22,7 +22,7 @@ Output:
 
 ## Practical examples
 
-### Example 1: Engineering assistant with output contract
+### I. Engineering assistant with output contract
 
 ```markdown
 You are a senior code reviewer.
@@ -39,7 +39,7 @@ Output format:
 If uncertain, state the assumption before proposing an edit.
 ```
 
-### Example 2: Lightweight JSON schema for tool usage
+### II. Lightweight JSON schema for tool usage
 
 ```json
 {
