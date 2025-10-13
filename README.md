@@ -45,6 +45,12 @@ High-signal guides and reusable patterns for crafting effective prompts across t
 - [Meta language creation](generative/prompting/meta_language_prompt_pattern.md): Teach the model custom notation or shorthand instead of natural language.
 - [Semantic filter pattern](generative/prompting/semantic_filter_pattern.md): Redact or remove low-signal, sensitive, or redundant spans while preserving meaning.
 
+### 🧩 Applications
+
+Concrete, self-contained prompt artifacts and mini systems you can run end-to-end to study structure, constraint handling, state tracking, and evaluation. These go beyond patterns into runnable specs.
+
+- [Tic Tac Toe game engine](generative/text/tictactoe_game.md) – rule‑enforced conversational game with structured action tail.
+
 ## 📦 Repository layout
 
 ```
