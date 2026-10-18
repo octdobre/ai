@@ -1,5 +1,7 @@
 # 🧠 AI Dev Playground
 
+*Last updated: October 18, 2026*
+
 Welcome, builder! 👋 This repo is a friendly, hands-on collection of small AI projects, prompting patterns, and reusable tools. It’s designed for developers who want practical examples, concise guides, and copy‑pasteable building blocks. ⚙️✨
 
 ### Highlights
