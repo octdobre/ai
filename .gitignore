@@ -245,3 +245,6 @@ PublishScripts/
 **/packages/*
 *.nuget.props
 *.nuget.targets
+
+# Claude Code local preview config
+.claude/launch.json
