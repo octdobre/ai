@@ -249,8 +249,9 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
 .doc-hero .lead { font-size: 1.12rem; color: var(--muted); margin: 0; }
 
 .prose { font-size: 1.02rem; }
-.prose h2 { font-size: 1.6rem; margin: 56px 0 14px; padding-top: 8px; }
-.prose h3 { font-size: 1.25rem; margin: 40px 0 10px; letter-spacing: -0.01em; }
+.prose h2 { font-size: 1.6rem; margin: 36px 0 12px; }
+.prose > h2:first-child { margin-top: 24px; }
+.prose h3 { font-size: 1.25rem; margin: 28px 0 10px; letter-spacing: -0.01em; }
 .prose h4 { font-size: 1.05rem; margin: 30px 0 10px; color: #c4b5fd; }
 .prose h5 { font-size: 0.98rem; margin: 22px 0 8px; color: var(--text); }
 .prose p { color: var(--muted); margin: 0 0 14px; }
@@ -370,6 +371,19 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
 }
 .bubble.before .who { color: #fca5a5; }
 .bubble .inline-block { display: block; margin-top: 8px; padding: 8px 10px; white-space: pre-wrap; }
+
+/* Narrator note: describes the output, is not part of it */
+.prose .bubble .note {
+  margin: 12px 0 0; padding-top: 10px;
+  border-top: 1px dashed var(--border-hover);
+  font-size: 0.88rem; font-style: italic; color: var(--faint);
+}
+.bubble .note::before {
+  content: "What happened";
+  display: block; margin-bottom: 2px;
+  font-family: var(--sans); font-style: normal;
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+}
 
 @media (max-width: 640px) {
   .compare { grid-template-columns: 1fr; }

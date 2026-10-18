@@ -37,7 +37,7 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🧵 <span class="gradient-text">Tail Generation Pattern</span></h1>
-          <p class="lead">The Tail Generation Pattern extends each Large Language Model (LLM) response with a concise, structured “tail” that reiterates active objectives, governing rules, next required user input, and self-reminders.</p>
+          <p class="lead">A Large Language Model (LLM) loses track of the conversation's goal as the conversation grows. The instructions you gave at the start get buried under newer messages, so later replies drift: rules get dropped and the model stops asking for what comes next. The Tail Generation Pattern fixes this by ending every reply with a short “tail” that restates the goal, the rules, and the next step, so they are always among the most recent messages.</p>
         </header>
 
         <div class="prose" id="article">
@@ -48,46 +48,36 @@
             <li><strong>It reminds the model of itself.</strong> Self-reminders in the tail carry the model's own working notes from one turn to the next.</li>
           </ul>
 
-          <h2 id="when-to-use">When to use</h2>
-          <p>Use this pattern in extended sessions where the model begins drifting from instructions, forgets constraints, changes style midstream, or stops asking for the correct next input.</p>
-          <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · no tail</span>Deep into a long session, replies drift from the instructions, drop constraints, change style, or stop asking for the correct next input.</div>
-              <div class="bubble model"><span class="who">After · with a tail</span>Every reply ends with a tail that restates the task, the active rules, and the next expected input, so the workflow stays on track.</div>
-            </div>
-          </div>
-
           <h2 id="example">Example interaction</h2>
-          <p>This example embeds a self-reminding, tail-friendly instruction into a conversation.</p>
+          <p>The user sets up a repeating workflow: for every task, the model suggests a few approaches and writes one prompt per approach.</p>
 
           <h3 id="step-instruction"><span class="rule-num">1</span> The user's instruction</h3>
-          <p>The instruction intentionally contains minor spelling issues, to show that the model can normalize them while preserving intent. It is shown as originally provided.</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>"" Whenever i ask you to write a prompt for me to accomplish a task,
-list what the task is,
-list alternaltive approaches for completing the tesk,
-and then write a prompt for yourself for each approach.
-When you are done, ask me for the next prompt to create alternatives for.
-
-Ask me for what I want you to write a prompt for.""</pre></div>
-
-          <h3 id="step-reply"><span class="rule-num">2</span> The model's reply, with its tail</h3>
+          <p>The second paragraph is what installs the tail.</p>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Model</span><strong>Restated Instruction (Cleaned):</strong> For any task I provide, you will: (1) restate the task, (2) list several alternative approaches, (3) create a self-prompt for each approach, and (4) ask me for the next task when finished.<br><br><strong>Ready.</strong> What task would you like me to generate alternative prompt approaches for next?<code class="inline-block">---
-TAIL:
-TASK: Awaiting user task to generate alternative prompt approaches.
-CONTEXT_SUMMARY: User defined a workflow: restate task; list approaches; self-prompt each; ask next.
-ACTIVE_RULES: restate_task; list_alternatives; prompt_per_approach; ask_next_task; append_tail.
-PROGRESS: phase=awaiting_input step=0/4.
-NEXT_EXPECTED_INPUT: Provide a task you want prompt alternatives for.
-RISKS: vague_task; misspelled_terms.
-SELF_CHECK: rules_applied=TRUE; prior_tail_present=FALSE (first_turn=TRUE).
-REMINDER: Stay concise; enforce workflow; request task.
----</code></div>
+            <div class="bubble user"><span class="who">User</span>Whenever I give you a task, restate the task, list three different approaches to it, and write one prompt for each approach. Then ask me for the next task.<br><br>End every reply with a tail that restates the goal of this conversation, the rules above, and what you need from me next.<br><br>Ask me for the first task.</div>
           </div>
 
-          <h3 id="step-next"><span class="rule-num">3</span> The user's next input</h3>
+          <h3 id="step-reply"><span class="rule-num">2</span> The model's first reply</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>I need prompts for extracting key performance risks from quarterly financial reports.</div>
+            <div class="bubble model"><span class="who">Model</span>Ready. What task would you like prompts for?<code class="inline-block">---
+Goal: write prompts for your tasks, one per approach.
+Rules: restate the task, list 3 approaches, write 1 prompt per approach, ask for the next task.
+Next: tell me your first task.
+---</code><p class="note">The reply is short, but the tail already carries the whole workflow forward.</p></div>
+          </div>
+
+          <h3 id="step-next"><span class="rule-num">3</span> Fifteen turns later</h3>
+          <p>By now the original instruction is far back in the conversation. Here is the same request sent with and without the tail:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Find the main risks in a company's quarterly financial report.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no tail · Model</span>Here's a prompt you can use: <em>“Read this quarterly report and summarize the main risks.”</em><p class="note">The model writes a single prompt, skips the approaches, and doesn't ask for the next task.</p></div>
+              <div class="bubble model"><span class="who">After · with a tail · Model</span><strong>Task:</strong> find the main risks in a quarterly financial report.<br><br><strong>1. Fixed checklist.</strong> <em>“List every risk in this report under four headings: revenue, profit margins, debt, and cash flow.”</em><br><strong>2. Quarter-on-quarter comparison.</strong> <em>“Compare this report with last quarter's and list each figure that got worse, with both numbers.”</em><br><strong>3. Management's own words.</strong> <em>“Quote every sentence in the management commentary that mentions a decline, an uncertainty, or a risk, and explain each in one line.”</em><br><br>What's the next task?<code class="inline-block">---
+Goal: write prompts for your tasks, one per approach.
+Rules: restate the task, list 3 approaches, write 1 prompt per approach, ask for the next task.
+Next: tell me your next task.
+---</code><p class="note">The model follows every rule and ends with the tail again, ready for the next turn.</p></div>
+            </div>
           </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
@@ -106,11 +96,10 @@ REMINDER: Stay concise; enforce workflow; request task.
         <h4>On this page</h4>
         <ol>
           <li><a href="#why-it-works">Why it works</a></li>
-          <li><a href="#when-to-use">When to use</a></li>
           <li><a href="#example">Example interaction</a></li>
           <li class="sub"><a href="#step-instruction">The user's instruction</a></li>
-          <li class="sub"><a href="#step-reply">The model's reply</a></li>
-          <li class="sub"><a href="#step-next">The user's next input</a></li>
+          <li class="sub"><a href="#step-reply">The model's first reply</a></li>
+          <li class="sub"><a href="#step-next">Fifteen turns later</a></li>
           <li><a href="#further-reading">Further reading</a></li>
         </ol>
       </aside>
