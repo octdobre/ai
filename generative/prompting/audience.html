@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audience Pattern · AI Dev Playground</title>
+  <meta name="description" content="Tailor outputs to a specific reader with appropriate depth, tone, and structure.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Role and guardrails</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Role and guardrails</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>👥 <span class="gradient-text">Audience Pattern</span></h1>
+          <p class="lead">The Audience pattern designs prompts so a Large Language Model (LLM) produces output tailored to a clearly defined audience. By declaring who the output is for, you let the model choose the right depth, tone, terminology, structure, and examples. 🎯</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works 💡</h2>
+          <p>Declaring the audience guides the model's choices about how to explain, not just what to explain:</p>
+          <ul>
+            <li><strong>Depth and terminology.</strong> The model picks the level of detail and the vocabulary that fit the reader.</li>
+            <li><strong>Tone and structure.</strong> It shapes the voice and layout of the answer around who will read it.</li>
+            <li><strong>Examples.</strong> It reaches for comparisons the reader already knows.</li>
+          </ul>
+          <p>The result is clearer, more relevant, more trustworthy output, with fewer rounds of iteration. ✅</p>
+
+          <h2 id="the-prompt">The prompt ✍️</h2>
+          <p>Use a compact, audience-led instruction and an explicit ask. Both examples below follow this shape:</p>
+
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Explain how an llm works. Assume I am &lt;audience&gt;.</pre></div>
+
+          <h2 id="examples">Same question, two audiences 🧭</h2>
+          <p>Each example asks the same question. Only the declared audience changes, and the output (shown as an excerpt) changes with it.</p>
+
+          <h3 id="audience-leonardo"><span class="rule-num">1</span> Leonardo da Vinci 📜</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Explain how an llm works. Assume i am Leonardo DaVinci.</div>
+            <div class="bubble model"><span class="who">Model · excerpt</span>
+              <p>📜 Most illustrious Leonardo, imagine a vast workshop of attentive apprentices trained upon countless manuscripts, letters, and treatises. An LLM is such a workshop in mathematical form: it has studied many examples of language and learned the tendencies by which one mark follows another. When you pose a question, it does not search a single book; rather, it predicts the most fitting next symbol again and again, line by line, until a complete answer stands—much as one infers the motion of gears from their teeth.</p>
+              <p>🧭 You may guide its hand as a patron sets a commission: request a tone (scholarly or plain), a length, or a style (notebook, letter, or decree). Know also its limits: it speaks confidently even when its certainty is low, so prudent tests—asking for sources or for a second, mirrored reasoning—help ensure sound results, as your own habit of sketching an invention from multiple angles reveals its truth.</p>
+            </div>
+          </div>
+
+          <h3 id="audience-traveler"><span class="rule-num">2</span> A business traveler ✈️</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Explain how an llm works. Assume I am a business man waiting in an airport terminal.</div>
+            <div class="bubble model"><span class="who">Model · excerpt</span>
+              <p>✈️ Picture a Large Language Model like the departures board predicting updates from patterns in thousands of past flights. It doesn’t look up one document; it keeps predicting the next most likely word—again and again—until a complete answer forms.</p>
+              <strong>🧳 Plain terms</strong>
+              <ul>
+                <li>⏱️ You ask a question; it continues with the most likely next words.</li>
+                <li>🧭 Give direction (audience, tone, length) for faster, clearer results.</li>
+              </ul>
+              <strong>🛫 Handy while you wait</strong>
+              <ul>
+                <li>📨 Draft a client email in a professional tone.</li>
+                <li>📋 Summarize a 2‑page brief into key bullets.</li>
+                <li>✅ Compare two vendors with pros/cons and a short recommendation.</li>
+              </ul>
+              <strong>⚠️ Limits</strong>
+              <ul>
+                <li>🔎 Sounds confident even when unsure → skim for accuracy; ask for sources when possible.</li>
+                <li>🔒 Don’t include sensitive details; use approved accounts and settings.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 id="what-changed">What changed</h3>
+          <p>Both answers explain the same idea, that the model predicts the next word over and over, but each is built for its reader:</p>
+          <ul>
+            <li><strong>Metaphor.</strong> A workshop of apprentices and the motion of gears for Leonardo; a departures board for the traveler.</li>
+            <li><strong>Structure.</strong> Flowing prose for Leonardo; short, scannable bullet sections for the traveler.</li>
+            <li><strong>Practical advice.</strong> Leonardo is told to guide the model “as a patron sets a commission”; the traveler gets tasks to try while waiting.</li>
+          </ul>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://www.nngroup.com/articles/persona/" target="_blank" rel="noopener">Nielsen Norman Group: Personas—A Simple Introduction</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="prompting_grammar.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Grammar and prompting</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#the-prompt">The prompt</a></li>
+          <li><a href="#examples">Same question, two audiences</a></li>
+          <li class="sub"><a href="#audience-leonardo">Leonardo da Vinci</a></li>
+          <li class="sub"><a href="#audience-traveler">A business traveler</a></li>
+          <li class="sub"><a href="#what-changed">What changed</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

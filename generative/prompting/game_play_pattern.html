@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Game Play Pattern · AI Dev Playground</title>
+  <meta name="description" content="Let the model act as a Game Master to run rules-based sessions for practice and content.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Role and guardrails</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Role and guardrails</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🎮 <span class="gradient-text">Game Play Pattern</span></h1>
+          <p class="lead">Design interactive sessions where a Large Language Model (LLM) acts as a Game Master (GM), guiding a structured game to practice skills, explore ideas, or generate content. The model sets or negotiates rules, runs turns, evaluates actions, and produces rich in-world outputs like quest text, dialogues, and scoring.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-use">Why use this pattern</h2>
+          <ul>
+            <li><strong>Practice safely.</strong> Rehearse complex tasks (e.g., interviewing, prompting, ideation) with immediate GM feedback.</li>
+            <li><strong>Motivate learning.</strong> Games add stakes, clear goals, and rapid iteration.</li>
+            <li><strong>Generate content.</strong> Produce coherent in-world assets (quests, NPC dialogue, maps, clues).</li>
+            <li><strong>Adapt difficulty.</strong> Let the GM scale challenge as the player improves.</li>
+          </ul>
+
+          <h2 id="core-idea">Core idea</h2>
+          <p>You ask the LLM to play a game with you. The model plays the GM: it proposes or adopts rules you specify, runs a turn-based loop, evaluates your actions, and advances the game state. You may provide seed rules or constraints (e.g., topic, tone, time limits) and the GM fills in the rest.</p>
+
+          <h3 id="turn-loop">One turn of the loop</h3>
+          <p>With the <a href="#template-structured">structured template</a> below, every turn has the same shape:</p>
+          <div class="exchange">
+            <div class="bubble model"><span class="who">GM · turn starts</span>Provides (a) a challenge, (b) an evaluation rubric, and (c) success criteria.</div>
+            <div class="bubble user"><span class="who">Player</span>Replies to the challenge.</div>
+            <div class="bubble model"><span class="who">GM · turn ends</span>Returns (a) the outcome, (b) the rationale, (c) brief coaching, and (d) the next turn.</div>
+          </div>
+
+          <h2 id="templates">Prompt templates</h2>
+
+          <h3 id="template-minimal"><span class="rule-num">1</span> Minimal “Game Master” prompt</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are the Game Master. Let's play a game about &lt;topic&gt;.
+Here are my basic rules:
+- Role: You are the GM; I am the player.
+- Flow: Present one challenge per turn, wait for my reply, then score and continue.
+- Constraints: &lt;constraints&gt;.
+- End: Stop after &lt;N&gt; turns or when I say "stop".
+
+Propose the full rules succinctly, confirm them, then start Turn 1.</pre></div>
+
+          <h3 id="template-structured"><span class="rule-num">2</span> Structured template with seed rules</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>System: You are a fair, concise Game Master.
+User: I want a learning game focused on &lt;topic&gt;.
+Seed rules:
+1) The GM defines realistic challenges that do not require writing source code.
+2) Each turn, the GM provides: (a) a challenge, (b) evaluation rubric, (c) success criteria.
+3) After my reply, the GM returns: (a) outcome, (b) rationale, (c) brief coaching, (d) next turn.
+4) Keep turns short and specific. Ask clarification questions sparingly.
+5) Stop after &lt;N&gt; turns or when I say "stop".
+
+Confirm rules, invite edits, then begin.</pre></div>
+
+          <h2 id="example-game">Example game: Prompt engineering trainer</h2>
+          <p>A ready-to-paste game in which the GM sets prompting tasks and grades the prompts you write for them.</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>We are going to play a game involving prompt engineering.
+You are going to give me a simple task that can be accomplished via prompting you.
+Your tasks should all have a reasoning to them; they should not require creating source code.
+
+I will write a prompt for you to solve the task.
+You will give me the output of my prompt and tell me if the prompt solved the task.
+Ask me questions until I tell you to stop.
+You will ask me a question, wait for my response, tell me how I did, and then ask me another question.
+
+Ask me the first question.</pre></div>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="menu_actions_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Menu actions pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-use">Why use this pattern</a></li>
+          <li><a href="#core-idea">Core idea</a></li>
+          <li class="sub"><a href="#turn-loop">One turn of the loop</a></li>
+          <li><a href="#templates">Prompt templates</a></li>
+          <li class="sub"><a href="#template-minimal">Minimal GM prompt</a></li>
+          <li class="sub"><a href="#template-structured">Structured with seed rules</a></li>
+          <li><a href="#example-game">Example game</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

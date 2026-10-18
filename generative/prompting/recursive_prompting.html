@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recursive Prompting · AI Dev Playground</title>
+  <meta name="description" content="Steer an LLM toward clearer, more accurate, and more useful outputs by testing, diagnosing, and revising prompts in short loops.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Decompose and verify</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Decompose and verify</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🔁 <span class="gradient-text">Recursive Prompting</span></h1>
+          <p class="lead">Recursive prompting, or iterative prompt refinement, is a practical way to steer a Large Language Model (LLM) toward clearer, more accurate, and more useful outputs. By testing, diagnosing, and revising in short loops, you convert vague intent into precise instructions the model can follow.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="step-by-step">Step by step</h2>
+          <p>Every step below works toward the same task. Each revision of the prompt is shown with the output it produces, next to the output of the step before it.</p>
+          <div class="codeblock"><div class="code-head">input<button type="button">Copy</button></div><pre>Write a short product update about our app’s new offline mode.</pre></div>
+
+          <h3 id="step-1"><span class="rule-num">1</span> Vague prompt</h3>
+          <p>A <strong>vague prompt</strong> yields a <strong>generic, low-value output</strong>: little context, low relevance. 😕</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt</span>Write a quick update.</div>
+            <div class="bubble model"><span class="who">Output</span>We launched a new feature. It’s great.</div>
+          </div>
+
+          <h3 id="step-2"><span class="rule-num">2</span> Add clear constraints</h3>
+          <p>Adding <strong>clear constraints</strong> produces a <strong>clearer, more relevant output</strong> with concrete details. ✍️✨</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt</span>Write 120–150 words for end users; include the key benefit and how to enable; avoid jargon.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · step 1 output</span>We launched a new feature. It’s great.</div>
+              <div class="bubble model"><span class="who">After · step 2 output</span>Offline mode lets you keep working without internet and syncs when you’re back online. To enable it, open Settings and turn on Offline Mode. This reduces interruptions and helps you capture ideas anywhere.</div>
+            </div>
+          </div>
+
+          <h3 id="step-3"><span class="rule-num">3</span> Add structure and a tone exemplar</h3>
+          <p>Adding <strong>structure</strong> and a <strong>tone exemplar</strong> results in an <strong>on-tone, actionable output</strong>. 🧩✅</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt</span>Three sentences: what changed, why it matters for productivity, how to turn it on in Settings; tone warm and concise. Example tone: “We built this to help you focus.”</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · step 2 output</span>Offline mode lets you keep working without internet and syncs when you’re back online. To enable it, open Settings and turn on Offline Mode. This reduces interruptions and helps you capture ideas anywhere.</div>
+              <div class="bubble model"><span class="who">After · step 3 output</span>We’re introducing offline mode so you can keep writing without an internet connection. It reduces interruptions and keeps your notes synced the moment you’re back online. To try it, open Settings → Features and switch on Offline Mode.</div>
+            </div>
+          </div>
+
+          <h3 id="step-4"><span class="rule-num">4</span> Add a self-check</h3>
+          <p>A brief <strong>self-check</strong> reduces misses and yields a <strong>polished final answer</strong>. 🔎✅</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt</span>Before finalizing, verify: 3 sentences, includes benefit and enable steps, no jargon; if any fail, fix once.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · step 3 output</span>We’re introducing offline mode so you can keep writing without an internet connection. It reduces interruptions and keeps your notes synced the moment you’re back online. To try it, open Settings → Features and switch on Offline Mode.</div>
+              <div class="bubble model"><span class="who">After · step 4 output</span>We’re introducing offline mode so you can capture ideas without an internet connection. It keeps your notes synced when you’re back online, reducing interruptions and helping you stay focused. To try it, open Settings → Features and switch on Offline Mode.</div>
+            </div>
+          </div>
+
+          <h2 id="stop-rule">Choosing a stop rule ✅</h2>
+          <ul>
+            <li><strong>Stability.</strong> Two consecutive iterations produce materially similar outputs.</li>
+            <li><strong>Cost.</strong> Marginal gains no longer justify additional tokens.</li>
+          </ul>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener">Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="chain_of_thought.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Chain-of-thought prompting</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#step-by-step">Step by step</a></li>
+          <li class="sub"><a href="#step-1">Vague prompt</a></li>
+          <li class="sub"><a href="#step-2">Constraints</a></li>
+          <li class="sub"><a href="#step-3">Structure and tone</a></li>
+          <li class="sub"><a href="#step-4">Self-check</a></li>
+          <li><a href="#stop-rule">Choosing a stop rule</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

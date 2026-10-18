@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Template Pattern · AI Dev Playground</title>
+  <meta name="description" content="Define an exact output format with placeholders that the model fills in, for consistent, structured generation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Optimize inputs and completions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Optimize inputs and completions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>📐 <span class="gradient-text">Template Pattern</span></h1>
+          <p class="lead">The Template pattern instructs a Large Language Model (LLM) to generate output in a specific, predefined format. Placeholders mark where the model fills in generated content, while the overall formatting stays exactly as you wrote it.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="overview">Overview</h2>
+          <p>Template prompting gives you fine-grained control over output structure. Instead of letting the model choose how to format its response, you:</p>
+          <ul>
+            <li><strong>Define the exact layout</strong> the response must follow.</li>
+            <li><strong>Use placeholders</strong> for the variable content.</li>
+            <li><strong>Instruct the model to populate them</strong> while preserving everything else.</li>
+          </ul>
+          <p>This keeps output consistent across multiple generations and makes downstream processing more predictable.</p>
+
+          <h2 id="the-prompt">The template prompt</h2>
+          <p>A practical example that turns data into question–answer flashcards:</p>
+
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>I am going to give you a template for an output. Capitalized words are my placeholders.
+Fill in my placeholders with your output. Preserve the overall formatting of my template.
+
+My template is
+
+Question word in Italic followed by : and placeholder QUESTION, write the letters capitalized.
+
+Answer word in Italic followed by : and placeholder ANSWER
+
+I will give you the data to format in the next prompt. Create twenty questions using my template.
+Wait for me to give you the data.</pre></div>
+
+          <h3 id="what-it-sets">What this prompt establishes</h3>
+          <ul>
+            <li><strong>Placeholder convention:</strong> capitalized words.</li>
+            <li><strong>Formatting requirements:</strong> italic labels, capitalization rules.</li>
+            <li><strong>Expected structure:</strong> question–answer pairs.</li>
+            <li><strong>Generation quantity:</strong> twenty questions.</li>
+            <li><strong>Multi-turn interaction:</strong> wait for the data before generating.</li>
+          </ul>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>The same facts, answered without a template and then following the template above:</p>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no template</span>Photosynthesis is the process by which plants convert light energy into chemical energy. The telephone was invented by Alexander Graham Bell in 1876.</div>
+              <div class="bubble model"><span class="who">After · with template</span><em>Question:</em> WHAT IS PHOTOSYNTHESIS?<br><br><em>Answer:</em> The process by which plants convert light energy into chemical energy<br><br><em>Question:</em> WHO INVENTED THE TELEPHONE?<br><br><em>Answer:</em> Alexander Graham Bell invented the telephone in 1876</div>
+            </div>
+          </div>
+
+          <h2 id="use-cases">Use cases</h2>
+          <p>The Template pattern excels in scenarios requiring consistent formatting:</p>
+          <ul>
+            <li><strong>Structured data generation</strong> 📊 — Generate CSV, JSON, or XML-like formats.</li>
+            <li><strong>Educational content</strong> 📚 — Create flashcards, quizzes, or study materials.</li>
+            <li><strong>Documentation</strong> 📝 — Produce API docs, changelogs, or release notes.</li>
+            <li><strong>Reports</strong> 📈 — Generate standardized reports with fixed sections.</li>
+            <li><strong>Form filling</strong> 📋 — Complete templates with variable information.</li>
+          </ul>
+
+          <h2 id="related-patterns">Related patterns</h2>
+          <p>The Template pattern combines well with other prompting strategies:</p>
+          <ul>
+            <li><a class="ext" href="few_shot.html"><strong>Few-Shot</strong></a> — Provide filled template examples to guide the model.</li>
+            <li><a class="ext" href="persona_pattern.html"><strong>Persona</strong></a> — Apply templates to persona-specific outputs.</li>
+            <li><a class="ext" href="chain_of_thought.html"><strong>Chain-of-Thought</strong></a> — Template the reasoning steps before the final answer.</li>
+          </ul>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/html/2504.02052" target="_blank" rel="noopener">From Prompts to Templates: A Systematic Prompt Template Analysis for Real-world LLMapps</a></li>
+            <li><a class="ext" href="https://careercatalyst.asu.edu/newsroom/career/foundations-of-prompt-template-development/" target="_blank" rel="noopener">How to Use Templates for ChatGPT Prompts (With Examples)</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="meta_language_prompt_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Meta language creation</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#the-prompt">The template prompt</a></li>
+          <li class="sub"><a href="#what-it-sets">What it establishes</a></li>
+          <li><a href="#before-after">Before and after</a></li>
+          <li><a href="#use-cases">Use cases</a></li>
+          <li><a href="#related-patterns">Related patterns</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

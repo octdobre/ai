@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cognitive Verifier · AI Dev Playground</title>
+  <meta name="description" content="Break a question into sub-questions, answer each, then synthesize a verified final answer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Decompose and verify</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Decompose and verify</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🧩 <span class="gradient-text">Cognitive Verifier</span></h1>
+          <p class="lead">The Cognitive Verifier pattern improves answer reliability by explicitly generating sub-questions, answering them independently, and synthesizing a final response from those grounded partial answers. It reduces hallucinations, surfaces missing information early, and creates a transparent reasoning trail you can audit.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="core-idea">Core idea in one sentence 💡</h2>
+          <p>Break the problem into targeted questions, answer each, then combine the results to form the overall answer, verifying assumptions along the way.</p>
+
+          <h2 id="the-prompt">The prompt 🔧</h2>
+          <p>Use this snippet as a drop-in behavior modifier:</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When you are asked a question, follow these rules:
+
+Generate a number of additional questions that would help more accurately answer the question.
+
+Combine the answers to the individual questions to produce the final answer to the overall question.</pre></div>
+
+          <h2 id="template">Template you can adapt 📝</h2>
+          <div class="codeblock"><div class="code-head">template<button type="button">Copy</button></div><pre>Task: [the original question]
+
+Step 1 — Sub-questions:
+- Q1: [...]
+- Q2: [...]
+- Q3: [...]
+
+Step 2 — Brief answers:
+- A1: [...]
+- A2: [...]
+- A3: [...]
+
+Step 3 — Synthesis:
+- Final answer: [...]
+- Rationale: A1 + A2 + A3 → [...]
+
+Step 4 — Checks and gaps:
+- Assumptions: [...]
+- Missing info that would change the outcome: [...]</pre></div>
+
+          <h2 id="example">Example: choosing a laptop 🤖</h2>
+          <p>With the prompt in place, the model first generates sub-questions (operating system, workload types, battery life priority, screen size, ports, and upgradeability), then answers them briefly and synthesizes a conclusion.</p>
+
+          <h3 id="example-subquestions"><span class="rule-num">1</span> Generate sub-questions</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Which laptop should I buy for software development under $1,500?</div>
+            <div class="bubble model"><span class="who">Model · generated sub-questions</span>
+              <ul>
+                <li>What OS do you prefer or need (Windows, macOS, Linux)?</li>
+                <li>Are you compiling large codebases or running VMs/containers regularly?</li>
+                <li>Do you prioritize battery life over raw performance?</li>
+                <li>What screen size and resolution do you prefer?</li>
+                <li>Any required ports (HDMI, Ethernet, SD) or upgradeability needs (RAM/SSD)?</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 id="example-answers"><span class="rule-num">2</span> Answer each one</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · brief answers (hypothetical)</span>
+              <ul>
+                <li>OS: Prefer Windows or Linux.</li>
+                <li>Workload: Medium projects, some Docker containers; no heavy GPU needs.</li>
+                <li>Battery: Prefer all-day battery over peak performance.</li>
+                <li>Display: 14–15" 1080p+.</li>
+                <li>Ports: USB-C + HDMI; upgradeable RAM ideal.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 id="example-synthesis"><span class="rule-num">3</span> Synthesize the answer</h3>
+          <div class="exchange">
+            <div class="bubble model"><span class="who">Model · final synthesized answer</span>Consider a 14–15" Windows laptop with 16 GB RAM and Ryzen 7 or Intel i7 U-series CPU, such as the Lenovo ThinkPad T14 or ASUS Zenbook 14. They balance battery life and multi-core performance, offer USB-C and HDMI, and often allow RAM/SSD upgrades, meeting your Docker use and budget.</div>
+          </div>
+
+          <h2 id="tailored-examples">Tailored examples 🎯</h2>
+          <p>The same rules adapt to specific tasks by naming the sub-questions to ask and what the combined answer should produce.</p>
+
+          <h3 id="example-debug">🐞 Debug a web service</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When you are asked to debug a failing web service, follow these rules:
+
+Generate a number of additional questions about recent deployments, error logs, and upstream or downstream dependencies.
+
+Combine the answers to isolate the failing component and propose a minimal rollback or targeted fix.</pre></div>
+
+          <h3 id="example-datastore">🗄️ Choose a data store</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When you are asked to select a data storage option, follow these rules:
+
+Generate a number of additional questions about data volume, access patterns, latency needs, and compliance constraints.
+
+Combine the answers to recommend a store (e.g., relational vs. document vs. key-value) with a brief rationale.</pre></div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://www.vanderbilt.edu/generative-ai/prompt-patterns/" target="_blank" rel="noopener">Vanderbilt University: Prompt Patterns</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="recursive_prompting.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Recursive prompting</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#core-idea">Core idea</a></li>
+          <li><a href="#the-prompt">The prompt</a></li>
+          <li><a href="#template">Template</a></li>
+          <li><a href="#example">Example</a></li>
+          <li class="sub"><a href="#example-subquestions">Sub-questions</a></li>
+          <li class="sub"><a href="#example-answers">Answers</a></li>
+          <li class="sub"><a href="#example-synthesis">Synthesis</a></li>
+          <li><a href="#tailored-examples">Tailored examples</a></li>
+          <li class="sub"><a href="#example-debug">Debug a web service</a></li>
+          <li class="sub"><a href="#example-datastore">Choose a data store</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

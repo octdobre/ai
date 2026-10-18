@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alternative Approaches Pattern · AI Dev Playground</title>
+  <meta name="description" content="Instruct the model to list and compare multiple ways to accomplish a task.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Clarify and refine questions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Clarify and refine questions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🔀 <span class="gradient-text">Alternative Approaches Pattern</span></h1>
+          <p class="lead">The Alternative Approaches Pattern asks a Large Language Model (LLM) to find and present several ways to accomplish a task, instead of handing back a single solution. You see the trade-offs before you commit to one.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>It widens the search.</strong> The model explores different strategies, methodologies, or implementations that reach the same goal, rather than stopping at the first one it thinks of.</li>
+            <li><strong>Trade-offs become visible.</strong> Comparing and contrasting the options shows what each one costs, so you make an informed decision instead of accepting a default.</li>
+            <li><strong>Context decides the winner.</strong> When the best solution depends on factors that are not obvious up front, or the problem is unfamiliar, the alternatives let you pick the one that fits your constraints, preferences, and requirements.</li>
+          </ul>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>Each variant below is a standing instruction you give once at the start of a conversation. The example then sends the same user message twice: once without the instruction, and once with it.</p>
+
+          <h3 id="basic"><span class="rule-num">1</span> Basic alternative approaches</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>From now on if there are alternative ways to accomplish the same thing, list the best alternative
+approaches. Compare and contrast the alternatives and ask me questions to figure out which
+alternative approach suits me.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>How should I back up my photos?</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no pattern</span>Copy them to an external hard drive once a month.</div>
+              <div class="bubble model"><span class="who">After · with pattern</span>There are a few good options:
+                <ul>
+                  <li><strong>External drive:</strong> cheap and offline, but manual and lost if the drive fails.</li>
+                  <li><strong>Cloud storage:</strong> automatic and off-site, but needs a subscription.</li>
+                  <li><strong>Both:</strong> the safest, at the cost of more setup.</li>
+                </ul>
+                How many photos do you have, and would you rather pay monthly or do it by hand?
+              </div>
+            </div>
+          </div>
+
+          <h3 id="meta-prompting"><span class="rule-num">2</span> Meta-prompting with alternatives</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever I ask you to write a prompt for me to accomplish a task, list what the task is, list
+alternative approaches for completing the task and then write a prompt for an LLM for each
+approach. Ask me what I want you to write a prompt for.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Write a prompt that helps me study for a history exam.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no pattern</span>“Summarize the key events of the unit I'm studying in bullet points.”</div>
+              <div class="bubble model"><span class="who">After · with pattern</span><strong>Task:</strong> prepare for a history exam.
+                <ul>
+                  <li><strong>Summaries:</strong> “Summarize the key events of this unit in bullet points.”</li>
+                  <li><strong>Quizzing:</strong> “Ask me one exam-style question at a time and grade my answer.”</li>
+                  <li><strong>Timeline:</strong> “Build a timeline of this unit and explain how each event led to the next.”</li>
+                </ul>
+                Which approach should I develop further?
+              </div>
+            </div>
+          </div>
+
+          <h3 id="wording"><span class="rule-num">3</span> Prompt wording alternatives</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>For every prompt I give you, if there are alternative ways to word a prompt that I give you, list
+the best alternate wordings. Compare/contrast the pros and cons of each wording.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Tell me about climate change.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no pattern</span>Climate change is the long-term shift in global temperatures and weather patterns…</div>
+              <div class="bubble model"><span class="who">After · with pattern</span>Some alternate wordings:
+                <ul>
+                  <li><strong>“Explain the main causes of climate change.”</strong> Focused, but leaves out effects and solutions.</li>
+                  <li><strong>“Summarize climate change for a 10-year-old.”</strong> Easy to read, but less detailed.</li>
+                  <li><strong>“List the strongest evidence for climate change.”</strong> Concrete, but narrow.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="problem-solution"><span class="rule-num">4</span> Problem-solution alternatives</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>For anything that I ask you to write, determine the underlying problem that I am trying to solve
+and how I am trying to solve it. List at least one alternative approach to solve the problem and
+compare/contrast the approach with the original approach implied by my request to you.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Write an email reminding my team to fill in their timesheets.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no pattern</span>Hi team, a quick reminder to fill in your timesheets by Friday. Thanks!</div>
+              <div class="bubble model"><span class="who">After · with pattern</span><strong>Problem:</strong> timesheets arrive late. <strong>Your approach:</strong> a reminder email.
+                <ul>
+                  <li><strong>Alternative:</strong> an automatic calendar reminder every Friday. It needs no effort each week, but is easier to ignore than a personal message.</li>
+                </ul>
+                Here is the email, in case you still want it: “Hi team, a quick reminder to fill in your timesheets by Friday. Thanks!”
+              </div>
+            </div>
+          </div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://debabratapruseth.com/prompt-engineering-alternative-approach-pattern/" target="_blank" rel="noopener">Prompt Engineering: Alternative Approach Pattern</a></li>
+            <li><a class="ext" href="https://medium.com/@a1guy/prompt-engineering-via-prompt-patterns-alternative-approaches-pattern-346344debfda" target="_blank" rel="noopener">Prompt Engineering via Prompt Patterns — Alternative Approaches Pattern</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="ask_for_input_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Ask for input pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#before-after">Before and after</a></li>
+          <li class="sub"><a href="#basic">Basic</a></li>
+          <li class="sub"><a href="#meta-prompting">Meta-prompting</a></li>
+          <li class="sub"><a href="#wording">Prompt wording</a></li>
+          <li class="sub"><a href="#problem-solution">Problem-solution</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

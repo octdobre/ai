@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Grammar Shapes LLM Outputs · AI Dev Playground</title>
+  <meta name="description" content="How nouns, verbs, and modifiers shape LLM outputs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Role and guardrails</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Role and guardrails</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>✍️ <span class="gradient-text">How Grammar Shapes LLM Outputs</span></h1>
+          <p class="lead">A prompt's grammar strongly guides what a large language model (LLM) produces. Clear subjects, precise actions, and scoped qualifiers reduce ambiguity, leading to more reliable and controllable results. 🧠</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="key-elements">Key grammar elements and their effects 📚</h2>
+          <p>Each element below comes with a pair of prompts that differ only in that piece of grammar, followed by how the output changes.</p>
+
+          <h3 id="nouns"><span class="rule-num">1</span> Nouns (subjects, objects) 🧱</h3>
+          <ul>
+            <li>Anchor the model on specific entities or domains; increase precision.</li>
+            <li>Named entities trigger retrieval- or pattern-like responses around known topics.</li>
+          </ul>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble user"><span class="who">❌ Vague</span>Explain this <strong>process</strong>.</div>
+              <div class="bubble user"><span class="who">✅ Specific</span>Explain the <strong>photosynthesis process in cyanobacteria for high-school students</strong>.</div>
+            </div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Poor output</span>
+                <ul>
+                  <li>This process has several steps and uses light.</li>
+                  <li>Organisms convert energy in general terms.</li>
+                </ul>
+              </div>
+              <div class="bubble model"><span class="who">Correct output</span>
+                <ul>
+                  <li>Cyanobacteria absorb light via chlorophyll a.</li>
+                  <li>Water splits to release oxygen.</li>
+                  <li>ATP/NADPH power carbon fixation (Calvin cycle).</li>
+                  <li>Simple, teen-friendly explanation with 2 examples.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="verbs"><span class="rule-num">2</span> Verbs, mood, and tense 🚀</h3>
+          <ul>
+            <li>Imperatives (“list”, “summarize”, “compare”) prompt actions/outputs.</li>
+            <li>Interrogatives (questions) invite reasoning/explanations.</li>
+            <li>Tense anchors timeframe; present/future can change recommendations.</li>
+          </ul>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble user"><span class="who">🛠️ Action</span><strong>List</strong> three risks of using web scrapers.</div>
+              <div class="bubble user"><span class="who">❓ Question</span><strong>What are</strong> three risks of using web scrapers?</div>
+            </div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Poor output</span>
+                <ul>
+                  <li>There are some legal and technical risks.</li>
+                  <li>It depends on the site and laws.</li>
+                </ul>
+              </div>
+              <div class="bubble model"><span class="who">Correct output</span>
+                <ul>
+                  <li>Legal exposure (ToS, CFAA).</li>
+                  <li>IP blocking/rotation overhead.</li>
+                  <li>Data quality drift; requires monitoring.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="qualifiers"><span class="rule-num">3</span> Adjectives and adverbs (qualifiers) 🎛️</h3>
+          <ul>
+            <li>Control tone, depth, and style: “brief”, “formal”, “step-by-step”, “creatively”.</li>
+            <li>Too many or conflicting qualifiers create ambiguity.</li>
+          </ul>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble user"><span class="who">🪢 Neutral</span>Summarize the paper.</div>
+              <div class="bubble user"><span class="who">🎯 Qualified</span>Summarize the paper <strong>briefly and objectively</strong> in <strong>120–150 words</strong>.</div>
+            </div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Poor output</span>
+                <ul>
+                  <li>This paper is about many things and has results.</li>
+                  <li>It explains methods and findings generally.</li>
+                </ul>
+              </div>
+              <div class="bubble model"><span class="who">Correct output</span>
+                <ul>
+                  <li>130-word neutral summary.</li>
+                  <li>States problem, approach, key metrics, limits.</li>
+                  <li>No opinionated adjectives.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="quantifiers"><span class="rule-num">4</span> Determiners and quantifiers 🔢</h3>
+          <ul>
+            <li>Constrain scope: “exactly”, “at least”, “each”, “every”.</li>
+            <li>Help the model size the output and avoid over/under-generation.</li>
+          </ul>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble user"><span class="who">🌫️ Loose</span>Provide <strong>some</strong> bullet points.</div>
+              <div class="bubble user"><span class="who">📏 Constrained</span>Output <strong>exactly 5</strong> bullet points, <strong>each</strong> under <strong>15 words</strong>.</div>
+            </div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Poor output</span>
+                <ul>
+                  <li>Multiple points in one line with rambly text and numbers vary.</li>
+                </ul>
+              </div>
+              <div class="bubble model"><span class="who">Correct output</span>
+                <ul>
+                  <li>Exactly five concise bullets.</li>
+                  <li>Each line ≤ 15 words.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="pronouns"><span class="rule-num">5</span> Pronouns and coreference 🔁</h3>
+          <ul>
+            <li>Unclear “it/this/they” leads to drift or hallucination.</li>
+            <li>Replace pronouns with explicit nouns or re-state the referent.</li>
+          </ul>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble user"><span class="who">⚠️ Ambiguous</span>Improve <strong>it</strong> and make <strong>it</strong> shorter.</div>
+              <div class="bubble user"><span class="who">✅ Clear</span>Rewrite the <strong>executive summary</strong> to <strong>120 words</strong> with <strong>simpler vocabulary</strong>.</div>
+            </div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Poor output</span>
+                <ul>
+                  <li>Revises the wrong section; inconsistent length.</li>
+                </ul>
+              </div>
+              <div class="bubble model"><span class="who">Correct output</span>
+                <ul>
+                  <li>118–122 words, plain language.</li>
+                  <li>Conserves key facts and outcomes.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="prepositions"><span class="rule-num">6</span> Prepositional phrases (scope and constraints) 📍</h3>
+          <ul>
+            <li>Add audience, domain, format, or platform (e.g., “for beginners”, “in Python”, “under 200 words”, “as a JSON array”).</li>
+          </ul>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble user"><span class="who">🌐 Generic</span>Generate a setup guide.</div>
+              <div class="bubble user"><span class="who">🎯 Scoped</span>Generate a step-by-step setup guide <strong>in Markdown for Windows 11</strong>.</div>
+            </div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Poor output</span>
+                <ul>
+                  <li>Generic, OS-agnostic steps, missing screenshots.</li>
+                </ul>
+              </div>
+              <div class="bubble model"><span class="who">Correct output</span>
+                <ul>
+                  <li>Windows 11 specific steps with headings.</li>
+                  <li>Includes PowerShell commands in code blocks.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="structure"><span class="rule-num">7</span> Syntax and structure 🗂️</h3>
+          <ul>
+            <li>Lists, tables, and numbered steps reduce ambiguity and improve adherence.</li>
+            <li>Use explicit output schemas when needed.</li>
+          </ul>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble user"><span class="who">🧩 Unstructured</span>Write how to install the tool.</div>
+              <div class="bubble user"><span class="who">🧱 Structured</span>Return <strong>JSON</strong> with keys: <strong>title</strong> (string), <strong>steps</strong> (array of strings).</div>
+            </div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Poor output</span><code class="inline-block">First, download it. Then install it by following the instructions on the website. After that, you can run it. Finally, make sure it works.</code></div>
+              <div class="bubble model"><span class="who">Correct output</span><code class="inline-block">{
+  "title": "Install FooCLI",
+  "steps": [
+    "Download FooCLI from releases page",
+    "Unzip and add to PATH"
+  ]
+}</code></div>
+            </div>
+          </div>
+
+          <h2 id="checklist">Quick checklist for better prompts ✅</h2>
+          <ul>
+            <li>🧱 <strong>Subject:</strong> Have you named the exact thing (noun) you care about?</li>
+            <li>🚀 <strong>Action:</strong> Is the requested operation expressed with a strong imperative verb?</li>
+            <li>🎛️ <strong>Qualifiers:</strong> Did you constrain tone, length, or depth appropriately?</li>
+            <li>🔁 <strong>References:</strong> Did you resolve pronouns and remove ambiguity?</li>
+            <li>📍 <strong>Scope/Format:</strong> Did you specify audience, domain, and output structure?</li>
+          </ul>
+          <p>By aligning nouns, verbs, and modifiers with your intent, and by structuring the expected output, you make it easier for an LLM to produce accurate, useful responses.</p>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering" target="_blank" rel="noopener">Microsoft Learn: Prompt engineering concepts</a></li>
+            <li><a class="ext" href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">OpenAI: Best practices</a></li>
+            <li><a class="ext" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering" target="_blank" rel="noopener">Anthropic: Prompting with Claude</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="game_play_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Game play pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#key-elements">Key grammar elements</a></li>
+          <li class="sub"><a href="#nouns">Nouns</a></li>
+          <li class="sub"><a href="#verbs">Verbs, mood, and tense</a></li>
+          <li class="sub"><a href="#qualifiers">Qualifiers</a></li>
+          <li class="sub"><a href="#quantifiers">Quantifiers</a></li>
+          <li class="sub"><a href="#pronouns">Pronouns</a></li>
+          <li class="sub"><a href="#prepositions">Prepositional phrases</a></li>
+          <li class="sub"><a href="#structure">Syntax and structure</a></li>
+          <li><a href="#checklist">Quick checklist</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

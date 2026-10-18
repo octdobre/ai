@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How LLMs Predict the Next Word · AI Dev Playground</title>
+  <meta name="description" content="How LLMs turn a prompt into a probability distribution over the vocabulary and decode the next token.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Optimize inputs and completions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Optimize inputs and completions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🔤 <span class="gradient-text">How LLMs Predict the Next Word</span></h1>
+          <p class="lead">Large language models (LLMs) predict the next word by estimating a probability distribution over the vocabulary conditioned on the prompt 🧠. The input is tokenized, embedded, and processed by transformer layers with self‑attention, which lets the model focus on the most relevant context.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <p>The network outputs <strong>logits</strong> for each token; <strong>softmax</strong> turns these into probabilities 🎯. Decoding then selects the next token using <strong>greedy selection</strong> or sampling methods like <strong>temperature</strong>, <strong>top‑k</strong>, or <strong>nucleus sampling</strong> 🎲. The chosen token is appended and fed back, repeating step by step.</p>
+          <p>Trained on vast corpora, LLMs internalize linguistic patterns, enabling coherent, contextually appropriate continuations 📚.</p>
+
+          <h2 id="examples">Examples</h2>
+          <p>Each example shows a prompt and the continuation the model produces under a different decoding strategy.</p>
+
+          <h3 id="example-greedy"><span class="rule-num">1</span> Greedy decoding</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt</span>The capital of France is</div>
+            <div class="bubble model"><span class="who">Completion</span>Paris</div>
+          </div>
+
+          <h3 id="example-temperature"><span class="rule-num">2</span> Temperature = 1.0 (more diverse)</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt</span>The story begins at midnight and</div>
+            <div class="bubble model"><span class="who">Completion</span>the city exhales; lanterns flicker as footsteps scatter into alleys.</div>
+          </div>
+
+          <h3 id="example-top-k"><span class="rule-num">3</span> Top‑k / nucleus sampling</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt</span>A recipe for pancakes includes</div>
+            <div class="bubble model"><span class="who">Completion</span>flour, eggs, milk, a pinch of salt, and butter.</div>
+          </div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need (Vaswani et al., 2017)</a></li>
+            <li><a class="ext" href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">The Illustrated Transformer (Jay Alammar)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/1904.09751" target="_blank" rel="noopener">The Curious Case of Neural Text Degeneration (Holtzman et al., 2020)</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="few_shot.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Few-shot prompting</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#examples">Examples</a></li>
+          <li class="sub"><a href="#example-greedy">Greedy decoding</a></li>
+          <li class="sub"><a href="#example-temperature">Temperature</a></li>
+          <li class="sub"><a href="#example-top-k">Top‑k / nucleus</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

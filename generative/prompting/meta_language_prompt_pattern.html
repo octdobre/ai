@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meta Language Creation Pattern · AI Dev Playground</title>
+  <meta name="description" content="Teach the model custom notation or shorthand instead of natural language.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Optimize inputs and completions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Optimize inputs and completions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🔣 <span class="gradient-text">Meta Language Creation Pattern</span></h1>
+          <p class="lead">The Meta Language Creation pattern teaches a language model custom notation, shorthand, or symbolic systems instead of natural language. This allows for more efficient communication, reduced token usage, and precise control over complex instructions.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="overview">Overview</h2>
+          <p>Rather than describing every detail in full natural language, you define compact syntax that the model interprets according to your rules. This pattern is particularly useful when:</p>
+          <ul>
+            <li><strong>Relationships are complex:</strong> you need to express them concisely.</li>
+            <li><strong>Structures repeat:</strong> you're working with repetitive structures or commands.</li>
+          </ul>
+          <p>The model acts as an interpreter for your custom language, expanding shorthand into full actions or analyses.</p>
+
+          <h2 id="template">Template</h2>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When I say "CityA,N->CityB,M", I mean my route goes from CityA to CityB, and I will stay N days in
+CityA and M days in CityB</pre></div>
+
+          <h2 id="usage-example">Usage example</h2>
+
+          <h3 id="define-notation"><span class="rule-num">1</span> Define the notation</h3>
+          <p>Set up the task and explain what the shorthand means:</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>We are going to create a trip planning application. I will describe my trip and you will list
+interesting things to do in places that I pass through. I am going to use shorthand notation.
+
+When I say "Florence,3->Rome,2", I mean my route will go from Florence to Rome and I will stay
+3 days in Florence and 2 days in Rome.</pre></div>
+
+          <h3 id="use-notation"><span class="rule-num">2</span> Use it</h3>
+          <p>From then on, a single line of shorthand is enough:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span><code>Florence,3-&gt;Rome,2-&gt;Naples,1</code></div>
+            <div class="bubble model"><span class="who">Model</span><strong>Florence (3 days):</strong>
+              <ul>
+                <li>Visit the Uffizi Gallery to see Renaissance masterpieces</li>
+                <li>Climb the Duomo for panoramic city views</li>
+                <li>Explore the Boboli Gardens</li>
+                <li>Walk across Ponte Vecchio at sunset</li>
+              </ul>
+              <strong>Rome (2 days):</strong>
+              <ul>
+                <li>Tour the Colosseum and Roman Forum</li>
+                <li>Visit Vatican City and the Sistine Chapel</li>
+                <li>Throw a coin in the Trevi Fountain</li>
+                <li>Enjoy authentic carbonara in Trastevere</li>
+              </ul>
+              <strong>Naples (1 day):</strong>
+              <ul>
+                <li>Sample authentic Neapolitan pizza at its birthplace</li>
+                <li>Take a quick day trip to Pompeii</li>
+                <li>Stroll along the waterfront promenade</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/2302.11382" target="_blank" rel="noopener">A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="semantic_filter_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Semantic filter pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#template">Template</a></li>
+          <li><a href="#usage-example">Usage example</a></li>
+          <li class="sub"><a href="#define-notation">Define the notation</a></li>
+          <li class="sub"><a href="#use-notation">Use it</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

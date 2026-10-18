@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fact Check List Pattern · AI Dev Playground</title>
+  <meta name="description" content="Force the model to enumerate atomic claims for downstream verification to reduce hallucinations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Role and guardrails</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Role and guardrails</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🕵️ <span class="gradient-text">Fact Check List Pattern</span></h1>
+          <p class="lead">The fact check list pattern makes a Large Language Model (LLM) list the discrete facts its answer relies on. Once those atomic claims are explicit, a human or a second checker can verify them and catch hallucinations early.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-works">Why it's needed 🧭</h2>
+          <ul>
+            <li><strong>Models make confident mistakes.</strong> LLMs are probabilistic text generators, so they inevitably make mistakes, confidently produce wrong statements, and sometimes emit prose that looks authoritative while lacking grounded factual support.</li>
+            <li><strong>They complete patterns, not questions.</strong> They are not literal question-answer tools; they are pattern completers that approximate likely continuations.</li>
+            <li><strong>Explicit claims can be checked.</strong> A structured prompt that forces the model to surface the atomic claims it relies on lets a human or an automated checker verify them, catch hallucinations early, and decide whether the response is trustworthy, instead of silently accepting polished but unfounded output.</li>
+          </ul>
+
+          <h2 id="install">Installing the pattern ⚙️</h2>
+          <p>The goal is to force the model to externalize the factual claims it asserts, then verify them in a fresh context. Start by telling the model to append its facts to every answer.</p>
+
+          <h3 id="step-minimal"><span class="rule-num">1</span> Minimal prompt</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Any time you produce a text give me the facts that you have produced.</pre></div>
+
+          <h3 id="step-expanded"><span class="rule-num">2</span> Expanded, more prescriptive prompt 📐</h3>
+          <p>This version says where the facts go and which facts matter: the fundamental ones that would undermine the output if any were wrong. It is shown as originally provided, including its typos.</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever you output text, generate a set of facts that are contained in the output.
+The set of facts should be inserted at the end of the output.
+The set of facts whould be fundamental facts that could underminde teh veracity of the output if any of them is incorrect.</pre></div>
+
+          <h2 id="before-after">Before and after 📦</h2>
+          <p>The same user question, answered once without the pattern and once with it installed.</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>A question that calls for a factual answer.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no fact list</span>A polished answer. Nothing shows which claims it rests on, so a wrong one can slip through unnoticed.</div>
+              <div class="bubble model"><span class="who">After · with the pattern</span>The same answer, followed by a section like:<code class="inline-block">Facts:
+- &lt;fact 1&gt;
+- &lt;fact 2&gt;
+- ...</code></div>
+            </div>
+          </div>
+
+          <h2 id="verify">Verify in a fresh context 🔄</h2>
+
+          <h3 id="step-check"><span class="rule-num">3</span> Check the facts independently</h3>
+          <p>Open a fresh conversation with no prior context, paste the answer and its fact list, and ask:</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Please check if the facts in the text match the facts in the bullet point list.</pre></div>
+
+          <h3 id="step-label"><span class="rule-num">4</span> Label, correct, repeat 🧪</h3>
+          <div class="exchange">
+            <div class="bubble model"><span class="who">Checker · model or human</span>Labels each fact <strong>Supported</strong> or <strong>Not Supported</strong> and suggests corrections.</div>
+          </div>
+          <div class="callout"><p>🔐 Loop until all facts are validated. This reduces the likelihood that polished but incorrect claims pass through unnoticed.</p></div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/2305.13281" target="_blank" rel="noopener">Fact-Checking Language Models via Claim Extraction</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="tail_generation_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Tail generation pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-works">Why it's needed</a></li>
+          <li><a href="#install">Installing the pattern</a></li>
+          <li class="sub"><a href="#step-minimal">Minimal prompt</a></li>
+          <li class="sub"><a href="#step-expanded">Expanded prompt</a></li>
+          <li><a href="#before-after">Before and after</a></li>
+          <li><a href="#verify">Verify in a fresh context</a></li>
+          <li class="sub"><a href="#step-check">Check independently</a></li>
+          <li class="sub"><a href="#step-label">Label, correct, repeat</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

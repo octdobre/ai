@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semantic Filter Pattern · AI Dev Playground</title>
+  <meta name="description" content="Redact or remove low-signal, sensitive, or redundant spans of text while preserving meaning.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Optimize inputs and completions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Optimize inputs and completions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🧹 <span class="gradient-text">Semantic Filter Pattern</span></h1>
+          <p class="lead">Semantic filtering uses a Large Language Model's (LLM's) strength at understanding <em>meaning</em> rather than just surface tokens. Instead of brittle regexes, you instruct the model to remove, mask, or rewrite spans of text that are unnecessary, sensitive, repetitive, stale, or out of scope, while preserving the rest. The result is a cleaner, safer, lower-token input for downstream tasks.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works 🧠</h2>
+          <ul>
+            <li><strong>Latent pattern matching.</strong> LLMs internalize linguistic, structural, and entity patterns (dates, PII, log noise, boilerplate) and can generalize beyond explicit rules.</li>
+            <li><strong>Context-aware redaction.</strong> The model can drop only <em>semantically redundant</em> sentences, such as repeated status lines, while keeping novel facts.</li>
+          </ul>
+
+          <h2 id="when-to-use">When to use ✅</h2>
+          <ul>
+            <li>Pre-processing user or system logs before embedding or retrieval.</li>
+            <li>Scrubbing PII (emails, phone numbers, names) or secrets (API keys) prior to persistence.</li>
+            <li>Collapsing repeated boilerplate in meeting notes, tickets, or chat transcripts.</li>
+            <li>Normalizing drafts by removing dates or outdated references before rewriting.</li>
+          </ul>
+
+          <h2 id="minimal-prompt">Minimal prompt 🔧</h2>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are a semantic filter. Task: Remove all calendar dates and obvious duplicates; lightly rewrite awkward wording for clarity. Preserve meaning.
+Return only the cleaned text.
+
+Text:
+"Filter the text to remove the dates and rewrite the text to fix the wording." (instruction example)</pre></div>
+
+          <h2 id="worked-example">Worked example 🧪</h2>
+
+          <h3 id="the-prompt">The full prompt</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are a semantic filter. Objectives:
+1. Remove all explicit calendar dates (any form like Jan 2 2024, 2024-01-02, 2/1/24).
+2. Remove obvious repetition of identical sentences.
+3. Improve awkward wording minimally for clarity; do not add new facts.
+4. Output only the cleaned text.
+
+Text:
+Project Alpha daily status - 2024-09-14
+Yesterday (2024/09/13) we completed the data load. Yesterday (2024/09/13) we completed the data load.
+We will likely finish the index build at 2024-09-16.
+API key: sk-live-12345ABC should NEVER be shared.
+The timelines seems slippy but manageable.
+End of report 2024.09.14</pre></div>
+
+          <h3 id="before-after">Before and after</h3>
+          <p>The raw text from the prompt above, next to a sample filtered output from the model:</p>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · raw text</span>Project Alpha daily status - 2024-09-14<br>Yesterday (2024/09/13) we completed the data load. Yesterday (2024/09/13) we completed the data load.<br>We will likely finish the index build at 2024-09-16.<br>API key: sk-live-12345ABC should NEVER be shared.<br>The timelines seems slippy but manageable.<br>End of report 2024.09.14</div>
+              <div class="bubble model"><span class="who">After · filtered output</span>Project Alpha daily status<br>We completed the data load.<br>We will likely finish the index build soon.<br>[REDACTED_API_KEY] should never be shared.<br>The timeline seems tight but manageable.<br>End of report</div>
+            </div>
+          </div>
+
+          <h3 id="what-happened">What happened</h3>
+          <ul>
+            <li>Dates removed or generalized (“soon”).</li>
+            <li>Duplicate sentence collapsed.</li>
+            <li>API key replaced with a placeholder.</li>
+            <li>Minor grammar fixes (“timelines seems slippy” → “timeline seems tight”).</li>
+          </ul>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://docs.weaviate.io/developers/weaviate/search#filters" target="_blank" rel="noopener">Weaviate Search Filters</a></li>
+            <li><a class="ext" href="https://docs.pinecone.io/docs/metadata-filtering" target="_blank" rel="noopener">Pinecone Metadata Filtering Guide</a></li>
+            <li><a class="ext" href="https://cloud.google.com/dlp/docs/concepts-infotypes" target="_blank" rel="noopener">Google Cloud DLP InfoTypes Concepts</a></li>
+            <li><a class="ext" href="https://microsoft.github.io/presidio/" target="_blank" rel="noopener">Microsoft Presidio (PII Detection Toolkit)</a></li>
+            <li><a class="ext" href="https://platform.openai.com/docs/guides/moderation" target="_blank" rel="noopener">OpenAI Moderation Guide</a></li>          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="../text/tictactoe_game.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Tic Tac Toe game engine</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#when-to-use">When to use</a></li>
+          <li><a href="#minimal-prompt">Minimal prompt</a></li>
+          <li><a href="#worked-example">Worked example</a></li>
+          <li class="sub"><a href="#the-prompt">The full prompt</a></li>
+          <li class="sub"><a href="#before-after">Before and after</a></li>
+          <li class="sub"><a href="#what-happened">What happened</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menu Actions Pattern · AI Dev Playground</title>
+  <meta name="description" content="Install a small menu of trigger keywords that expand into longer instructions for faster, consistent prompting.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Role and guardrails</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Role and guardrails</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>⚡ <span class="gradient-text">Menu Actions Pattern</span></h1>
+          <p class="lead">Define a small, explicit menu of action keywords (macro triggers). Each keyword expands into a longer instruction the model follows consistently, so you install the menu once at the start of a session and then drive it with short control words.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>No retyping.</strong> Formatting or process guidance lives in the menu, so you don't repeat it every turn.</li>
+            <li><strong>Consistent output.</strong> Each keyword always expands into the same longer instruction, so the same trigger gives the same kind of answer.</li>
+            <li><strong>Complex workflows, short messages.</strong> Once the menu is installed, you can run whole workflows by sending only short control tokens, for example <code>ANALYZE</code>, <code>REFORMAT:JSON</code>, or <code>CRITIQUE|depth=2</code>.</li>
+          </ul>
+
+          <h2 id="the-prompt">The installation prompt</h2>
+          <p>Send this at the start of the session. It defines three triggers, a fallback for messages that use none of them, and a confirmation step:</p>
+
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever I write "summary", write a paragraph summary about the input.
+When I write "bulletpoint", write a bullet pointed list about the input.
+When I write "mainidea", summarize into one sentence with the main idea from the input.
+If my message does not start with one of those trigger words, ask me which of (summary | bulletpoint | mainidea) I want.
+Confirm installation by restating the triggers in a compact table, then wait for input.</pre></div>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>The same request for a bulleted list, typed without the menu and with it:</p>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no menu</span>Write a bullet pointed list about the input: Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
+              <div class="bubble model"><span class="who">After · with menu</span><code>bulletpoint</code> Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
+            </div>
+          </div>
+
+          <h2 id="in-action">The menu in action</h2>
+          <p>A session after the installation prompt above has been sent.</p>
+
+          <h3 id="confirmation"><span class="rule-num">1</span> The model confirms the menu</h3>
+          <div class="exchange">
+            <div class="bubble model"><span class="who">Model</span><strong>Trigger · Output form · Length constraints</strong>
+              <ul>
+                <li><code>summary</code> · Paragraph (≤ 1 short paragraph)</li>
+                <li><code>bulletpoint</code> · Bulleted list (5–8 concise items)</li>
+                <li><code>mainidea</code> · Single sentence (≤ 25 words)</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 id="trigger-summary"><span class="rule-num">2</span> <code>summary</code></h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>summary Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
+            <div class="bubble model"><span class="who">Model</span>Polar ice is melting faster, driving sea level rise and amplifying extreme weather patterns through disrupted temperature and moisture dynamics.</div>
+          </div>
+
+          <h3 id="trigger-bulletpoint"><span class="rule-num">3</span> <code>bulletpoint</code></h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>bulletpoint The same sentence.</div>
+            <div class="bubble model"><span class="who">Model</span>
+              <ul>
+                <li>Accelerating polar ice melt</li>
+                <li>Rising global sea levels</li>
+                <li>Increased frequency of extreme weather</li>
+                <li>Disrupted temperature/moisture patterns</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 id="trigger-mainidea"><span class="rule-num">4</span> <code>mainidea</code></h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>mainidea Provide a broader paragraph about software reliability and testing.</div>
+            <div class="bubble model"><span class="who">Model</span>Rigorous, automated testing underpins software reliability by catching regressions early and creating a repeatable safety net for change.</div>
+          </div>
+          <p>The trigger word wins: even though the message asks for “a broader paragraph”, <code>mainidea</code> keeps the answer to a single sentence.</p>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/2302.11382" target="_blank" rel="noopener">A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="fact_check_list_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Fact Check List pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#the-prompt">The installation prompt</a></li>
+          <li><a href="#before-after">Before and after</a></li>
+          <li><a href="#in-action">The menu in action</a></li>
+          <li class="sub"><a href="#confirmation">Confirmation</a></li>
+          <li class="sub"><a href="#trigger-summary">summary</a></li>
+          <li class="sub"><a href="#trigger-bulletpoint">bulletpoint</a></li>
+          <li class="sub"><a href="#trigger-mainidea">mainidea</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

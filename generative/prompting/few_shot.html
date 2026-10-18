@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Few-Shot Prompting · AI Dev Playground</title>
+  <meta name="description" content="Teach the model a format and decision pattern with short exemplars.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Optimize inputs and completions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Optimize inputs and completions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🎯 <span class="gradient-text">Few-Shot Prompting</span></h1>
+          <p class="lead">Few-shot prompting gives a Large Language Model (LLM) a small set of labeled examples directly inside the prompt. By pairing inputs with the outputs you expect, you teach the model a pattern to imitate (format, tone, constraints, and decision criteria) without retraining. In effect, the prompt itself becomes a compact specification and tutorial. ✍️</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works 🧠</h2>
+          <ul>
+            <li><strong>Pattern induction.</strong> The model learns the structure and constraints from your examples and mimics them in its response.</li>
+            <li><strong>Format control.</strong> You specify exact output shapes (lists, tables, JSON, etc.) by demonstrating them.</li>
+          </ul>
+
+          <h2 id="when-to-use">When to use ✅</h2>
+          <ul>
+            <li><strong>Ambiguous tasks</strong> where instructions alone are under-specified.</li>
+            <li><strong>Domain- or style-sensitive outputs</strong> (e.g., legal tone, editorial voice, code style).</li>
+          </ul>
+
+          <h2 id="how-to-write">How to write effective few-shot prompts ✍️</h2>
+          <ul>
+            <li>Pick 2–5 clean, representative examples (include one edge case).</li>
+            <li>Use explicit, consistent labels (for example, <code>input:</code>) and a fixed output schema.</li>
+          </ul>
+
+          <h2 id="worked-examples">Worked examples 🧪</h2>
+          <p>Each prompt below has the same shape: an instruction with a fixed response format, a few <code>example</code> input/output pairs, and a <code>test</code> input for the model to answer.</p>
+
+          <h3 id="example-sentiment"><span class="rule-num">1</span> Sentiment classification</h3>
+          <div class="codeblock"><div class="code-head">few-shot prompt<button type="button">Copy</button></div><pre>You are a sentiment classifier. Classify each input as one of: positive, negative, neutral.
+Respond using exactly the format: "sentiment: &lt;label&gt;".
+
+example
+input:  The movie was good but a bit too long
+sentiment: neutral
+
+input: I didnt like this book, it lacked details
+sentiment: negative
+
+input: i loved this book, it was really helpfull
+sentiment: positive
+
+test
+
+input: i dont know what to think about this restaurant, the service was slow but the dishes were good.
+what is the sentiment ?</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Test input</span>i dont know what to think about this restaurant, the service was slow but the dishes were good.</div>
+            <div class="bubble model"><span class="who">Expected shape</span>sentiment: neutral</div>
+          </div>
+
+          <h3 id="example-situation"><span class="rule-num">2</span> Situation classification and suggested action</h3>
+          <p>You can also teach the model to classify a situation and recommend an appropriate action. Provide a few input/output pairs where the output includes both a situation label and a concise next step. Keep labels constrained and actions specific.</p>
+          <div class="codeblock"><div class="code-head">few-shot prompt<button type="button">Copy</button></div><pre>You are a driving safety assistant. Classify each situation as one of: dangerous, caution, normal.
+Then propose a single next action. Respond exactly as:
+"situation: &lt;label&gt;\naction: &lt;short imperative sentence&gt;".
+
+example
+input: Heavy rain reduces visibility; wipers struggling; highway speed is 65 mph.
+situation: dangerous
+action: Slow down, increase following distance, and exit safely if visibility worsens.
+
+input: Tire pressure warning light just turned on; car handles normally; gas station nearby.
+situation: caution
+action: Stop at the station and inflate tires to the recommended PSI now.
+
+input: Clear weather, light traffic, driver alert, speed within the posted limit.
+situation: normal
+action: Maintain speed and lane; continue scanning mirrors and the road ahead.
+
+test
+
+input: The car ahead brakes suddenly on a city street; you are two car lengths behind at 35 mph.
+What is the situation and what should we do next?</pre></div>
+
+          <h3 id="example-decomposition"><span class="rule-num">3</span> Action decomposition to desired outcome</h3>
+          <p>Teach the model to break a goal into clear intermediate steps and end with a concise outcome. Provide a few pairs that demonstrate the exact structure you want.</p>
+          <div class="codeblock"><div class="code-head">few-shot prompt<button type="button">Copy</button></div><pre>You are a travel planning assistant. For a given travel goal, produce a minimal, ordered list of steps.
+Include any necessary pre-checks (for example, passports/visas) and a final verification step. Respond exactly as:
+"steps:
+1. &lt;step one&gt;
+2. &lt;step two&gt;
+...
+result: &lt;one-sentence outcome&gt;"
+
+example
+input: Plan a 5-day budget trip to Tokyo in May under $2,500 including flights and lodging.
+steps:
+1. Verify passport validity (6+ months) and Japan entry requirements.
+2. Compare round-trip flights from preferred airports; choose &lt;=1 stop and good arrival times.
+3. Reserve lodging near rail transit (JR lines) with free cancellation.
+4. Outline a balanced daily itinerary (Shibuya/Shinjuku, Asakusa/Ueno, day trip option).
+5. Arrange airport transfer and transit cards (Suica/PASMO) for arrival.
+6. Allocate budget across flights, lodging, food, and activities; track in one sheet.
+7. Consolidate confirmations and add calendar holds for key activities.
+result: Flights and lodging booked within $2,500 and a practical 5-day itinerary with transit ready.
+
+input: Book a last-minute weekend road trip to a national park within 4 hours driving, with pet-friendly lodging.
+steps:
+1. Check weather, park alerts, and road conditions for target dates.
+2. List parks within 4 hours; pick the best option based on conditions and interest.
+3. Reserve a pet-friendly hotel or campsite near the park entrance.
+4. Plan the driving route, fuel stops, and park entry timing.
+5. Pack essentials: water, snacks, pet supplies, first aid, and layers.
+6. Download offline maps, trail info, and required permits.
+result: Confirmed pet-friendly lodging and a safe, time-bound route for a two-day park visit.
+
+test
+
+input: Organize a 7-day family vacation to Barcelona under $4,000 including flights and lodging; ensure passports are valid and reserve timed tickets for Sagrada Família.
+What are the steps and the final result?</pre></div>
+
+          <h2 id="alternatives">Alternatives and complements</h2>
+          <ul>
+            <li><strong>Zero-shot prompting</strong> for simple tasks with clear instructions.</li>
+            <li><strong>One-shot prompting</strong> when one canonical pattern suffices.</li>
+            <li><strong>Many-shot prompting</strong> for nuanced tasks when cost is acceptable.</li>
+            <li><strong><a class="ext" href="chain_of_thought.html">Chain-of-thought</a> or rationale prompting</strong> to elicit intermediate reasoning steps.</li>
+            <li><strong>Retrieval-augmented generation (RAG)</strong> to inject factual context alongside a few shots.</li>
+          </ul>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://www.promptingguide.ai/techniques/fewshot" target="_blank" rel="noopener">Prompting Guide: Few-shot</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="template_prompt_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Template pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#when-to-use">When to use</a></li>
+          <li><a href="#how-to-write">How to write</a></li>
+          <li><a href="#worked-examples">Worked examples</a></li>
+          <li class="sub"><a href="#example-sentiment">Sentiment</a></li>
+          <li class="sub"><a href="#example-situation">Situation and action</a></li>
+          <li class="sub"><a href="#example-decomposition">Action decomposition</a></li>
+          <li><a href="#alternatives">Alternatives</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

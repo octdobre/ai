@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Question Refinement · AI Dev Playground</title>
+  <meta name="description" content="Use a reusable pre-prompt that asks the model to suggest a better version of each question before answering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Clarify and refine questions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Clarify and refine questions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🔍 <span class="gradient-text">Question Refinement</span></h1>
+          <p class="lead">Question refinement uses <a class="ext" href="pre_prompting.html">pre-prompting</a>: a brief, reusable directive that runs before any conversation and asks a Large Language Model (LLM) to clarify or improve each user input. It turns vague queries into precise questions that yield higher-quality answers.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-matters">Why it matters</h2>
+          <ul>
+            <li><strong>Higher answer quality.</strong> Specific, well-scoped questions reduce ambiguity and error.</li>
+            <li><strong>Faster resolution.</strong> Fewer back-and-forth turns to reach the real need.</li>
+            <li><strong>Better user trust.</strong> The model demonstrates listening and intent alignment.</li>
+            <li><strong>Reusability.</strong> The same pre-prompt works across many domains with minimal tuning.</li>
+          </ul>
+
+          <h2 id="the-prompt">The prompt 🔧</h2>
+          <p>Paste this once at the start of a conversation, or put it in the system prompt:</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever i ask a question, suggest a better question and ask me if i would like to use it instead.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Make my site faster</div>
+            <div class="bubble model"><span class="who">Model · with pre-prompt</span>A better question might be: “Which pages have slow Largest Contentful Paint (LCP), and can we prioritize image optimization for those pages first?” Would you like to use it instead?</div>
+          </div>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>Each example pairs an original ask with the refined question the model could suggest.</p>
+
+          <h3 id="example-site"><span class="rule-num">1</span> Make my site faster</h3>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · original ask</span>Make my site faster</div>
+              <div class="bubble model"><span class="who">After · refined question</span>Which pages have slow Largest Contentful Paint (LCP), and can we prioritize image optimization for those pages first?</div>
+            </div>
+          </div>
+          <p>Targets a web performance metric and concrete action.</p>
+
+          <h3 id="example-data"><span class="rule-num">2</span> Help with data</h3>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · original ask</span>Help with data</div>
+              <div class="bubble model"><span class="who">After · refined question</span>Should we use a star schema or snowflake schema for a 10 TB analytics warehouse with hourly batch updates and 50 concurrent BI users?</div>
+            </div>
+          </div>
+          <p>Adds scale, workload, and decision framing.</p>
+
+          <h3 id="example-email"><span class="rule-num">3</span> Write an email</h3>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · original ask</span>Write an email</div>
+              <div class="bubble model"><span class="who">After · refined question</span>Draft a 150-word, friendly reminder email to ACME’s CFO, due Friday, summarizing Q3 budget variances and requesting a 30-minute call next week.</div>
+            </div>
+          </div>
+          <p>Specifies length, tone, recipient, content, and timeline.</p>
+
+          <h2 id="faq">FAQ</h2>
+
+          <h3 id="faq-cot">Is this the same as chain-of-thought (CoT)?</h3>
+          <p>No. <a class="ext" href="chain_of_thought.html">Chain-of-thought</a> reveals intermediate reasoning steps. Question refinement focuses on clarifying <em>what</em> to answer before answering. They can be combined but serve different goals.</p>
+
+          <h3 id="faq-skip">When should I skip refinement?</h3>
+          <p>When the user is clearly specifying a deterministic action, such as “convert this JSON to CSV”.</p>
+          <div class="callout"><p>⚠️ Over-refinement becomes friction.</p></div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://blog.doubleslash.de/en/software-technologien/kuenstliche-intelligenz/prompt-of-the-week-the-question-refinement-pattern/" target="_blank" rel="noopener">Question Refinement Pattern (doubleSlash blog)</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="flipped_interraction.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Flipped interaction</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-matters">Why it matters</a></li>
+          <li><a href="#the-prompt">The prompt</a></li>
+          <li><a href="#before-after">Before and after</a></li>
+          <li class="sub"><a href="#example-site">Site speed</a></li>
+          <li class="sub"><a href="#example-data">Data</a></li>
+          <li class="sub"><a href="#example-email">Email</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li class="sub"><a href="#faq-cot">Chain-of-thought?</a></li>
+          <li class="sub"><a href="#faq-skip">When to skip</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

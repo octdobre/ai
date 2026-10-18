@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Persona Pattern · AI Dev Playground</title>
+  <meta name="description" content="Structure a model's role, voice, and constraints.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Role and guardrails</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Role and guardrails</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>✨ <span class="gradient-text">Persona Pattern</span></h1>
+          <p class="lead">The persona pattern asks a Large Language Model (LLM) to “act as” a specific role with a defined voice, expertise, and constraints. By shaping the assistant's identity and goals, you improve the consistency, tone, depth, and structure of its outputs.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="build-up">One ingredient at a time 🧩</h2>
+          <p>Imagine you ask for a trip plan and get a polite wall of text. Helpful? Kind of. Precise? Not really. Each step below adds one line from the <a href="#core-template">core template</a> to the same travel request and shows how the output changes.</p>
+
+          <h3 id="step-act-as"><span class="rule-num">1</span> Act as: start with identity</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Act as</span>Act as: A meticulous travel planner.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no persona</span>A polite wall of text: helpful, kind of, but not precise.</div>
+              <div class="bubble model"><span class="who">After · effect on output</span>Output becomes structured and process-minded (sections, checklists), not a casual narrative.</div>
+            </div>
+          </div>
+
+          <h3 id="step-audience"><span class="rule-num">2</span> Audience: say who it's for</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Audience</span>Audience: A couple in their 30s traveling for 7 days in May.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>Recommendations fit the couple (no backpacker hostels), time-bound to May (seasonal hours, weather).</div>
+          </div>
+
+          <h3 id="step-goals"><span class="rule-num">3</span> Goals: define success</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Goals</span>Goals: Create a cost-efficient itinerary with reliable transit and flexible options.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>The plan now optimizes for budget and reliability; alternatives appear for key days.</div>
+          </div>
+
+          <h3 id="step-scope"><span class="rule-num">4</span> Scope: limit the surface area</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Scope</span>Scope: Focus on Lisbon and Porto; avoid nightlife; include food and culture.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>Irrelevant suggestions disappear; museum and food stops increase; no nightlife items remain.</div>
+          </div>
+
+          <h3 id="step-style"><span class="rule-num">5</span> Style: tune the voice</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Style</span>Style: Friendly, concise, bulleted; include brief justifications.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>Bulleted steps with one-line reasons replace paragraphs; scannability improves.</div>
+          </div>
+
+          <h3 id="step-constraints"><span class="rule-num">6</span> Constraints: add guardrails</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Constraints</span>Constraints: Max €140/day excluding flights; include transit times.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>Daily budgets and transit minutes appear; any plan exceeding €140 is revised.</div>
+          </div>
+
+          <h3 id="step-context"><span class="rule-num">7</span> Tools/Context: declare what the model may rely on</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Tools/Context</span>Tools/Context: Official rail schedules; saved hotel shortlist.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>Train choices align with real departure windows; hotels are picked only from the shortlist.</div>
+          </div>
+
+          <h3 id="step-outputs"><span class="rule-num">8</span> Outputs: specify deliverables</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Outputs</span>Outputs: 7-day itinerary table + packing checklist + daily budget.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>The response contains a table, a checklist, and per-day cost lines, nothing extra.</div>
+          </div>
+
+          <h3 id="step-task"><span class="rule-num">9</span> Task: ask for the next step</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">Prompt adds · Task</span>Task: Draft the itinerary and highlight 2 alternatives for rainy days.</div>
+            <div class="bubble model"><span class="who">Effect on output</span>The reply executes immediately on the exact deliverable, with the requested alternatives.</div>
+          </div>
+
+          <h2 id="core-template">The core template</h2>
+          <p>Use this as a compact starting point. Fill the brackets with specifics.</p>
+          <div class="codeblock"><div class="code-head">template<button type="button">Copy</button></div><pre>Act as: [role/persona].
+Audience: [who this is for].
+Goals: [primary objectives].
+Scope: [what to cover / avoid].
+Style: [tone, voice, reading level].
+Constraints: [formatting, length, safety, citations, step limits].
+Tools/Context: [data, links, codebase, APIs].
+Outputs: [exact deliverables and structure].
+Task: [the immediate task or question].</pre></div>
+          <div class="callout"><p>💡 Keep the persona (role, audience, style, constraints) consistent across the conversation. For each new request, change only the Task, and the Outputs if the deliverable format must change.</p></div>
+
+          <h2 id="examples">Examples 📚</h2>
+
+          <h3 id="example-travel"><span class="rule-num">I</span> General expert persona 🧭</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as: A meticulous travel planner specializing in budget European trips.
+Audience: A couple in their 30s traveling for 7 days in May.
+Goals: Create a cost-efficient itinerary with reliable transit and flexible options.
+Scope: Focus on Lisbon and Porto; avoid nightlife; include food and culture.
+Style: Friendly, concise, bulleted; include brief justifications.
+Constraints: Max €140/day excluding flights; include transit times.
+Outputs: 7-day itinerary table + packing checklist + daily budget.
+Task: Draft the itinerary and highlight 2 alternatives for rainy days.</pre></div>
+
+          <h3 id="example-tutor"><span class="rule-num">II</span> Socratic teaching persona 🎓</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as: A Socratic math tutor.
+Audience: A high-school student.
+Goals: Build intuition before formulas; avoid giving final answers immediately.
+Style: Ask one question at a time; short steps; supportive tone.
+Constraints: No more than 3 hints before asking the student to try.
+Outputs: A sequence of questions; reveal answer only upon request.
+Task: Help the student understand why the derivative of sin(x) is cos(x).</pre></div>
+
+          <h2 id="programming">Programming personas 💻</h2>
+          <p>These software engineer variants steer depth, stack choices, and output formats.</p>
+
+          <h3 id="persona-frontend"><span class="rule-num">I</span> Frontend engineer (React + TypeScript) 🎨</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as: A senior frontend engineer specializing in React 18 + TypeScript.
+Audience: Mid-level web devs.
+Goals: Build accessible, performant components with clean state management.
+Style: Concise; explain trade-offs briefly; use modern React patterns.
+Constraints: No deprecated APIs; a11y first; include prop and type definitions.
+Outputs: Component code, usage example, and a11y checklist.
+Task: Create a controlled `Autocomplete` component with keyboard navigation and ARIA roles.</pre></div>
+
+          <h3 id="persona-fastapi"><span class="rule-num">II</span> Backend engineer (Python + FastAPI) 🐍</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as: A backend engineer specializing in FastAPI and Pydantic.
+Audience: Backend team.
+Goals: Implement reliable REST endpoints with validation and observability.
+Style: Explicit; handle edge cases; include tests.
+Constraints: Use Pydantic models; structured logging; 95% test coverage target.
+Outputs: Endpoint code, Pydantic models, error mapping, and pytest cases.
+Task: Add a POST /orders endpoint with idempotency and input validation.</pre></div>
+
+          <h3 id="persona-express"><span class="rule-num">III</span> Backend engineer (Node.js + Express) 🛠️</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as: A senior Node.js backend engineer using Express and TypeScript.
+Audience: Server engineers.
+Goals: Build maintainable routes with robust validation and error handling.
+Style: Modular; SOLID principles; minimal coupling.
+Constraints: Zod for validation; async/await; no callback-style code.
+Outputs: Route, service, schema, error middleware, and unit tests.
+Task: Implement a rate-limited webhook receiver with HMAC verification.</pre></div>
+
+          <h3 id="persona-devops"><span class="rule-num">IV</span> DevOps/SRE ⚙️</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as: A DevOps/SRE focusing on CI/CD and reliability.
+Audience: Platform team.
+Goals: Ship safely; enable fast feedback.
+Style: Declarative; security-conscious; audit-friendly.
+Constraints: Immutable builds; least privilege; fail fast.
+Outputs: CI pipeline YAML, rollback plan, and monitoring/alerting rules.
+Task: Author a GitHub Actions workflow for build, test, SBOM, and OIDC deploy to AWS.</pre></div>
+
+          <h2 id="snippets">Quick prompt snippets 📌</h2>
+          <p>Short one-liners that pair a persona with a single extra ingredient.</p>
+
+          <h3 id="snippet-one-liner">Persona + task one-liner</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as a [role] for [audience]; produce [outputs]. Task: [what you need now].</pre></div>
+
+          <h3 id="snippet-checklist">Persona + checklist output</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as a QA lead. Output a 15-item test checklist for [feature], grouped by risk.</pre></div>
+
+          <h3 id="snippet-format">Persona + format constraint</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as a technical writer. Summarize [topic] in exactly 5 bullets with verbs first.</pre></div>
+
+          <h3 id="snippet-safety">Persona + safety constraint</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as a compliance officer. Answer only with HIPAA-safe guidance; redact PHI.</pre></div>
+
+          <h2 id="anti-patterns">Anti-patterns and tips 🚫</h2>
+          <ul>
+            <li><strong>Avoid contradictions.</strong> Don't mix “be terse” with “write detailed explanations”.</li>
+            <li><strong>Prefer constraints over adjectives.</strong> Say “&lt;= 150 words” instead of “short”.</li>
+            <li><strong>Pin the audience.</strong> Different readers imply different depth and vocabulary.</li>
+            <li><strong>Keep the persona stable.</strong> Change tasks, not the core role, across a session.</li>
+            <li><strong>Test with adversarial cases.</strong> Add “what would make this wrong?” prompts.</li>
+          </ul>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/2302.11382" target="_blank" rel="noopener">A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT</a></li>
+            <li><a class="ext" href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">OpenAI: Best practices</a></li>
+            <li><a class="ext" href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/prompt-design-strategies" target="_blank" rel="noopener">Google Cloud: Prompt design strategies</a></li>
+            <li><a class="ext" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering#establish-context-and-role" target="_blank" rel="noopener">Anthropic: Establish context and role</a></li>
+            <li><a class="ext" href="https://learn.microsoft.com/azure/ai-services/openai/concepts/prompt-engineering" target="_blank" rel="noopener">Microsoft: Techniques and guidelines</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="audience.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Audience pattern</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#build-up">One ingredient at a time</a></li>
+          <li><a href="#core-template">The core template</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li class="sub"><a href="#example-travel">General expert</a></li>
+          <li class="sub"><a href="#example-tutor">Socratic tutor</a></li>
+          <li><a href="#programming">Programming personas</a></li>
+          <li class="sub"><a href="#persona-frontend">Frontend engineer</a></li>
+          <li class="sub"><a href="#persona-fastapi">FastAPI engineer</a></li>
+          <li class="sub"><a href="#persona-express">Express engineer</a></li>
+          <li class="sub"><a href="#persona-devops">DevOps/SRE</a></li>
+          <li><a href="#snippets">Quick prompt snippets</a></li>
+          <li><a href="#anti-patterns">Anti-patterns and tips</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Outline Expansion Pattern · AI Dev Playground</title>
+  <meta name="description" content="Iteratively outline and selectively expand branches to assemble large outputs within token limits.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Decompose and verify</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Decompose and verify</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🗺️ <span class="gradient-text">Outline Expansion Pattern</span></h1>
+          <p class="lead">The Outline Expansion pattern overcomes model input/output length limits by progressively structuring, expanding, and assembling content in controllable chunks. Instead of asking for a full large artifact in one shot, which risks truncation or generic filler, you iteratively build an outline, deepen selected branches, then stitch the refined segments into a cohesive whole.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <p><strong>Visual mantra:</strong> 🪄 Idea → 🗂️ Outline → 🌿 Branches → 🧬 Leaves → 🪢 Assemble → 🔍 Polish</p>
+
+          <h2 id="example-interaction">Example interaction</h2>
+          <p>Below is a concise, token-efficient loop illustrating seeding, outlining, selection, and branch expansion.</p>
+
+          <h3 id="step-seed"><span class="rule-num">1</span> Seed the expander</h3>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as an outline expander. Generate a bullet point outline based on the input that I give you and then ask me which bullet point to expand. Ask me what to outline.</pre></div>
+          <div class="exchange">
+            <div class="bubble model"><span class="who">Model</span>Please provide the topic, target audience, desired length, and any must-include constraints.</div>
+          </div>
+
+          <h3 id="step-outline"><span class="rule-num">2</span> Describe the topic, get an outline</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span><code class="inline-block">Topic: Developer onboarding guide for our internal CLI.
+Audience: New backend engineers.
+Length: ~2,000 words.
+Constraints: Emphasize security &amp; reproducibility.</code></div>
+            <div class="bubble model"><span class="who">Model · Outline v1</span><code class="inline-block">1. Overview &amp; Purpose
+2. Prerequisites &amp; Access
+3. Install &amp; Configure
+4. Core Commands
+5. Environment Management
+6. Security &amp; Secrets Handling
+7. Troubleshooting
+8. Next Steps &amp; Resources</code>Which item (number) should I expand first? (Type "done" to stop.)</div>
+          </div>
+
+          <h3 id="step-expand-branch"><span class="rule-num">3</span> Expand a branch</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>6</div>
+            <div class="bubble model"><span class="who">Model · Expand 6</span><strong>Security &amp; Secrets Handling</strong><code class="inline-block">6.1 Principle of Least Privilege
+6.2 API Tokens &amp; Storage
+6.3 Rotating Credentials
+6.4 Auditing &amp; Logs
+6.5 Common Pitfalls</code>Expand another? Reply with e.g. 6.2, 4, or "done".</div>
+          </div>
+
+          <h3 id="step-expand-leaf"><span class="rule-num">4</span> Go one level deeper</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>6.2</div>
+            <div class="bubble model"><span class="who">Model · Expand 6.2</span><strong>API Tokens &amp; Storage</strong><code class="inline-block">6.2.1 Secure Retrieval Process
+6.2.2 Local Encryption / Secret Manager
+6.2.3 Rotation Workflow
+6.2.4 Revocation &amp; Incident Handling
+6.2.5 Common Mistakes to Avoid</code>Next target? (Another ID or "done").</div>
+          </div>
+
+          <h3 id="step-assemble"><span class="rule-num">5</span> Loop, then assemble</h3>
+          <p>The loop continues 🔁 until depth or coverage criteria are satisfied, then each terminal node is realized into prose ✨.</p>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">OpenAI Prompt Engineering Guide: decomposition and iterative refinement</a></li>
+            <li><a class="ext" href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering#break-down-complex-tasks" target="_blank" rel="noopener">Microsoft Learn: Break down complex tasks and structure outputs</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/1805.04833" target="_blank" rel="noopener">Hierarchical Neural Story Generation (Fan et al., 2018)</a></li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="compressing_input_information.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Compressing input information</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#example-interaction">Example interaction</a></li>
+          <li class="sub"><a href="#step-seed">Seed the expander</a></li>
+          <li class="sub"><a href="#step-outline">Get an outline</a></li>
+          <li class="sub"><a href="#step-expand-branch">Expand a branch</a></li>
+          <li class="sub"><a href="#step-expand-leaf">Go deeper</a></li>
+          <li class="sub"><a href="#step-assemble">Loop and assemble</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

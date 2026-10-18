@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pre-Prompting · AI Dev Playground</title>
+  <meta name="description" content="Set the stage with a short, reusable setup that defines role, goals, rules, and output format before the ask.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../index.html#prompting">Prompting</a>
+        <a href="../../index.html#applications">Applications</a>
+        <a href="../../index.html#layout">Layout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#prompting">Prompting</a><span>/</span>
+      <span>Clarify and refine questions</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Clarify and refine questions</span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1>🎬 <span class="gradient-text">Pre-Prompting</span></h1>
+          <p class="lead">Pre-prompting is a short, reusable setup you place before user prompts to define role, goals, rules, and output format. It sets the stage so a Large Language Model (LLM) gives better outputs.</p>
+        </header>
+
+        <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>It reduces ambiguity.</strong> Role, goals, rules, and format are stated up front, so the model doesn't have to guess them from each user message.</li>
+            <li><strong>It makes responses consistent.</strong> The same setup runs before every prompt, so answers keep the same voice and shape.</li>
+            <li><strong>It keeps answers policy-aligned.</strong> Rules placed in the pre-prompt sit where precedence is highest.</li>
+          </ul>
+
+          <h2 id="quick-example">Quick example</h2>
+          <p>A one-line system pre-prompt fixes the answer's shape to three bullets.</p>
+          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>You are a concise project assistant. Always answer in 3 bullets: Summary, Risks, Next steps.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Plan a one-week timeline to ship a landing page.</div>
+            <div class="bubble model"><span class="who">Model · with pre-prompt</span>
+              <ul>
+                <li><strong>Summary:</strong> One-week plan to design, build, and launch a landing page.</li>
+                <li><strong>Risks:</strong> Scope creep; asset delays; mobile perf regressions.</li>
+                <li><strong>Next steps:</strong> Define scope; set milestones; implement; QA; launch; monitor.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="practical-examples">Practical examples</h2>
+
+          <h3 id="example-reviewer"><span class="rule-num">1</span> Engineering assistant with output contract</h3>
+          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>You are a senior code reviewer.
+
+Goals:
+1) Find correctness, security, and performance issues.
+2) Suggest minimal edits only.
+
+Output format:
+- Start with a one-line summary.
+- Then a bulleted list of issues with file paths in backticks.
+- Provide code diffs in fenced blocks with language tags.
+
+If uncertain, state the assumption before proposing an edit.</pre></div>
+
+          <h3 id="example-json"><span class="rule-num">2</span> Lightweight JSON schema for tool usage</h3>
+          <div class="codeblock"><div class="code-head">json<button type="button">Copy</button></div><pre>{
+  "role": "system",
+  "content": "When answering, return valid JSON only matching this schema: { type: object, properties: { summary: string, actions: array of string }, required: [\"summary\", \"actions\"] }. If you cannot comply, return { \"summary\": \"cannot_comply\", \"actions\": [] }."
+}</pre></div>
+
+          <h2 id="patterns">Patterns that work ✅</h2>
+
+          <h3 id="pattern-testable"><span class="rule-num">1</span> Make rules testable</h3>
+          <p>Write constraints that can be checked objectively. This reduces ambiguity and helps the model self-audit.</p>
+          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>1) Limit answers to 120 words.
+2) Include exactly one quote in double quotes.
+3) End with a single action item starting with "Next:".</pre></div>
+          <div class="exchange">
+            <div class="bubble model"><span class="who">Output · compliant</span>"Simplicity is the soul of efficiency." — Austin Freeman<br>Next: Draft a 3-step rollout plan.</div>
+          </div>
+
+          <h3 id="pattern-contract"><span class="rule-num">2</span> Define an output contract</h3>
+          <p>Specify the exact structure (Markdown sections or JSON keys) so downstream systems can parse reliably.</p>
+          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>Respond with three sections: Summary, Risks, Next steps. Use H3 headings only.</pre></div>
+          <div class="codeblock"><div class="code-head">output shape<button type="button">Copy</button></div><pre>### Summary
+...
+### Risks
+...
+### Next steps
+...</pre></div>
+
+          <h3 id="pattern-uncertainty"><span class="rule-num">3</span> Specify uncertainty behavior</h3>
+          <p>Tell the model how to proceed when information is missing: ask one question, state assumptions, or return a placeholder.</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>If key info is missing, ask exactly one clarifying question before answering. If unanswered, proceed with two explicit assumptions.</pre></div>
+
+          <h3 id="pattern-concise"><span class="rule-num">4</span> Keep it concise</h3>
+          <p>Short pre-prompts are easier to follow and less likely to conflict. Prefer 5–12 lines that capture role, goals, rules, and format.</p>
+          <div class="codeblock"><div class="code-head">prompt · concise<button type="button">Copy</button></div><pre>You are a fintech explainer. Use plain language, no jargon. Structure: TL;DR, Details, Action.</pre></div>
+
+          <h3 id="pattern-examples"><span class="rule-num">5</span> Use one or two mini examples</h3>
+          <p>A small in-context example anchors tone and format without overwhelming the model.</p>
+          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Example input: "Explain APR to teens"
+Example output:
+- TL;DR: APR is the yearly cost of borrowing.
+- Details: ...
+- Action: Compare two cards using APR, not teaser rate.</pre></div>
+
+          <h2 id="pitfalls">Common pitfalls ⚠️</h2>
+
+          <h3 id="pitfall-conflicting">Overlong or conflicting rules</h3>
+          <p>Long lists of mixed policies often contradict each other. Consolidate and prioritize the top rules.</p>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · anti-pattern</span><code class="inline-block">Be verbose and concise. Provide all details but keep it short.</code></div>
+              <div class="bubble model"><span class="who">After · better</span><code class="inline-block">Be concise. Provide only essential details.</code></div>
+            </div>
+          </div>
+
+          <h3 id="pitfall-vague">Vague goals</h3>
+          <p>A goal that isn't measurable gives the model nothing to aim at. Replace it with explicit outcomes.</p>
+          <div class="exchange">
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · vague goal</span><code class="inline-block">Be helpful. Do your best.</code></div>
+              <div class="bubble model"><span class="who">After · better goal</span><code class="inline-block">Produce a 5-point checklist suitable for a non-technical stakeholder.</code></div>
+            </div>
+          </div>
+
+          <h3 id="pitfall-hidden">Hidden constraints</h3>
+          <p>Policies buried in user prompts are easy to miss. Put them in the pre-prompt, where precedence is highest.</p>
+          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>Never include PII. If asked, refuse and explain why, then provide anonymized guidance.</pre></div>
+
+          <h3 id="pitfall-fallback">No fallback</h3>
+          <p>Without a default behavior, outputs stall when inputs are incomplete.</p>
+          <div class="codeblock"><div class="code-head">fallback<button type="button">Copy</button></div><pre>If data is missing after one question, state two assumptions and continue.</pre></div>
+
+          <h2 id="checklist">Quick checklist 🧭</h2>
+          <ul>
+            <li><strong>Role/persona:</strong> Is the voice and expertise defined for this task?</li>
+            <li><strong>Goals:</strong> Are success criteria concrete and testable?</li>
+            <li><strong>Format:</strong> Is there a clear structure (sections or JSON) for downstream use?</li>
+            <li><strong>Safety:</strong> Are refusal rules and escalation paths explicit?</li>
+            <li><strong>Examples:</strong> Is there at least one tiny example that matches real inputs?</li>
+          </ul>
+          <div class="callout"><p>✨ Well-crafted pre-prompts turn sporadic success into repeatable performance: a small up-front effort for big downstream gains.</p></div>
+
+          <h2 id="related">Related patterns 🔗</h2>
+          <ul>
+            <li><a class="ext" href="root_prompting.html">Root prompting</a>: system-level rules that act as guardrails.</li>
+            <li><a class="ext" href="persona_pattern.html">Persona pattern</a>: define the role and voice in more depth.</li>
+            <li><a class="ext" href="question_refinement.html">Question refinement</a>: improve questions via pre-prompting.</li>
+          </ul>
+        </div>
+
+        <nav class="pager" aria-label="Pagination">
+          <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
+          <a class="card" href="question_refinement.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Question refinement</span></a>
+        </nav>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#quick-example">Quick example</a></li>
+          <li><a href="#practical-examples">Practical examples</a></li>
+          <li class="sub"><a href="#example-reviewer">Code reviewer</a></li>
+          <li class="sub"><a href="#example-json">JSON schema</a></li>
+          <li><a href="#patterns">Patterns that work</a></li>
+          <li class="sub"><a href="#pattern-testable">Testable rules</a></li>
+          <li class="sub"><a href="#pattern-contract">Output contract</a></li>
+          <li class="sub"><a href="#pattern-uncertainty">Uncertainty behavior</a></li>
+          <li class="sub"><a href="#pattern-concise">Keep it concise</a></li>
+          <li class="sub"><a href="#pattern-examples">Mini examples</a></li>
+          <li><a href="#pitfalls">Common pitfalls</a></li>
+          <li class="sub"><a href="#pitfall-conflicting">Conflicting rules</a></li>
+          <li class="sub"><a href="#pitfall-vague">Vague goals</a></li>
+          <li class="sub"><a href="#pitfall-hidden">Hidden constraints</a></li>
+          <li class="sub"><a href="#pitfall-fallback">No fallback</a></li>
+          <li><a href="#checklist">Quick checklist</a></li>
+          <li><a href="#related">Related patterns</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    document.querySelectorAll('.codeblock button').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.closest('.codeblock').querySelector('pre').innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch {
+          btn.textContent = 'Failed';
+        }
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      });
+    });
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>
