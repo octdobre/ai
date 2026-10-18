@@ -289,6 +289,7 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
   margin: 0; padding: 16px 18px; overflow-x: auto;
   font-family: var(--mono); font-size: 13.5px; line-height: 1.6; color: #d4d8e2;
 }
+.codeblock.wrap pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .codeblock .k { color: #c4b5fd; }
 
 .callout {
