@@ -52,21 +52,23 @@
           <p>The goal is to force the model to externalize the factual claims it asserts, then verify them in a fresh context. Start by telling the model to append its facts to every answer.</p>
 
           <h3 id="step-minimal"><span class="rule-num">1</span> Minimal prompt</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Any time you produce a text give me the facts that you have produced.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Any time you produce a text give me the facts that you have produced.</div>
+          </div>
 
           <h3 id="step-expanded"><span class="rule-num">2</span> Expanded, more prescriptive prompt 📐</h3>
           <p>This version says where the facts go and which facts matter: the fundamental ones that would undermine the output if any were wrong. It is shown as originally provided, including its typos.</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever you output text, generate a set of facts that are contained in the output.
-The set of facts should be inserted at the end of the output.
-The set of facts whould be fundamental facts that could underminde teh veracity of the output if any of them is incorrect.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Whenever you output text, generate a set of facts that are contained in the output.<br>The set of facts should be inserted at the end of the output.<br>The set of facts whould be fundamental facts that could underminde teh veracity of the output if any of them is incorrect.</div>
+          </div>
 
           <h2 id="before-after">Before and after 📦</h2>
           <p>The same question, answered once without the pattern and once with it installed. Both answers contain the same mistake. Only one makes it easy to find.</p>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>When was the Eiffel Tower built, and how long was it the tallest structure in the world?</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · no fact list</span>The Eiffel Tower was built between 1887 and 1889 for the World's Fair in Paris. At about 330 meters, it remained the tallest man-made structure in the world until the Empire State Building was finished in 1931.</div>
-              <div class="bubble model"><span class="who">After · with the pattern</span>The same answer, followed by:<code class="inline-block">Facts:
+              <div class="bubble before"><span class="who">Before · no fact list · Model</span>The Eiffel Tower was built between 1887 and 1889 for the World's Fair in Paris. At about 330 meters, it remained the tallest man-made structure in the world until the Empire State Building was finished in 1931.</div>
+              <div class="bubble model"><span class="who">After · with the pattern · Model</span>The Eiffel Tower was built between 1887 and 1889 for the World's Fair in Paris. At about 330 meters, it remained the tallest man-made structure in the world until the Empire State Building was finished in 1931.<code class="inline-block">Facts:
 1. The tower was built between 1887 and 1889.
 2. It was built for the 1889 World's Fair in Paris.
 3. It is about 330 meters tall.
@@ -78,12 +80,17 @@ The set of facts whould be fundamental facts that could underminde teh veracity 
           <h2 id="verify">Verify in a fresh context 🔄</h2>
 
           <h3 id="step-check"><span class="rule-num">3</span> Check the facts independently</h3>
-          <p>Open a new conversation with no earlier context, so the checker can't simply agree with itself. Paste the fact list and ask:</p>
-          <div class="codeblock wrap"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Check each fact in the list below. Label it Supported or Not Supported. For every fact that is Not Supported, give the correct version.</pre></div>
+          <p>Open a new conversation with no earlier context, so the checker can't simply agree with itself. Paste the fact list and ask the model to check it:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · fresh conversation</span>Check each fact in the list below. Label it Supported or Not Supported. For every fact that is Not Supported, give the correct version.<code class="inline-block">1. The tower was built between 1887 and 1889.
+2. It was built for the 1889 World's Fair in Paris.
+3. It is about 330 meters tall.
+4. It was the tallest man-made structure in the world until the Empire State Building (1931).</code></div>
+          </div>
 
           <h3 id="step-label"><span class="rule-num">4</span> Label, correct, repeat 🧪</h3>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Checker</span><strong>1. Supported.</strong> Construction began in January 1887 and finished in March 1889.<br>
+            <div class="bubble model"><span class="who">Model · checker</span><strong>1. Supported.</strong> Construction began in January 1887 and finished in March 1889.<br>
               <strong>2. Supported.</strong> It was the entrance arch of the 1889 Exposition Universelle.<br>
               <strong>3. Supported.</strong> It is about 330 meters tall, including the antennas at the top.<br>
               <strong>4. Not Supported.</strong> The Chrysler Building in New York passed it in 1930, a year before the Empire State Building opened.</div>
@@ -99,7 +106,13 @@ The set of facts whould be fundamental facts that could underminde teh veracity 
 1. The match statement was added in Python 3.10.
 2. It was specified in PEP 634.
 3. Python 3.10 was released in October 2020.</code></div>
-            <div class="bubble model"><span class="who">Checker · fresh context</span><strong>1. Supported.</strong><br>
+          </div>
+          <p>In a fresh conversation, the same check catches the wrong date:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · fresh conversation</span>Check each fact in the list below. Label it Supported or Not Supported. For every fact that is Not Supported, give the correct version.<code class="inline-block">1. The match statement was added in Python 3.10.
+2. It was specified in PEP 634.
+3. Python 3.10 was released in October 2020.</code></div>
+            <div class="bubble model"><span class="who">Model · checker</span><strong>1. Supported.</strong><br>
               <strong>2. Supported.</strong> PEP 634 is the specification. PEP 636 is the tutorial.<br>
               <strong>3. Not Supported.</strong> Python 3.10 was released on 4 October 2021. October 2020 was Python 3.9.</div>
           </div>

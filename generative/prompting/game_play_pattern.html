@@ -43,64 +43,45 @@
         <div class="prose" id="article">
           <h2 id="learn">Learn a subject</h2>
           <p>Tell the model it is the GM, name the subject, and describe one turn. Here the game teaches HTTP verbs:</p>
-          <div class="codeblock wrap"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are the Game Master. Let's play a game that teaches me HTTP verbs. Each turn, describe one short scenario and ask which verb fits. After I answer, score me out of 10, explain what I missed in two sentences, then give me a slightly harder scenario. Stop when I say "stop".</pre></div>
           <div class="exchange">
-            <div class="bubble model"><span class="who">GM</span>Rules confirmed: one scenario per turn, scored out of 10, each harder than the last.<br><br><strong>Turn 1.</strong> An app lets users change only their email address and leaves the rest of the profile as it is. Which verb should the request use?</div>
-            <div class="bubble user"><span class="who">Player</span><code>PUT</code>, because we're updating the user.</div>
-            <div class="bubble model"><span class="who">GM</span><strong>5/10.</strong> <code>PUT</code> replaces the whole resource, so any field you leave out can be wiped. <code>PATCH</code> sends only the fields that change.<br><br><strong>Turn 2.</strong> A request times out and the client retries it automatically. Which verbs are safe to retry, and where does <code>POST</code> fall?</div>
-            <div class="bubble user"><span class="who">Player</span><code>GET</code>, <code>PUT</code> and <code>DELETE</code> are idempotent, so repeating them changes nothing extra. <code>POST</code> isn't, so a retry could create a second order.</div>
-            <div class="bubble model"><span class="who">GM</span><strong>10/10.</strong> Exactly. That's why payment APIs ask for an idempotency key on <code>POST</code> requests.<br><br><strong>Turn 3.</strong> How is <code>HEAD</code> different from <code>GET</code>, and when would you use it?</div>
+            <div class="bubble user"><span class="who">User</span>You are the Game Master. Let's play a game that teaches me HTTP verbs. Each turn, describe one short scenario and ask which verb fits. After I answer, score me out of 10, explain what I missed in two sentences, then give me a slightly harder scenario. Stop when I say "stop".</div>
+            <div class="bubble model"><span class="who">Model · Game Master</span>Rules confirmed: one scenario per turn, scored out of 10, each harder than the last.<br><br><strong>Turn 1.</strong> An app lets users change only their email address and leaves the rest of the profile as it is. Which verb should the request use?</div>
+            <div class="bubble user"><span class="who">User · Player</span><code>PUT</code>, because we're updating the user.</div>
+            <div class="bubble model"><span class="who">Model · Game Master</span><strong>5/10.</strong> <code>PUT</code> replaces the whole resource, so any field you leave out can be wiped. <code>PATCH</code> sends only the fields that change.<br><br><strong>Turn 2.</strong> A request times out and the client retries it automatically. Which verbs are safe to retry, and where does <code>POST</code> fall?</div>
+            <div class="bubble user"><span class="who">User · Player</span><code>GET</code>, <code>PUT</code> and <code>DELETE</code> are idempotent, so repeating them changes nothing extra. <code>POST</code> isn't, so a retry could create a second order.</div>
+            <div class="bubble model"><span class="who">Model · Game Master</span><strong>10/10.</strong> Exactly. That's why payment APIs ask for an idempotency key on <code>POST</code> requests.<br><br><strong>Turn 3.</strong> How is <code>HEAD</code> different from <code>GET</code>, and when would you use it?</div>
           </div>
 
           <h2 id="research">Research a solution</h2>
           <p>The same loop works for a real problem. Make the GM attack every idea you bring, and let the strongest one win:</p>
-          <div class="codeblock wrap"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are the Game Master of a debate game. The goal is to find the best way to let users search the 2 million products in my online store, which runs on PostgreSQL. Each turn, I propose an option. You answer with the strongest real-world objection, say whether the option survives, and update a scoreboard. Stop when I say "stop".</pre></div>
           <div class="exchange">
-            <div class="bubble model"><span class="who">GM</span>Rules confirmed. The scoreboard is empty. <strong>Turn 1:</strong> propose your first option.</div>
-            <div class="bubble user"><span class="who">Player</span>Use <code>LIKE '%term%'</code> queries on the products table.</div>
-            <div class="bubble model"><span class="who">GM</span><strong>Objection:</strong> a leading wildcard can't use a normal index, so every search reads all 2 million rows. It also can't rank results or handle typos. Doesn't survive.<br><br><strong>Scoreboard:</strong> LIKE 0. <strong>Turn 2:</strong> your next option.</div>
-            <div class="bubble user"><span class="who">Player</span>PostgreSQL full-text search with a GIN index.</div>
-            <div class="bubble model"><span class="who">GM</span><strong>Objection:</strong> it's fast and needs no new infrastructure, but it handles typos poorly. Adding the <code>pg_trgm</code> extension fixes that. Survives.<br><br><strong>Scoreboard:</strong> Postgres full-text + pg_trgm 2, LIKE 0. <strong>Turn 3:</strong> challenge the leader or propose another option.</div>
-            <div class="bubble user"><span class="who">Player</span>Elasticsearch.</div>
-            <div class="bubble model"><span class="who">GM</span><strong>Objection:</strong> it gives the best ranking and typo handling, but it's a second system you must run and keep in sync with Postgres. At 2 million products, that cost is hard to justify yet. Survives, barely.<br><br><strong>Scoreboard:</strong> Postgres full-text + pg_trgm 3, Elasticsearch 1, LIKE 0. <strong>Turn 4:</strong> your move.</div>
+            <div class="bubble user"><span class="who">User</span>You are the Game Master of a debate game. The goal is to find the best way to let users search the 2 million products in my online store, which runs on PostgreSQL. Each turn, I propose an option. You answer with the strongest real-world objection, say whether the option survives, and update a scoreboard. Stop when I say "stop".</div>
+            <div class="bubble model"><span class="who">Model · Game Master</span>Rules confirmed. The scoreboard is empty. <strong>Turn 1:</strong> propose your first option.</div>
+            <div class="bubble user"><span class="who">User · Player</span>Use <code>LIKE '%term%'</code> queries on the products table.</div>
+            <div class="bubble model"><span class="who">Model · Game Master</span><strong>Objection:</strong> a leading wildcard can't use a normal index, so every search reads all 2 million rows. It also can't rank results or handle typos. Doesn't survive.<br><br><strong>Scoreboard:</strong> LIKE 0. <strong>Turn 2:</strong> your next option.</div>
+            <div class="bubble user"><span class="who">User · Player</span>PostgreSQL full-text search with a GIN index.</div>
+            <div class="bubble model"><span class="who">Model · Game Master</span><strong>Objection:</strong> it's fast and needs no new infrastructure, but it handles typos poorly. Adding the <code>pg_trgm</code> extension fixes that. Survives.<br><br><strong>Scoreboard:</strong> Postgres full-text + pg_trgm 2, LIKE 0. <strong>Turn 3:</strong> challenge the leader or propose another option.</div>
+            <div class="bubble user"><span class="who">User · Player</span>Elasticsearch.</div>
+            <div class="bubble model"><span class="who">Model · Game Master</span><strong>Objection:</strong> it gives the best ranking and typo handling, but it's a second system you must run and keep in sync with Postgres. At 2 million products, that cost is hard to justify yet. Survives, barely.<br><br><strong>Scoreboard:</strong> Postgres full-text + pg_trgm 3, Elasticsearch 1, LIKE 0. <strong>Turn 4:</strong> your move.</div>
           </div>
 
           <h2 id="templates">Prompt templates</h2>
 
           <h3 id="template-minimal"><span class="rule-num">1</span> Minimal “Game Master” prompt</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are the Game Master. Let's play a game about &lt;topic&gt;.
-Here are my basic rules:
-- Role: You are the GM; I am the player.
-- Flow: Present one challenge per turn, wait for my reply, then score and continue.
-- Constraints: &lt;constraints&gt;.
-- End: Stop after &lt;N&gt; turns or when I say "stop".
-
-Propose the full rules succinctly, confirm them, then start Turn 1.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>You are the Game Master. Let's play a game about &lt;topic&gt;.<br>Here are my basic rules:<br>- Role: You are the GM; I am the player.<br>- Flow: Present one challenge per turn, wait for my reply, then score and continue.<br>- Constraints: &lt;constraints&gt;.<br>- End: Stop after &lt;N&gt; turns or when I say "stop".<br><br>Propose the full rules succinctly, confirm them, then start Turn 1.</div>
+          </div>
 
           <h3 id="template-structured"><span class="rule-num">2</span> Structured template with seed rules</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>System: You are a fair, concise Game Master.
-User: I want a learning game focused on &lt;topic&gt;.
-Seed rules:
-1) The GM defines realistic challenges that do not require writing source code.
-2) Each turn, the GM provides: (a) a challenge, (b) evaluation rubric, (c) success criteria.
-3) After my reply, the GM returns: (a) outcome, (b) rationale, (c) brief coaching, (d) next turn.
-4) Keep turns short and specific. Ask clarification questions sparingly.
-5) Stop after &lt;N&gt; turns or when I say "stop".
-
-Confirm rules, invite edits, then begin.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>System: You are a fair, concise Game Master.<br>User: I want a learning game focused on &lt;topic&gt;.<br>Seed rules:<br>1) The GM defines realistic challenges that do not require writing source code.<br>2) Each turn, the GM provides: (a) a challenge, (b) evaluation rubric, (c) success criteria.<br>3) After my reply, the GM returns: (a) outcome, (b) rationale, (c) brief coaching, (d) next turn.<br>4) Keep turns short and specific. Ask clarification questions sparingly.<br>5) Stop after &lt;N&gt; turns or when I say "stop".<br><br>Confirm rules, invite edits, then begin.</div>
+          </div>
 
           <h2 id="example-game">Example game: Prompt engineering trainer</h2>
           <p>A ready-to-paste game in which the GM sets prompting tasks and grades the prompts you write for them.</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>We are going to play a game involving prompt engineering.
-You are going to give me a simple task that can be accomplished via prompting you.
-Your tasks should all have a reasoning to them; they should not require creating source code.
-
-I will write a prompt for you to solve the task.
-You will give me the output of my prompt and tell me if the prompt solved the task.
-Ask me questions until I tell you to stop.
-You will ask me a question, wait for my response, tell me how I did, and then ask me another question.
-
-Ask me the first question.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>We are going to play a game involving prompt engineering.<br>You are going to give me a simple task that can be accomplished via prompting you.<br>Your tasks should all have a reasoning to them; they should not require creating source code.<br><br>I will write a prompt for you to solve the task.<br>You will give me the output of my prompt and tell me if the prompt solved the task.<br>Ask me questions until I tell you to stop.<br>You will ask me a question, wait for my response, tell me how I did, and then ask me another question.<br><br>Ask me the first question.</div>
+          </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>

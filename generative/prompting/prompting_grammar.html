@@ -42,7 +42,7 @@
 
         <div class="prose" id="article">
           <h2 id="key-elements">Key grammar elements and their effects 📚</h2>
-          <p>Each element below comes with a pair of prompts that differ only in that piece of grammar, followed by how the output changes.</p>
+          <p>Each element below comes with a pair of prompts that differ only in that piece of grammar, each with the reply it gets.</p>
 
           <h3 id="nouns"><span class="rule-num">1</span> Nouns (subjects, objects) 🧱</h3>
           <ul>
@@ -51,23 +51,13 @@
           </ul>
           <div class="exchange">
             <div class="compare">
-              <div class="bubble user"><span class="who">❌ Vague</span>Explain this <strong>process</strong>.</div>
-              <div class="bubble user"><span class="who">✅ Specific</span>Explain the <strong>photosynthesis process in cyanobacteria for high-school students</strong>.</div>
-            </div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Poor output</span>
-                <ul>
-                  <li>This process has several steps and uses light.</li>
-                  <li>Organisms convert energy in general terms.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · ❌ Vague</span>Explain this <strong>process</strong>.</div>
+                <div class="bubble before"><span class="who">Model</span>Sure! This process involves several stages. First, the inputs are gathered, then they are transformed step by step, and finally the result is produced. Each stage depends on the one before it.<p class="note">With no named subject, the model can only answer in general terms.</p></div>
               </div>
-              <div class="bubble model"><span class="who">Correct output</span>
-                <ul>
-                  <li>Cyanobacteria absorb light via chlorophyll a.</li>
-                  <li>Water splits to release oxygen.</li>
-                  <li>ATP/NADPH power carbon fixation (Calvin cycle).</li>
-                  <li>Simple, teen-friendly explanation with 2 examples.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · ✅ Specific</span>Explain the <strong>photosynthesis process in cyanobacteria for high-school students</strong>.</div>
+                <div class="bubble model"><span class="who">Model</span>Cyanobacteria are tiny bacteria that make their own food from sunlight, just like plants do. A green pigment called chlorophyll a soaks up the light. That energy splits water molecules, which releases the oxygen we breathe. The bacteria then use the stored energy to turn carbon dioxide from the air into sugar, in a set of reactions called the Calvin cycle.</div>
               </div>
             </div>
           </div>
@@ -80,22 +70,19 @@
           </ul>
           <div class="exchange">
             <div class="compare">
-              <div class="bubble user"><span class="who">🛠️ Action</span><strong>List</strong> three risks of using web scrapers.</div>
-              <div class="bubble user"><span class="who">❓ Question</span><strong>What are</strong> three risks of using web scrapers?</div>
-            </div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Poor output</span>
-                <ul>
-                  <li>There are some legal and technical risks.</li>
-                  <li>It depends on the site and laws.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · ❓ Question</span><strong>What are</strong> three risks of using web scrapers?</div>
+                <div class="bubble before"><span class="who">Model</span>Web scraping can be risky in a few ways. Depending on the site, it may go against the terms of service, and some countries have laws about collecting personal data. There are also technical issues, since websites change often. Whether these risks matter depends on what you scrape and why.<p class="note">A question invites an explanation, so the three risks are buried in prose.</p></div>
               </div>
-              <div class="bubble model"><span class="who">Correct output</span>
-                <ul>
-                  <li>Legal exposure (ToS, CFAA).</li>
-                  <li>IP blocking/rotation overhead.</li>
-                  <li>Data quality drift; requires monitoring.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🛠️ Action</span><strong>List</strong> three risks of using web scrapers.</div>
+                <div class="bubble model"><span class="who">Model</span>
+                  <ul>
+                    <li><strong>Legal:</strong> scraping can break a site's terms of service or data protection laws such as the GDPR.</li>
+                    <li><strong>Blocking:</strong> sites detect scrapers and block their IP addresses.</li>
+                    <li><strong>Breakage:</strong> a small change to the page layout silently breaks the scraper.</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -107,22 +94,13 @@
           </ul>
           <div class="exchange">
             <div class="compare">
-              <div class="bubble user"><span class="who">🪢 Neutral</span>Summarize the paper.</div>
-              <div class="bubble user"><span class="who">🎯 Qualified</span>Summarize the paper <strong>briefly and objectively</strong> in <strong>120–150 words</strong>.</div>
-            </div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Poor output</span>
-                <ul>
-                  <li>This paper is about many things and has results.</li>
-                  <li>It explains methods and findings generally.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🪢 Neutral</span>Summarize the paper “Attention Is All You Need”.</div>
+                <div class="bubble before"><span class="who">Model</span>This groundbreaking paper changed AI forever! The authors came up with an amazing idea called the Transformer, which is way better than anything before it. It's easily one of the most important papers ever written, and everyone should read it.<p class="note">No tone or length was set, so the summary is short on facts and full of opinion.</p></div>
               </div>
-              <div class="bubble model"><span class="who">Correct output</span>
-                <ul>
-                  <li>130-word neutral summary.</li>
-                  <li>States problem, approach, key metrics, limits.</li>
-                  <li>No opinionated adjectives.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🎯 Qualified</span>Summarize the paper “Attention Is All You Need” <strong>briefly and objectively</strong> in <strong>120–150 words</strong>.</div>
+                <div class="bubble model"><span class="who">Model</span>In 2017, Vaswani and colleagues at Google proposed the Transformer, a model for sequence tasks such as translation that drops recurrence and convolution and relies only on attention. Each layer uses multi-head self-attention, which lets every word in a sentence weigh every other word directly, together with positional encodings that keep track of word order. Because attention can be computed in parallel, the model trains much faster than recurrent networks. On the WMT 2014 benchmarks, it scored 28.4 BLEU for English to German and 41.8 for English to French, ahead of earlier single models, and the large version trained in 3.5 days on eight GPUs. The authors also applied it to English constituency parsing, showing that the design works beyond translation.</div>
               </div>
             </div>
           </div>
@@ -134,20 +112,28 @@
           </ul>
           <div class="exchange">
             <div class="compare">
-              <div class="bubble user"><span class="who">🌫️ Loose</span>Provide <strong>some</strong> bullet points.</div>
-              <div class="bubble user"><span class="who">📏 Constrained</span>Output <strong>exactly 5</strong> bullet points, <strong>each</strong> under <strong>15 words</strong>.</div>
-            </div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Poor output</span>
-                <ul>
-                  <li>Multiple points in one line with rambly text and numbers vary.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🌫️ Loose</span>Provide <strong>some</strong> bullet points about remote work.</div>
+                <div class="bubble before"><span class="who">Model</span>
+                  <ul>
+                    <li>Remote work has many benefits like flexibility and no commute, but it also has downsides such as isolation, and how well it works depends on the company, the person, and the type of job.</li>
+                    <li>Teams use lots of tools, such as Slack, Zoom, Microsoft Teams, Notion, and many others.</li>
+                    <li>Some studies say productivity goes up, while others say it goes down.</li>
+                  </ul>
+                  <p class="note">“Some” sets no count and no length, so the bullets run long.</p>
+                </div>
               </div>
-              <div class="bubble model"><span class="who">Correct output</span>
-                <ul>
-                  <li>Exactly five concise bullets.</li>
-                  <li>Each line ≤ 15 words.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 📏 Constrained</span>Output <strong>exactly 5</strong> bullet points about remote work, <strong>each</strong> under <strong>15 words</strong>.</div>
+                <div class="bubble model"><span class="who">Model</span>
+                  <ul>
+                    <li>No commute saves time and money.</li>
+                    <li>Flexible hours suit different working styles.</li>
+                    <li>Isolation can weaken team connections.</li>
+                    <li>Clear written communication becomes essential.</li>
+                    <li>A proper desk and chair matter more than at the office.</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -157,22 +143,16 @@
             <li>Unclear “it/this/they” leads to drift or hallucination.</li>
             <li>Replace pronouns with explicit nouns or re-state the referent.</li>
           </ul>
+          <p>Both prompts follow a message in which the user pasted a full project report.</p>
           <div class="exchange">
             <div class="compare">
-              <div class="bubble user"><span class="who">⚠️ Ambiguous</span>Improve <strong>it</strong> and make <strong>it</strong> shorter.</div>
-              <div class="bubble user"><span class="who">✅ Clear</span>Rewrite the <strong>executive summary</strong> to <strong>120 words</strong> with <strong>simpler vocabulary</strong>.</div>
-            </div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Poor output</span>
-                <ul>
-                  <li>Revises the wrong section; inconsistent length.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · ⚠️ Ambiguous</span>Improve <strong>it</strong> and make <strong>it</strong> shorter.</div>
+                <div class="bubble before"><span class="who">Model</span>Here's a tighter version of your conclusion: <em>“The new checkout page made buying faster and easier, and we recommend rolling it out to all customers.”</em><p class="note">“It” could mean any part of the report, so the model shortened the conclusion instead of the summary.</p></div>
               </div>
-              <div class="bubble model"><span class="who">Correct output</span>
-                <ul>
-                  <li>118–122 words, plain language.</li>
-                  <li>Conserves key facts and outcomes.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · ✅ Clear</span>Rewrite the <strong>executive summary</strong> to <strong>120 words</strong> with <strong>simpler vocabulary</strong>.</div>
+                <div class="bubble model"><span class="who">Model</span>Here's the executive summary in 120 words: <em>“We tested a new checkout page with 2,000 customers over six weeks. People finished buying faster and left fewer carts behind…”</em></div>
               </div>
             </div>
           </div>
@@ -183,20 +163,21 @@
           </ul>
           <div class="exchange">
             <div class="compare">
-              <div class="bubble user"><span class="who">🌐 Generic</span>Generate a setup guide.</div>
-              <div class="bubble user"><span class="who">🎯 Scoped</span>Generate a step-by-step setup guide <strong>in Markdown for Windows 11</strong>.</div>
-            </div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Poor output</span>
-                <ul>
-                  <li>Generic, OS-agnostic steps, missing screenshots.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🌐 Generic</span>Generate a setup guide for Git.</div>
+                <div class="bubble before"><span class="who">Model</span>To set up Git, download it from the official website or install it with your system's package manager, such as apt on Ubuntu or Homebrew on macOS. Then open a terminal and set your name and email so your commits are labeled correctly.<p class="note">No platform or format was named, so the guide stays general and covers several systems at once.</p></div>
               </div>
-              <div class="bubble model"><span class="who">Correct output</span>
-                <ul>
-                  <li>Windows 11 specific steps with headings.</li>
-                  <li>Includes PowerShell commands in code blocks.</li>
-                </ul>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🎯 Scoped</span>Generate a step-by-step setup guide for Git <strong>in Markdown for Windows 11</strong>.</div>
+                <div class="bubble model"><span class="who">Model</span><code class="inline-block">## Install Git on Windows 11
+
+1. Open PowerShell and run:
+   `winget install --id Git.Git -e`
+2. Restart PowerShell and check the version:
+   `git --version`
+3. Set your name and email:
+   `git config --global user.name "Your Name"`
+   `git config --global user.email "you@example.com"`</code></div>
               </div>
             </div>
           </div>
@@ -208,18 +189,20 @@
           </ul>
           <div class="exchange">
             <div class="compare">
-              <div class="bubble user"><span class="who">🧩 Unstructured</span>Write how to install the tool.</div>
-              <div class="bubble user"><span class="who">🧱 Structured</span>Return <strong>JSON</strong> with keys: <strong>title</strong> (string), <strong>steps</strong> (array of strings).</div>
-            </div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Poor output</span><code class="inline-block">First, download it. Then install it by following the instructions on the website. After that, you can run it. Finally, make sure it works.</code></div>
-              <div class="bubble model"><span class="who">Correct output</span><code class="inline-block">{
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🧩 Unstructured</span>Write how to install the tool.</div>
+                <div class="bubble before"><span class="who">Model</span><code class="inline-block">First, download it. Then install it by following the instructions on the website. After that, you can run it. Finally, make sure it works.</code></div>
+              </div>
+              <div class="exchange">
+                <div class="bubble user"><span class="who">User · 🧱 Structured</span>Return <strong>JSON</strong> with keys: <strong>title</strong> (string), <strong>steps</strong> (array of strings).</div>
+                <div class="bubble model"><span class="who">Model</span><code class="inline-block">{
   "title": "Install FooCLI",
   "steps": [
     "Download FooCLI from releases page",
     "Unzip and add to PATH"
   ]
 }</code></div>
+              </div>
             </div>
           </div>
 

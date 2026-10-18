@@ -51,20 +51,23 @@
           <h2 id="the-prompt">The installation prompt</h2>
           <p>Send this at the start of the session. It defines three triggers, a fallback for messages that use none of them, and a confirmation step:</p>
 
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever I write "summary", write a paragraph summary about the input.
-When I write "bulletpoint", write a bullet pointed list about the input.
-When I write "mainidea", summarize into one sentence with the main idea from the input.
-If my message does not start with one of those trigger words, ask me which of (summary | bulletpoint | mainidea) I want.
-Confirm installation by restating the triggers in a compact table, then wait for input.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Whenever I write "summary", write a paragraph summary about the input.<br>When I write "bulletpoint", write a bullet pointed list about the input.<br>When I write "mainidea", summarize into one sentence with the main idea from the input.<br>If my message does not start with one of those trigger words, ask me which of (summary | bulletpoint | mainidea) I want.<br>Confirm installation by restating the triggers in a compact table, then wait for input.</div>
+          </div>
 
           <h2 id="before-after">Before and after</h2>
           <p>The same request for a bulleted list, typed without the menu and with it:</p>
           <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · no menu</span>Write a bullet pointed list about the input: Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
-              <div class="bubble model"><span class="who">After · with menu</span><code>bulletpoint</code> Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
+          <div class="compare">
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · before · no menu</span>Write a bullet pointed list about the input: Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
+            </div>
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · after · with menu</span><code>bulletpoint</code> Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
             </div>
           </div>
+          </div>
+          <p>Both messages get the same bulleted list back, but the trigger word replaces a full instruction.</p>
 
           <h2 id="in-action">The menu in action</h2>
           <p>A session after the installation prompt above has been sent.</p>
@@ -88,7 +91,7 @@ Confirm installation by restating the triggers in a compact table, then wait for
 
           <h3 id="trigger-bulletpoint"><span class="rule-num">3</span> <code>bulletpoint</code></h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>bulletpoint The same sentence.</div>
+            <div class="bubble user"><span class="who">User</span>bulletpoint Climate change accelerates polar ice melt, affecting sea levels and weather extremes.</div>
             <div class="bubble model"><span class="who">Model</span>
               <ul>
                 <li>Accelerating polar ice melt</li>

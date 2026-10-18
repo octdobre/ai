@@ -363,7 +363,8 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
 
 /* Before / after comparison */
 .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.compare .bubble { max-width: none; justify-self: stretch; border-bottom-left-radius: 14px; }
+.compare > .bubble { max-width: none; justify-self: stretch; border-bottom-left-radius: 14px; }
+.compare > .exchange { margin: 0; align-content: start; }
 .bubble.before {
   color: var(--muted);
   background: linear-gradient(160deg, rgba(248, 113, 113, 0.08), var(--card) 65%);
