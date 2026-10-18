@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Game Play Pattern · AI Dev Playground</title>
-  <meta name="description" content="Let the model act as a Game Master to run rules-based sessions for practice and content.">
+  <meta name="description" content="Make the model a Game Master and take turns to learn a subject or research a solution.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -37,27 +37,32 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🎮 <span class="gradient-text">Game Play Pattern</span></h1>
-          <p class="lead">Design interactive sessions where a Large Language Model (LLM) acts as a Game Master (GM), guiding a structured game to practice skills, explore ideas, or generate content. The model sets or negotiates rules, runs turns, evaluates actions, and produces rich in-world outputs like quest text, dialogues, and scoring.</p>
+          <p class="lead">The game play pattern turns a Large Language Model (LLM) into a Game Master (GM). You set the rules, then you and the model take turns: it sets a challenge, you respond, and it scores you before moving on. Each round shows you exactly what you got right and what you missed.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="why-use">Why use this pattern</h2>
-          <ul>
-            <li><strong>Practice safely.</strong> Rehearse complex tasks (e.g., interviewing, prompting, ideation) with immediate GM feedback.</li>
-            <li><strong>Motivate learning.</strong> Games add stakes, clear goals, and rapid iteration.</li>
-            <li><strong>Generate content.</strong> Produce coherent in-world assets (quests, NPC dialogue, maps, clues).</li>
-            <li><strong>Adapt difficulty.</strong> Let the GM scale challenge as the player improves.</li>
-          </ul>
-
-          <h2 id="core-idea">Core idea</h2>
-          <p>You ask the LLM to play a game with you. The model plays the GM: it proposes or adopts rules you specify, runs a turn-based loop, evaluates your actions, and advances the game state. You may provide seed rules or constraints (e.g., topic, tone, time limits) and the GM fills in the rest.</p>
-
-          <h3 id="turn-loop">One turn of the loop</h3>
-          <p>With the <a href="#template-structured">structured template</a> below, every turn has the same shape:</p>
+          <h2 id="learn">Learn a subject</h2>
+          <p>Tell the model it is the GM, name the subject, and describe one turn. Here the game teaches HTTP verbs:</p>
+          <div class="codeblock wrap"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are the Game Master. Let's play a game that teaches me HTTP verbs. Each turn, describe one short scenario and ask which verb fits. After I answer, score me out of 10, explain what I missed in two sentences, then give me a slightly harder scenario. Stop when I say "stop".</pre></div>
           <div class="exchange">
-            <div class="bubble model"><span class="who">GM · turn starts</span>Provides (a) a challenge, (b) an evaluation rubric, and (c) success criteria.</div>
-            <div class="bubble user"><span class="who">Player</span>Replies to the challenge.</div>
-            <div class="bubble model"><span class="who">GM · turn ends</span>Returns (a) the outcome, (b) the rationale, (c) brief coaching, and (d) the next turn.</div>
+            <div class="bubble model"><span class="who">GM</span>Rules confirmed: one scenario per turn, scored out of 10, each harder than the last.<br><br><strong>Turn 1.</strong> An app lets users change only their email address and leaves the rest of the profile as it is. Which verb should the request use?</div>
+            <div class="bubble user"><span class="who">Player</span><code>PUT</code>, because we're updating the user.</div>
+            <div class="bubble model"><span class="who">GM</span><strong>5/10.</strong> <code>PUT</code> replaces the whole resource, so any field you leave out can be wiped. <code>PATCH</code> sends only the fields that change.<br><br><strong>Turn 2.</strong> A request times out and the client retries it automatically. Which verbs are safe to retry, and where does <code>POST</code> fall?</div>
+            <div class="bubble user"><span class="who">Player</span><code>GET</code>, <code>PUT</code> and <code>DELETE</code> are idempotent, so repeating them changes nothing extra. <code>POST</code> isn't, so a retry could create a second order.</div>
+            <div class="bubble model"><span class="who">GM</span><strong>10/10.</strong> Exactly. That's why payment APIs ask for an idempotency key on <code>POST</code> requests.<br><br><strong>Turn 3.</strong> How is <code>HEAD</code> different from <code>GET</code>, and when would you use it?</div>
+          </div>
+
+          <h2 id="research">Research a solution</h2>
+          <p>The same loop works for a real problem. Make the GM attack every idea you bring, and let the strongest one win:</p>
+          <div class="codeblock wrap"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are the Game Master of a debate game. The goal is to find the best way to let users search the 2 million products in my online store, which runs on PostgreSQL. Each turn, I propose an option. You answer with the strongest real-world objection, say whether the option survives, and update a scoreboard. Stop when I say "stop".</pre></div>
+          <div class="exchange">
+            <div class="bubble model"><span class="who">GM</span>Rules confirmed. The scoreboard is empty. <strong>Turn 1:</strong> propose your first option.</div>
+            <div class="bubble user"><span class="who">Player</span>Use <code>LIKE '%term%'</code> queries on the products table.</div>
+            <div class="bubble model"><span class="who">GM</span><strong>Objection:</strong> a leading wildcard can't use a normal index, so every search reads all 2 million rows. It also can't rank results or handle typos. Doesn't survive.<br><br><strong>Scoreboard:</strong> LIKE 0. <strong>Turn 2:</strong> your next option.</div>
+            <div class="bubble user"><span class="who">Player</span>PostgreSQL full-text search with a GIN index.</div>
+            <div class="bubble model"><span class="who">GM</span><strong>Objection:</strong> it's fast and needs no new infrastructure, but it handles typos poorly. Adding the <code>pg_trgm</code> extension fixes that. Survives.<br><br><strong>Scoreboard:</strong> Postgres full-text + pg_trgm 2, LIKE 0. <strong>Turn 3:</strong> challenge the leader or propose another option.</div>
+            <div class="bubble user"><span class="who">Player</span>Elasticsearch.</div>
+            <div class="bubble model"><span class="who">GM</span><strong>Objection:</strong> it gives the best ranking and typo handling, but it's a second system you must run and keep in sync with Postgres. At 2 million products, that cost is hard to justify yet. Survives, barely.<br><br><strong>Scoreboard:</strong> Postgres full-text + pg_trgm 3, Elasticsearch 1, LIKE 0. <strong>Turn 4:</strong> your move.</div>
           </div>
 
           <h2 id="templates">Prompt templates</h2>
@@ -96,6 +101,11 @@ Ask me questions until I tell you to stop.
 You will ask me a question, wait for my response, tell me how I did, and then ask me another question.
 
 Ask me the first question.</pre></div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/pdf/2406.00627" target="_blank" rel="noopener">Role-playing Prompt Framework: Generation and Evaluation</a></li>
+          </ul>
         </div>
 
         <nav class="pager" aria-label="Pagination">
@@ -107,13 +117,13 @@ Ask me the first question.</pre></div>
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#why-use">Why use this pattern</a></li>
-          <li><a href="#core-idea">Core idea</a></li>
-          <li class="sub"><a href="#turn-loop">One turn of the loop</a></li>
+          <li><a href="#learn">Learn a subject</a></li>
+          <li><a href="#research">Research a solution</a></li>
           <li><a href="#templates">Prompt templates</a></li>
           <li class="sub"><a href="#template-minimal">Minimal GM prompt</a></li>
           <li class="sub"><a href="#template-structured">Structured with seed rules</a></li>
           <li><a href="#example-game">Example game</a></li>
+          <li><a href="#further-reading">Further reading</a></li>
         </ol>
       </aside>
     </div>
