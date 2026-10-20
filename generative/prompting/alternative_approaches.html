@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Alternative Approaches Pattern · AI Dev Playground</title>
-  <meta name="description" content="Instruct the model to list and compare multiple ways to accomplish a task.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Alternative Approaches Pattern · Fully Prompted</title>
+  <meta name="description" content="Have the model compare several ways to do something and help you choose.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,90 +38,80 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🔀 <span class="gradient-text">Alternative Approaches Pattern</span></h1>
-          <p class="lead">The Alternative Approaches Pattern asks a Large Language Model (LLM) to find and present several ways to accomplish a task, instead of handing back a single solution. You see the trade-offs before you commit to one.</p>
+          <p class="lead">Ask a Large Language Model (LLM) how to do something, and it usually gives you one answer: the first one it thinks of, not necessarily the one that suits you. The <em>alternative approaches</em> pattern asks the model to lay out several options, compare them, and help you choose.</p>
         </header>
 
         <div class="prose" id="article">
           <h2 id="why-it-works">Why it works</h2>
           <ul>
-            <li><strong>It widens the search.</strong> The model explores different strategies, methodologies, or implementations that reach the same goal, rather than stopping at the first one it thinks of.</li>
-            <li><strong>Trade-offs become visible.</strong> Comparing and contrasting the options shows what each one costs, so you make an informed decision instead of accepting a default.</li>
-            <li><strong>Context decides the winner.</strong> When the best solution depends on factors that are not obvious up front, or the problem is unfamiliar, the alternatives let you pick the one that fits your constraints, preferences, and requirements.</li>
+            <li><strong>It widens the search.</strong> The model lays out several ways to reach the goal instead of stopping at the first one it thinks of.</li>
+            <li><strong>Trade-offs become visible.</strong> Seeing what each option costs lets you decide, instead of accepting a default.</li>
+            <li><strong>Your situation picks the winner.</strong> The model asks what matters to you, then recommends the option that fits.</li>
           </ul>
 
-          <h2 id="before-after">Before and after</h2>
-          <p>Each variant below is a standing instruction you give once at the start of a conversation. The example then sends the same user message twice: once without the instruction, and once with it.</p>
+          <h2 id="compare">Ask for options, then choose</h2>
+          <p>Give the instruction once at the start. From then on, the model compares options and asks what matters before it recommends one:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>From now on, when there are different ways to do what I ask, list the best ones as <strong>bullet points</strong>, each with <strong>one pro and one con</strong>. Then <strong>ask me questions</strong> to find the one that suits me.</div>
+            <div class="bubble model"><span class="who">Model</span>Understood. I'll list the options as bullet points with a pro and a con each, then ask what matters to you. What would you like to do?</div>
+            <div class="bubble user"><span class="who">User</span>How should I back up my photos?</div>
+            <div class="bubble model"><span class="who">Model</span>There are three good options:
+              <ul>
+                <li><strong>External drive.</strong> Pro: cheap, and works offline. Con: you have to remember to copy your files, and a fire or theft can take it along with your computer.</li>
+                <li><strong>Cloud storage</strong>, such as Google Photos or iCloud. Pro: backs up automatically and keeps a copy somewhere else. Con: costs a monthly fee once you pass the free space.</li>
+                <li><strong>Both together.</strong> Pro: one copy at home and one off-site, the safest setup. Con: a little more to set up.</li>
+              </ul>
+              How many photos do you have, and would you rather pay monthly or copy files by hand?</div>
+            <div class="bubble user"><span class="who">User</span>About 40,000 photos, roughly 200 GB. I don't mind paying a little, but I always forget manual backups.</div>
+            <div class="bubble model"><span class="who">Model</span>Then go with cloud storage, since it runs without you. At 200 GB you would fill a 200 GB plan straight away, so choose a 2 TB plan from Google One or iCloud+, which costs about $10 a month in the US. If you want extra safety later, copy everything to an external drive once a year.<p class="note">The model recommends only after it knows the size of the library and that this user forgets manual backups.</p></div>
+          </div>
 
-          <h3 id="basic"><span class="rule-num">1</span> Basic alternative approaches</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>From now on if there are alternative ways to accomplish the same thing, list the best alternative
-approaches. Compare and contrast the alternatives and ask me questions to figure out which
-alternative approach suits me.</pre></div>
+          <h2 id="before-after">Before and after</h2>
+          <p>The same question, sent without the instruction and with it:</p>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>How should I back up my photos?</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · no pattern</span>Copy them to an external hard drive once a month.</div>
-              <div class="bubble model"><span class="who">After · with pattern</span>There are a few good options:
-                <ul>
-                  <li><strong>External drive:</strong> cheap and offline, but manual and lost if the drive fails.</li>
-                  <li><strong>Cloud storage:</strong> automatic and off-site, but needs a subscription.</li>
-                  <li><strong>Both:</strong> the safest, at the cost of more setup.</li>
-                </ul>
-                How many photos do you have, and would you rather pay monthly or do it by hand?
-              </div>
+              <div class="bubble before"><span class="who">Before · no pattern · Model</span>Copy them to an external hard drive once a month.<p class="note">One answer with no reasons, and it depends on the habit this user doesn't have.</p></div>
+              <div class="bubble model"><span class="who">After · with pattern · Model</span>There are three good options:
+              <ul>
+                <li><strong>External drive.</strong> Pro: cheap, and works offline. Con: you have to remember to copy your files, and a fire or theft can take it along with your computer.</li>
+                <li><strong>Cloud storage</strong>, such as Google Photos or iCloud. Pro: backs up automatically and keeps a copy somewhere else. Con: costs a monthly fee once you pass the free space.</li>
+                <li><strong>Both together.</strong> Pro: one copy at home and one off-site, the safest setup. Con: a little more to set up.</li>
+              </ul>
+              How many photos do you have, and would you rather pay monthly or copy files by hand?<p class="note">Each option arrives as a bullet with one pro and one con, followed by questions, exactly as the instruction asked.</p></div>
             </div>
           </div>
 
-          <h3 id="meta-prompting"><span class="rule-num">2</span> Meta-prompting with alternatives</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever I ask you to write a prompt for me to accomplish a task, list what the task is, list
-alternative approaches for completing the task and then write a prompt for an LLM for each
-approach. Ask me what I want you to write a prompt for.</pre></div>
+          <h2 id="problem">Another example: question the approach</h2>
+          <p>Sometimes the best alternative is a different way to solve the problem behind your request:</p>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>Write a prompt that helps me study for a history exam.</div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · no pattern</span>“Summarize the key events of the unit I'm studying in bullet points.”</div>
-              <div class="bubble model"><span class="who">After · with pattern</span><strong>Task:</strong> prepare for a history exam.
-                <ul>
-                  <li><strong>Summaries:</strong> “Summarize the key events of this unit in bullet points.”</li>
-                  <li><strong>Quizzing:</strong> “Ask me one exam-style question at a time and grade my answer.”</li>
-                  <li><strong>Timeline:</strong> “Build a timeline of this unit and explain how each event led to the next.”</li>
-                </ul>
-                Which approach should I develop further?
-              </div>
-            </div>
+            <div class="bubble user"><span class="who">User</span>For anything I ask you to write, work out the problem I'm trying to solve, suggest at least one other way to solve it, and compare it with my approach.</div>
+            <div class="bubble model"><span class="who">Model</span>Got it. What should I write?</div>
+            <div class="bubble user"><span class="who">User</span>An email reminding my team to fill in their timesheets.</div>
+            <div class="bubble model"><span class="who">Model</span>The problem seems to be that timesheets arrive late, and your approach is a reminder email. Another option is a recurring calendar reminder every Friday at 3 pm. It takes no effort from you each week, but people tend to dismiss automatic reminders faster than a message from their manager.<br><br>Here is the email, in case you still want it:<code class="inline-block">Hi team, a quick reminder to fill in your timesheets for this week by Friday at 5 pm. Thanks!</code></div>
           </div>
 
-          <h3 id="wording"><span class="rule-num">3</span> Prompt wording alternatives</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>For every prompt I give you, if there are alternative ways to word a prompt that I give you, list
-the best alternate wordings. Compare/contrast the pros and cons of each wording.</pre></div>
+          <h2 id="blueprint">Prompt blueprint 🧭</h2>
+          <p>Four variations of the instruction, each one aimed at a different kind of alternative:</p>
+
+          <h3 id="blueprint-basic"><span class="rule-num">I</span> Basic alternative approaches</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>Tell me about climate change.</div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · no pattern</span>Climate change is the long-term shift in global temperatures and weather patterns…</div>
-              <div class="bubble model"><span class="who">After · with pattern</span>Some alternate wordings:
-                <ul>
-                  <li><strong>“Explain the main causes of climate change.”</strong> Focused, but leaves out effects and solutions.</li>
-                  <li><strong>“Summarize climate change for a 10-year-old.”</strong> Easy to read, but less detailed.</li>
-                  <li><strong>“List the strongest evidence for climate change.”</strong> Concrete, but narrow.</li>
-                </ul>
-              </div>
-            </div>
+            <div class="bubble user"><span class="who">User · template</span>From now on if there are alternative ways to accomplish the same thing, list the best alternative approaches. Compare and contrast the alternatives and ask me questions to figure out which alternative approach suits me.</div>
           </div>
 
-          <h3 id="problem-solution"><span class="rule-num">4</span> Problem-solution alternatives</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>For anything that I ask you to write, determine the underlying problem that I am trying to solve
-and how I am trying to solve it. List at least one alternative approach to solve the problem and
-compare/contrast the approach with the original approach implied by my request to you.</pre></div>
+          <h3 id="blueprint-meta"><span class="rule-num">II</span> Meta-prompting with alternatives</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>Write an email reminding my team to fill in their timesheets.</div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · no pattern</span>Hi team, a quick reminder to fill in your timesheets by Friday. Thanks!</div>
-              <div class="bubble model"><span class="who">After · with pattern</span><strong>Problem:</strong> timesheets arrive late. <strong>Your approach:</strong> a reminder email.
-                <ul>
-                  <li><strong>Alternative:</strong> an automatic calendar reminder every Friday. It needs no effort each week, but is easier to ignore than a personal message.</li>
-                </ul>
-                Here is the email, in case you still want it: “Hi team, a quick reminder to fill in your timesheets by Friday. Thanks!”
-              </div>
-            </div>
+            <div class="bubble user"><span class="who">User · template</span>Whenever I ask you to write a prompt for me to accomplish a task, list what the task is, list alternative approaches for completing the task and then write a prompt for an LLM for each approach. Ask me what I want you to write a prompt for.</div>
+          </div>
+
+          <h3 id="blueprint-wording"><span class="rule-num">III</span> Prompt wording alternatives</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>For every prompt I give you, if there are alternative ways to word a prompt that I give you, list the best alternate wordings. Compare/contrast the pros and cons of each wording.</div>
+          </div>
+
+          <h3 id="blueprint-problem"><span class="rule-num">IV</span> Problem-solution alternatives</h3>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>For anything that I ask you to write, determine the underlying problem that I am trying to solve and how I am trying to solve it. List at least one alternative approach to solve the problem and compare/contrast the approach with the original approach implied by my request to you.</div>
           </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
@@ -132,7 +123,7 @@ compare/contrast the approach with the original approach implied by my request t
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="ask_for_input_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Ask for input pattern</span></a>
+          <a class="card" href="ask_for_input.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Ask for input pattern</span></a>
         </nav>
       </article>
 
@@ -140,11 +131,14 @@ compare/contrast the approach with the original approach implied by my request t
         <h4>On this page</h4>
         <ol>
           <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#compare">Ask for options, then choose</a></li>
           <li><a href="#before-after">Before and after</a></li>
-          <li class="sub"><a href="#basic">Basic</a></li>
-          <li class="sub"><a href="#meta-prompting">Meta-prompting</a></li>
-          <li class="sub"><a href="#wording">Prompt wording</a></li>
-          <li class="sub"><a href="#problem-solution">Problem-solution</a></li>
+          <li><a href="#problem">Question the approach</a></li>
+          <li><a href="#blueprint">Prompt blueprint</a></li>
+          <li class="sub"><a href="#blueprint-basic">Basic</a></li>
+          <li class="sub"><a href="#blueprint-meta">Meta-prompting</a></li>
+          <li class="sub"><a href="#blueprint-wording">Prompt wording</a></li>
+          <li class="sub"><a href="#blueprint-problem">Problem-solution</a></li>
           <li><a href="#further-reading">Further reading</a></li>
         </ol>
       </aside>

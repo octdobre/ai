@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Outline Expansion Pattern · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Outline Expansion Pattern · Fully Prompted</title>
   <meta name="description" content="Iteratively outline and selectively expand branches to assemble large outputs within token limits.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,28 +38,30 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🗺️ <span class="gradient-text">Outline Expansion Pattern</span></h1>
-          <p class="lead">The Outline Expansion pattern overcomes model input/output length limits by progressively structuring, expanding, and assembling content in controllable chunks. Instead of asking for a full large artifact in one shot, which risks truncation or generic filler, you iteratively build an outline, deepen selected branches, then stitch the refined segments into a cohesive whole.</p>
+          <p class="lead">Ask a Large Language Model (LLM) for a 2,000-word guide in one go, and you get thin, generic sections, or the reply is cut off before it ends. The <em>outline expansion</em> pattern builds the document in pieces instead: first an outline, then you choose which part to expand, as deep as you need, and finally you assemble the finished sections.</p>
         </header>
 
         <div class="prose" id="article">
-          <p><strong>Visual mantra:</strong> 🪄 Idea → 🗂️ Outline → 🌿 Branches → 🧬 Leaves → 🪢 Assemble → 🔍 Polish</p>
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>Each reply stays short.</strong> The model writes one section at a time, so nothing gets cut off at the length limit.</li>
+            <li><strong>You decide where the depth goes.</strong> You pick which part to expand, so the important sections get detail and the rest stay brief.</li>
+            <li><strong>The structure comes first.</strong> Agreeing on the outline before writing keeps the final document organized: 🪄 Idea → 🗂️ Outline → 🌿 Branches → 🧬 Leaves → 🪢 Assemble.</li>
+          </ul>
 
           <h2 id="example-interaction">Example interaction</h2>
-          <p>Below is a concise, token-efficient loop illustrating seeding, outlining, selection, and branch expansion.</p>
+          <p>A short loop that seeds the expander, gets an outline, then expands one branch at a time.</p>
 
           <h3 id="step-seed"><span class="rule-num">1</span> Seed the expander</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Act as an outline expander. Generate a bullet point outline based on the input that I give you and then ask me which bullet point to expand. Ask me what to outline.</pre></div>
           <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Act as an outline expander. Generate a bullet point outline based on the input that I give you and then ask me which bullet point to expand. Ask me what to outline.</div>
             <div class="bubble model"><span class="who">Model</span>Please provide the topic, target audience, desired length, and any must-include constraints.</div>
           </div>
 
           <h3 id="step-outline"><span class="rule-num">2</span> Describe the topic, get an outline</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span><code class="inline-block">Topic: Developer onboarding guide for our internal CLI.
-Audience: New backend engineers.
-Length: ~2,000 words.
-Constraints: Emphasize security &amp; reproducibility.</code></div>
-            <div class="bubble model"><span class="who">Model · Outline v1</span><code class="inline-block">1. Overview &amp; Purpose
+            <div class="bubble user"><span class="who">User</span>Topic: developer onboarding guide for our internal CLI.<br>Audience: new backend engineers.<br>Length: about 2,000 words.<br>Constraints: emphasize security and reproducibility.</div>
+            <div class="bubble model"><span class="who">Model · outline v1</span><code class="inline-block">1. Overview &amp; Purpose
 2. Prerequisites &amp; Access
 3. Install &amp; Configure
 4. Core Commands
@@ -71,7 +74,7 @@ Constraints: Emphasize security &amp; reproducibility.</code></div>
           <h3 id="step-expand-branch"><span class="rule-num">3</span> Expand a branch</h3>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>6</div>
-            <div class="bubble model"><span class="who">Model · Expand 6</span><strong>Security &amp; Secrets Handling</strong><code class="inline-block">6.1 Principle of Least Privilege
+            <div class="bubble model"><span class="who">Model · expand 6</span><strong>Security &amp; Secrets Handling</strong><code class="inline-block">6.1 Principle of Least Privilege
 6.2 API Tokens &amp; Storage
 6.3 Rotating Credentials
 6.4 Auditing &amp; Logs
@@ -81,15 +84,19 @@ Constraints: Emphasize security &amp; reproducibility.</code></div>
           <h3 id="step-expand-leaf"><span class="rule-num">4</span> Go one level deeper</h3>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>6.2</div>
-            <div class="bubble model"><span class="who">Model · Expand 6.2</span><strong>API Tokens &amp; Storage</strong><code class="inline-block">6.2.1 Secure Retrieval Process
+            <div class="bubble model"><span class="who">Model · expand 6.2</span><strong>API Tokens &amp; Storage</strong><code class="inline-block">6.2.1 Secure Retrieval Process
 6.2.2 Local Encryption / Secret Manager
 6.2.3 Rotation Workflow
 6.2.4 Revocation &amp; Incident Handling
 6.2.5 Common Mistakes to Avoid</code>Next target? (Another ID or "done").</div>
           </div>
 
-          <h3 id="step-assemble"><span class="rule-num">5</span> Loop, then assemble</h3>
-          <p>The loop continues 🔁 until depth or coverage criteria are satisfied, then each terminal node is realized into prose ✨.</p>
+          <h3 id="step-assemble"><span class="rule-num">5</span> Write the leaves, then assemble 🔁</h3>
+          <p>Once the outline is deep enough, ask for each leaf in full. Every reply is a short, finished section you can paste into the guide:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Write 6.2.1 in full, in about 100 words.</div>
+            <div class="bubble model"><span class="who">Model · write 6.2.1</span><strong>6.2.1 Secure Retrieval Process</strong><br>Never copy an API token from a chat message, a wiki page or a teammate's screen. Request your own token through the internal access portal, which ties it to your account and sets an expiry date. The CLI reads the token from your system's secret manager, not from a file in your project, so it never ends up in Git. If the CLI asks you to paste a token into a config file, stop and report it: that is a bug, not a setup step.<p class="note">Each leaf arrives as a short, finished section, so the full 2,000-word guide is assembled from pieces that never hit the length limit.</p></div>
+          </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
@@ -108,12 +115,13 @@ Constraints: Emphasize security &amp; reproducibility.</code></div>
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#example-interaction">Example interaction</a></li>
           <li class="sub"><a href="#step-seed">Seed the expander</a></li>
           <li class="sub"><a href="#step-outline">Get an outline</a></li>
           <li class="sub"><a href="#step-expand-branch">Expand a branch</a></li>
           <li class="sub"><a href="#step-expand-leaf">Go deeper</a></li>
-          <li class="sub"><a href="#step-assemble">Loop and assemble</a></li>
+          <li class="sub"><a href="#step-assemble">Write and assemble</a></li>
           <li><a href="#further-reading">Further reading</a></li>
         </ol>
       </aside>

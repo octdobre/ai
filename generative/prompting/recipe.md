@@ -126,7 +126,7 @@ changed, you can skip this step.
 
 ## Related Patterns
 
-- [Meta Language Creation Pattern](meta_language_prompt_pattern.md)
+- [Meta Language Creation Pattern](meta_language.md)
 
 ## Further Reading 🔗
 

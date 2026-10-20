@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Recipe Prompting Pattern · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Recipe Prompting Pattern · Fully Prompted</title>
   <meta name="description" content="Have an LLM complete a partial plan by filling in missing steps while keeping your known sequence.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,147 +38,126 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🍲 <span class="gradient-text">Recipe Prompting Pattern</span></h1>
-          <p class="lead">The Recipe Prompting Pattern guides a Large Language Model (LLM) to complete a partial plan: it fills in the missing steps while keeping the sequence you already know. It works like giving a chef a recipe with only some ingredients listed. The model fills in what's missing to produce a complete, actionable plan.</p>
+          <p class="lead">You often know a few steps of a plan but not the whole sequence, and a Large Language Model (LLM) asked for a plan from scratch may ignore the steps you already know. The <em>recipe</em> pattern gives the model your known steps and asks it to fill in the missing ones around them, like a recipe with only some of the ingredients listed.</p>
         </header>
 
         <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>Your steps stay in place.</strong> The model builds the plan around what you already know, instead of replacing it with its own version.</li>
+            <li><strong>Gaps get filled.</strong> The model adds the steps people often forget, such as an inspection, a booking or a backup.</li>
+            <li><strong>Constraints shape the whole plan.</strong> A limit like “no more than 300 miles per day” applies to every step the model adds.</li>
+          </ul>
+
           <h2 id="examples">Examples</h2>
-          <p>Each example states a goal and the steps you already know, then asks the model to fill in the rest. <em>Before</em> shows the partial plan from the prompt; <em>after</em> shows the completed plan the model returned, with your known steps in bold.</p>
+          <p>Each prompt states a goal and the steps you already know, then asks the model to fill in the rest. In the replies, your known steps are in bold.</p>
 
           <h3 id="example-home"><span class="rule-num">1</span> Home purchase planning</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>I would like to purchase a house. I know that I need to perform steps make an offer and close on
-the house. Provide a complete sequence of steps for me. Fill in any missing steps.</pre></div>
           <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · your known steps</span>
-                <ul>
-                  <li>Make an offer</li>
-                  <li>Close on the house</li>
-                </ul>
-              </div>
-              <div class="bubble model"><span class="who">After · complete sequence</span>Here's the complete sequence of steps to purchase a house:
-                <ul>
-                  <li>1. Get pre-approved for a mortgage: meet with lenders to determine your budget and obtain a pre-approval letter.</li>
-                  <li>2. Find a real estate agent: select an experienced buyer's agent to help you navigate the process.</li>
-                  <li>3. Determine your requirements: list must-haves, nice-to-haves, and deal-breakers for your new home.</li>
-                  <li>4. Search for properties: tour homes that meet your criteria and budget.</li>
-                  <li><strong>5. Make an offer:</strong> submit a written offer with your proposed price and terms.</li>
-                  <li>6. Negotiate terms: work with the seller to agree on price, contingencies, and closing date.</li>
-                  <li>7. Schedule a home inspection: hire a professional inspector to identify any issues with the property.</li>
-                  <li>8. Request repairs or renegotiate: address any issues found during inspection.</li>
-                  <li>9. Secure financing: finalize your mortgage application and lock in your interest rate.</li>
-                  <li>10. Obtain homeowner's insurance: purchase a policy required by your lender.</li>
-                  <li>11. Conduct a final walkthrough: verify the property condition before closing.</li>
-                  <li><strong>12. Close on the house:</strong> sign all documents, transfer funds, and receive the keys to your new home.</li>
-                </ul>
-              </div>
+            <div class="bubble user"><span class="who">User</span>I would like to purchase a house. I know that I need to perform steps make an offer and close on the house. Provide a complete sequence of steps for me. Fill in any missing steps.</div>
+            <div class="bubble model"><span class="who">Model</span>Here's the complete sequence of steps to purchase a house:
+              <ol>
+                <li>Get pre-approved for a mortgage: meet with lenders to determine your budget and obtain a pre-approval letter.</li>
+                <li>Find a real estate agent: select an experienced buyer's agent to help you through the process.</li>
+                <li>Determine your requirements: list must-haves, nice-to-haves, and deal-breakers for your new home.</li>
+                <li>Search for properties: tour homes that meet your criteria and budget.</li>
+                <li><strong>Make an offer:</strong> submit a written offer with your proposed price and terms.</li>
+                <li>Negotiate terms: work with the seller to agree on price, contingencies, and closing date.</li>
+                <li>Schedule a home inspection: hire a professional inspector to identify any issues with the property.</li>
+                <li>Request repairs or renegotiate: address any issues found during the inspection.</li>
+                <li>Secure financing: finalize your mortgage application and lock in your interest rate.</li>
+                <li>Obtain homeowner's insurance: buy a policy required by your lender.</li>
+                <li>Do a final walkthrough: check the property's condition before closing.</li>
+                <li><strong>Close on the house:</strong> sign all documents, transfer funds, and receive the keys to your new home.</li>
+              </ol>
+              <p class="note">The user's two steps stay in place as steps 5 and 12, and the model fills in the ten around them.</p>
             </div>
           </div>
 
           <h3 id="example-road-trip"><span class="rule-num">2</span> Road trip planning</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>I would like to drive to NYC from Nashville. I know that I want to go through Asheville, NC on
-the way and that I don't want to drive more than 300 miles per day. Provide a complete sequence
-of steps for me. Fill in any missing steps.</pre></div>
           <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · your known steps</span>
-                <ul>
-                  <li>Start in Nashville</li>
-                  <li>Go through Asheville, NC</li>
-                  <li>End in NYC</li>
-                  <li>Constraint: no more than 300 miles per day</li>
-                </ul>
-              </div>
-              <div class="bubble model"><span class="who">After · complete itinerary</span>Here's your complete road trip itinerary from Nashville to NYC via Asheville:
-                <br><br><strong>Pre-trip planning</strong>
-                <ul>
-                  <li>1. Plan your route: Nashville → <strong>Asheville</strong> (275 miles) → Roanoke, VA (190 miles) → Washington, DC (240 miles) → NYC (225 miles).</li>
-                  <li>2. Book accommodations: reserve hotels in Asheville, Roanoke, and Washington DC.</li>
-                  <li>3. Check your vehicle: verify tire pressure, oil level, and fluid levels.</li>
-                  <li>4. Download offline maps: ensure navigation works without cell service.</li>
-                  <li>5. Pack emergency supplies: include first aid kit, phone charger, snacks, and water.</li>
-                </ul>
-                <strong>Day 1: Nashville to Asheville (275 miles)</strong>
-                <ul>
-                  <li>6. Depart Nashville: leave early morning to avoid traffic.</li>
-                  <li>7. Stop for lunch: break around Knoxville, TN (halfway point).</li>
-                  <li><strong>8. Arrive in Asheville:</strong> check into hotel and explore downtown.</li>
-                </ul>
-                <strong>Day 2: Asheville to Roanoke (190 miles)</strong>
-                <ul>
-                  <li>9. Explore Asheville morning: visit local attractions if time permits.</li>
-                  <li>10. Drive to Roanoke: short drive allows for scenic stops along Blue Ridge Parkway.</li>
-                  <li>11. Arrive in Roanoke: check in and rest.</li>
-                </ul>
-                <strong>Day 3: Roanoke to Washington DC (240 miles)</strong>
-                <ul>
-                  <li>12. Depart Roanoke: head northeast through Virginia.</li>
-                  <li>13. Stop for lunch and stretch: take a break around Charlottesville.</li>
-                  <li>14. Arrive in Washington DC: navigate rush hour traffic if needed.</li>
-                </ul>
-                <strong>Day 4: Washington DC to NYC (225 miles)</strong>
-                <ul>
-                  <li>15. Depart Washington DC: leave early to avoid DC traffic.</li>
-                  <li>16. Plan for tolls: have cash or E-ZPass ready for turnpikes.</li>
-                  <li><strong>17. Arrive in NYC:</strong> navigate to your final destination or parking garage.</li>
-                </ul>
-              </div>
+            <div class="bubble user"><span class="who">User</span>I would like to drive to NYC from Nashville. I know that I want to go through Asheville, NC on the way and that I don't want to drive more than 300 miles per day. Provide a complete sequence of steps for me. Fill in any missing steps.</div>
+            <div class="bubble model"><span class="who">Model</span>Here's your complete road trip itinerary from Nashville to NYC via Asheville:
+              <br><br><strong>Before the trip</strong>
+              <ol>
+                <li>Plan your route: Nashville → <strong>Asheville</strong> (about 295 miles) → Roanoke, VA (about 230 miles) → Washington, DC (about 240 miles) → NYC (about 225 miles).</li>
+                <li>Book hotels in Asheville, Roanoke, and Washington, DC.</li>
+                <li>Check your car: tire pressure, oil, and other fluids.</li>
+                <li>Download offline maps, so navigation works without cell service.</li>
+                <li>Pack a first aid kit, a phone charger, snacks, and water.</li>
+              </ol>
+              <strong>Day 1: Nashville to Asheville</strong>
+              <ol start="6">
+                <li>Leave Nashville early to avoid traffic.</li>
+                <li>Stop for lunch around Knoxville, TN.</li>
+                <li><strong>Arrive in Asheville</strong>, check in, and explore downtown.</li>
+              </ol>
+              <strong>Day 2: Asheville to Roanoke</strong>
+              <ol start="9">
+                <li>Spend the morning in Asheville if you like.</li>
+                <li>Drive to Roanoke, with time for scenic stops along the Blue Ridge Parkway.</li>
+                <li>Arrive in Roanoke and rest.</li>
+              </ol>
+              <strong>Day 3: Roanoke to Washington, DC</strong>
+              <ol start="12">
+                <li>Head northeast through Virginia.</li>
+                <li>Stop for lunch around Charlottesville.</li>
+                <li>Arrive in Washington, DC, allowing for rush hour traffic.</li>
+              </ol>
+              <strong>Day 4: Washington, DC to NYC</strong>
+              <ol start="15">
+                <li>Leave early to avoid DC traffic.</li>
+                <li>Have an E-ZPass or a way to pay tolls ready for the turnpikes.</li>
+                <li><strong>Arrive in NYC</strong> and head to your final destination or parking garage.</li>
+              </ol>
+              <p class="note">Every day's drive stays under the user's 300-mile limit, and Asheville is the first overnight stop.</p>
             </div>
           </div>
 
           <h3 id="example-deployment"><span class="rule-num">3</span> Software deployment process</h3>
-          <p>This prompt adds one more instruction: <em>identify any unnecessary steps</em>. The model can then question a known step instead of only adding new ones.</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>I would like to deploy my web application to production. I know that I need to perform steps run
-tests and update DNS records. Provide a complete sequence of steps for me. Fill in any missing
-steps. Identify any unnecessary steps.</pre></div>
+          <p>This prompt adds one more instruction, “Identify any unnecessary steps”, so the model can question a known step instead of only adding new ones.</p>
           <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · your known steps</span>
-                <ul>
-                  <li>Run tests</li>
-                  <li>Update DNS records</li>
-                </ul>
-              </div>
-              <div class="bubble model"><span class="who">After · complete sequence</span>Here's the complete deployment sequence:
-                <br><br><strong>Pre-deployment</strong>
-                <ul>
-                  <li>1. Complete code review: ensure all changes are reviewed and approved.</li>
-                  <li>2. Merge to main branch: integrate your feature branch into the production branch.</li>
-                  <li><strong>3. Run tests:</strong> execute unit tests, integration tests, and end-to-end tests.</li>
-                  <li>4. Run security scans: check for vulnerabilities in dependencies and code.</li>
-                  <li>5. Build the application: create production-ready build artifacts.</li>
-                  <li>6. Backup current production: create a snapshot of database and current deployment.</li>
-                </ul>
-                <strong>Staging deployment</strong>
-                <ul>
-                  <li>7. Deploy to staging environment: test the deployment process in a production-like environment.</li>
-                  <li>8. Run smoke tests: verify critical functionality works in staging.</li>
-                  <li>9. Perform load testing: ensure the application can handle expected traffic.</li>
-                </ul>
-                <strong>Production deployment</strong>
-                <ul>
-                  <li>10. Enable maintenance mode (optional): display a maintenance page during deployment.</li>
-                  <li>11. Deploy to production: push the new version to production servers.</li>
-                  <li>12. Run database migrations: apply any schema changes (if applicable).</li>
-                  <li>13. Verify health checks: confirm all services are running and responding.</li>
-                  <li>14. Run post-deployment tests: execute critical path tests in production.</li>
-                  <li>15. Monitor logs and metrics: watch for errors or performance issues.</li>
-                  <li>16. Disable maintenance mode: restore user access to the application.</li>
-                </ul>
-                <strong>Post-deployment</strong>
-                <ul>
-                  <li>17. Monitor application performance: watch dashboards for 24–48 hours.</li>
-                  <li>18. Notify stakeholders: inform team and users of successful deployment.</li>
-                </ul>
-                <strong>Regarding DNS records</strong><br>
-                Updating DNS records is typically unnecessary unless you're changing hosting providers, moving to a new IP address, or modifying your domain configuration. If your infrastructure hasn't changed, you can skip this step.
-              </div>
+            <div class="bubble user"><span class="who">User</span>I would like to deploy my web application to production. I know that I need to perform steps run tests and update DNS records. Provide a complete sequence of steps for me. Fill in any missing steps. Identify any unnecessary steps.</div>
+            <div class="bubble model"><span class="who">Model</span>Here's the complete deployment sequence:
+              <br><br><strong>Pre-deployment</strong>
+              <ol>
+                <li>Complete code review: make sure all changes are reviewed and approved.</li>
+                <li>Merge to the main branch: integrate your feature branch into the production branch.</li>
+                <li><strong>Run tests:</strong> run unit, integration, and end-to-end tests.</li>
+                <li>Run security scans: check dependencies and code for vulnerabilities.</li>
+                <li>Build the application: create production-ready build artifacts.</li>
+                <li>Back up production: snapshot the database and the current deployment.</li>
+              </ol>
+              <strong>Staging deployment</strong>
+              <ol start="7">
+                <li>Deploy to staging: test the deployment in a production-like environment.</li>
+                <li>Run smoke tests: check that critical features work in staging.</li>
+                <li>Run load tests: make sure the application can handle expected traffic.</li>
+              </ol>
+              <strong>Production deployment</strong>
+              <ol start="10">
+                <li>Enable maintenance mode (optional): show a maintenance page during deployment.</li>
+                <li>Deploy to production: push the new version to production servers.</li>
+                <li>Run database migrations: apply any schema changes.</li>
+                <li>Verify health checks: confirm all services are running and responding.</li>
+                <li>Run post-deployment tests: test the critical paths in production.</li>
+                <li>Watch logs and metrics for errors or performance issues.</li>
+                <li>Disable maintenance mode: restore user access.</li>
+              </ol>
+              <strong>Post-deployment</strong>
+              <ol start="17">
+                <li>Monitor performance on your dashboards for 24–48 hours.</li>
+                <li>Tell your team and users the deployment succeeded.</li>
+              </ol>
+              <strong>About updating DNS records</strong><br>
+              Updating DNS records is usually unnecessary unless you're changing hosting providers, moving to a new IP address, or changing your domain setup. If your infrastructure hasn't changed, you can skip this step.
+              <p class="note">The model keeps “Run tests” as step 3 but questions the DNS step instead of adding it to the list.</p>
             </div>
           </div>
 
           <h2 id="related-patterns">Related patterns</h2>
           <ul>
-            <li><a class="ext" href="meta_language_prompt_pattern.html">Meta Language Creation Pattern</a></li>
+            <li><a class="ext" href="meta_language.html">Meta Language Creation Pattern</a></li>
           </ul>
 
           <h2 id="further-reading">Further reading 🔗</h2>
@@ -188,13 +168,14 @@ steps. Identify any unnecessary steps.</pre></div>
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="outline_expansion_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Outline expansion pattern</span></a>
+          <a class="card" href="outline_expansion.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Outline expansion pattern</span></a>
         </nav>
       </article>
 
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#examples">Examples</a></li>
           <li class="sub"><a href="#example-home">Home purchase</a></li>
           <li class="sub"><a href="#example-road-trip">Road trip</a></li>

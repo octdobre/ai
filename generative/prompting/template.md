@@ -1,6 +1,6 @@
-# Template Pattern
+# Output Template Pattern
 
-The Template pattern instructs a Large Language Model (LLM) to generate output in a specific,
+The Output Template pattern instructs a Large Language Model (LLM) to generate output in a specific,
 predefined format. This pattern provides precise control over structure and presentation by using
 placeholders that the model fills with generated content while preserving the overall formatting.
 
@@ -13,7 +13,7 @@ consistency across multiple generations and makes downstream processing more pre
 
 ## Example Prompt
 
-Here's a practical example that demonstrates the Template pattern:
+Here's a practical example that demonstrates the Output Template pattern:
 
 ```
 I am going to give you a template for an output. Capitalized words are my placeholders.
@@ -52,7 +52,7 @@ Following the template above, the model would generate:
 
 ## Use Cases
 
-The Template pattern excels in scenarios requiring consistent formatting:
+The Output Template pattern excels in scenarios requiring consistent formatting:
 
 - **Structured data generation** 📊 — Generate CSV, JSON, or XML-like formats
 - **Educational content** 📚 — Create flashcards, quizzes, or study materials
@@ -62,7 +62,7 @@ The Template pattern excels in scenarios requiring consistent formatting:
 
 ## Related Patterns
 
-The Template pattern combines well with other prompting strategies:
+The Output Template pattern combines well with other prompting strategies:
 
 - **Few-Shot** — Provide filled template examples to guide the model
 - **Persona** — Apply templates to persona-specific outputs

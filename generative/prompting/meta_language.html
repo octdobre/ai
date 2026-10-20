@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Meta Language Creation Pattern · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Meta Language Creation Pattern · Fully Prompted</title>
   <meta name="description" content="Teach the model custom notation or shorthand instead of natural language.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,31 +38,30 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🔣 <span class="gradient-text">Meta Language Creation Pattern</span></h1>
-          <p class="lead">The Meta Language Creation pattern teaches a language model custom notation, shorthand, or symbolic systems instead of natural language. This allows for more efficient communication, reduced token usage, and precise control over complex instructions.</p>
+          <p class="lead">Describing the same kind of request in full sentences every time is slow, and long descriptions leave room for misreading. The <em>meta language creation</em> pattern teaches a Large Language Model (LLM) your own shorthand once, and from then on one line of notation is enough.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="overview">Overview</h2>
-          <p>Rather than describing every detail in full natural language, you define compact syntax that the model interprets according to your rules. This pattern is particularly useful when:</p>
+          <h2 id="why-it-works">Why it works</h2>
           <ul>
-            <li><strong>Relationships are complex:</strong> you need to express them concisely.</li>
-            <li><strong>Structures repeat:</strong> you're working with repetitive structures or commands.</li>
+            <li><strong>Complex relationships fit on one line.</strong> A route, a set of durations or a chain of steps becomes a few characters.</li>
+            <li><strong>Repeated requests get faster.</strong> You explain the notation once, then reuse it as often as you like.</li>
+            <li><strong>The meaning is exact.</strong> Your rules define what each symbol means, so the model interprets every line the same way.</li>
           </ul>
-          <p>The model acts as an interpreter for your custom language, expanding shorthand into full actions or analyses.</p>
 
           <h2 id="template">Template</h2>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When I say "CityA,N->CityB,M", I mean my route goes from CityA to CityB, and I will stay N days in
-CityA and M days in CityB</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>When I say "CityA,N-&gt;CityB,M", I mean my route goes from CityA to CityB, and I will stay N days in CityA and M days in CityB</div>
+          </div>
 
           <h2 id="usage-example">Usage example</h2>
 
           <h3 id="define-notation"><span class="rule-num">1</span> Define the notation</h3>
           <p>Set up the task and explain what the shorthand means:</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>We are going to create a trip planning application. I will describe my trip and you will list
-interesting things to do in places that I pass through. I am going to use shorthand notation.
-
-When I say "Florence,3->Rome,2", I mean my route will go from Florence to Rome and I will stay
-3 days in Florence and 2 days in Rome.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>We are going to create a trip planning application. I will describe my trip and you will list interesting things to do in places that I pass through. I am going to use shorthand notation.<br><br>When I say "Florence,3-&gt;Rome,2", I mean my route will go from Florence to Rome and I will stay 3 days in Florence and 2 days in Rome.</div>
+            <div class="bubble model"><span class="who">Model</span>Got it. Send me a route in that notation, and I'll list things to do in each place for the number of days you stay.</div>
+          </div>
 
           <h3 id="use-notation"><span class="rule-num">2</span> Use it</h3>
           <p>From then on, a single line of shorthand is enough:</p>
@@ -87,6 +87,17 @@ When I say "Florence,3->Rome,2", I mean my route will go from Florence to Rome a
                 <li>Take a quick day trip to Pompeii</li>
                 <li>Stroll along the waterfront promenade</li>
               </ul>
+              <p class="note">The model read three cities and three stay lengths from one line, and sized each list to the number of days.</p>
+            </div>
+          </div>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>The same line of shorthand, sent without the definition and after it:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span><code>Florence,3-&gt;Rome,2-&gt;Naples,1</code></div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no notation · Model</span>It looks like you've listed three Italian cities with numbers. Do the numbers mean days, rankings, or something else? Let me know what you'd like me to do with this list.<p class="note">Without the definition, the model can only guess what the numbers and arrows mean.</p></div>
+              <div class="bubble model"><span class="who">After · with notation · Model</span><strong>Florence (3 days):</strong> the Uffizi Gallery, the Duomo, the Boboli Gardens, Ponte Vecchio at sunset. <strong>Rome (2 days):</strong> the Colosseum, Vatican City… <strong>Naples (1 day):</strong> pizza, Pompeii, the waterfront.</div>
             </div>
           </div>
 
@@ -98,18 +109,19 @@ When I say "Florence,3->Rome,2", I mean my route will go from Florence to Rome a
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="semantic_filter_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Semantic filter pattern</span></a>
+          <a class="card" href="semantic_filter.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Semantic filter pattern</span></a>
         </nav>
       </article>
 
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#overview">Overview</a></li>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#template">Template</a></li>
           <li><a href="#usage-example">Usage example</a></li>
           <li class="sub"><a href="#define-notation">Define the notation</a></li>
           <li class="sub"><a href="#use-notation">Use it</a></li>
+          <li><a href="#before-after">Before and after</a></li>
           <li><a href="#further-reading">Further reading</a></li>
         </ol>
       </aside>

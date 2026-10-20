@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ReAct Prompting · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>ReAct Prompting · Fully Prompted</title>
   <meta name="description" content="Reason-and-act workflow to retrieve evidence and compile answers.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,63 +38,59 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🏁 <span class="gradient-text">ReAct Prompting</span></h1>
-          <p class="lead">ReAct (Reason + Act) is a prompting pattern that instructs a Large Language Model (LLM) to explicitly alternate between short reasoning steps and actions with tools that access external knowledge, such as documents, wiki pages, APIs, and search. The model consults sources, gathers evidence, and then compiles a final, cited answer.</p>
+          <p class="lead">A Large Language Model (LLM) only knows what was in its training data, so when you ask about something recent or very specific, it guesses. <em>ReAct</em> (Reason + Act) makes the model alternate between short reasoning steps and actions with tools, such as searching the web or opening a page, and answer only from what it found.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="when-to-use">When to use</h2>
+          <h2 id="why-it-works">Why it works</h2>
           <ul>
-            <li>Resolve questions that require fresh, specific, or verifiable information.</li>
-            <li>Synthesize answers from multiple documents or knowledge bases.</li>
-            <li>Reduce hallucinations by grounding outputs in retrieved sources.</li>
-            <li>Build agents that can search, read, extract, and assemble answers.</li>
+            <li><strong>Answers come from sources.</strong> The model looks facts up instead of recalling them, so fresh or very specific information comes out right.</li>
+            <li><strong>Each step is visible.</strong> You can read what the model was looking for, what it did, and what it found.</li>
+            <li><strong>Several sources can be combined.</strong> The loop keeps going until the evidence is enough, then compiles one answer with its sources.</li>
           </ul>
 
           <h2 id="the-prompt">The prompt</h2>
           <p>Ask the question, then tell the model to follow the ReAct loop until it has enough evidence:</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Question: Find out when the Tirolean Firmenlauf is going to start the 5.8k race. 🏃🏁
-
-Follow ReAct: iterate Thought → Action → Observation until sufficient evidence, then provide a
-concise Final answer followed by a Sources list.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Question: When did the running race of the 2021 Tiroler Firmenlauf start? 🏃🏁<br><br>Follow ReAct: iterate Thought → Action → Observation until sufficient evidence, then provide a concise Final answer followed by a Sources list.</div>
+          </div>
 
           <h2 id="example-output">Example output</h2>
-          <p>The model works through repeated Thought → Action → Observation cycles, then answers with its sources.</p>
+          <p>The model works through repeated Thought → Action → Observation cycles, then answers with its sources. Each observation is the result a tool returns, which the app passes back to the model.</p>
 
-          <h3 id="step-search"><span class="rule-num">1</span> Search for the official site</h3>
+          <h3 id="step-search"><span class="rule-num">1</span> Search for the race</h3>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Thought 1</span>I should search for the official Tiroler/Tirol/Tirolean Firmenlauf site and event page.</div>
-            <div class="bubble model"><span class="who">Action 1</span><code class="inline-block">web_search(query="Tirolean Firmenlauf 5.8k start time official site")</code></div>
-            <div class="bubble user"><span class="who">Observation 1</span>Results show the official event website and a PDF with the schedule.</div>
+            <div class="bubble model"><span class="who">Model · Thought 1</span>I should search for a report on the 2021 Tiroler Firmenlauf in Innsbruck that gives the start time.</div>
+            <div class="bubble model"><span class="who">Model · Action 1</span><code class="inline-block">web_search(query="Tiroler Firmenlauf 2021 Start Uhrzeit")</code></div>
+            <div class="bubble user"><span class="who">User · Observation 1 · tool result</span>Results include a race report on hdsports.org with the 2021 results and photos.</div>
           </div>
 
-          <h3 id="step-schedule"><span class="rule-num">2</span> Open the schedule</h3>
+          <h3 id="step-schedule"><span class="rule-num">2</span> Open the race report</h3>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Thought 2</span>Open the official schedule page/PDF to locate the 5.8k start.</div>
-            <div class="bubble model"><span class="who">Action 2</span><code class="inline-block">web_get(url="https://example.tiroler-firmenlauf.at/schedule.pdf")</code></div>
-            <div class="bubble user"><span class="who">Observation 2</span>The schedule lists multiple events; the 5.8 km run start is noted with a time.</div>
+            <div class="bubble model"><span class="who">Model · Thought 2</span>Open the race report to find the start time for the runners.</div>
+            <div class="bubble model"><span class="who">Model · Action 2</span><code class="inline-block">web_get(url="https://www.hdsports.org/firmenlauf/ergebnisse-tiroler-firmenlauf-2021-fotos")</code></div>
+            <div class="bubble user"><span class="who">User · Observation 2 · tool result</span>The report says the race took place on 18 September 2021, that the runners started at 17:00 (“Gestartet wurde das Rennen für die Läufer um 17:00 Uhr”), and that the walkers started ten minutes later.</div>
           </div>
 
-          <h3 id="step-crosscheck"><span class="rule-num">3</span> Cross-check the time</h3>
+          <h3 id="step-crosscheck"><span class="rule-num">3</span> Check the details</h3>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Thought 3</span>Cross-check with the event homepage or news post for confirmation.</div>
-            <div class="bubble model"><span class="who">Action 3</span><code class="inline-block">web_get(url="https://example.tiroler-firmenlauf.at/programm")</code></div>
-            <div class="bubble user"><span class="who">Observation 3</span>Confirms the same start time for the 5.8 km race.</div>
+            <div class="bubble model"><span class="who">Model · Thought 3</span>The report states the start time directly and also gives the walkers' start, so the evidence is specific enough to answer.</div>
           </div>
 
           <h3 id="final-answer"><span class="rule-num">4</span> Final answer with sources</h3>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Final answer</span>The 5.8 km Tirolean Firmenlauf race is scheduled to start at 18:30 (6:30 PM). 🏁
+            <div class="bubble model"><span class="who">Model · Final answer</span>The running race of the 2021 Tiroler Firmenlauf started at 17:00 on 18 September 2021 in Innsbruck. The walkers started ten minutes later, at 17:10. 🏁<br><br><strong>Sources:</strong>
               <ul>
-                <li>[Official schedule PDF]</li>
-                <li>[Event programme page]</li>
+                <li>hdsports.org race report: hdsports.org/firmenlauf/ergebnisse-tiroler-firmenlauf-2021-fotos</li>
               </ul>
+              <p class="note">The answer uses only what the model found, and names the page it came from.</p>
             </div>
           </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
             <li><a class="ext" href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener">ReAct: Synergizing Reasoning and Acting in Language Models</a></li>
-            <li><a class="ext" href="https://python.langchain.com/docs/expression_language/how_to/react" target="_blank" rel="noopener">LangChain ReAct</a></li>
+            <li><a class="ext" href="https://research.google/blog/react-synergizing-reasoning-and-acting-in-language-models/" target="_blank" rel="noopener">Google Research: ReAct, Synergizing Reasoning and Acting in Language Models</a></li>
             <li><a class="ext" href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">Retrieval-Augmented Generation for Knowledge-Intensive NLP</a></li>
             <li><a class="ext" href="https://platform.openai.com/docs/guides/function-calling" target="_blank" rel="noopener">OpenAI function calling and tool use guide</a></li>
             <li><a class="ext" href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Model Context Protocol (MCP) Server documentation</a></li>
@@ -102,19 +99,19 @@ concise Final answer followed by a Sources list.</pre></div>
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="recipe_prompting_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Recipe prompting pattern</span></a>
+          <a class="card" href="recipe.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Recipe prompting pattern</span></a>
         </nav>
       </article>
 
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#when-to-use">When to use</a></li>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#the-prompt">The prompt</a></li>
           <li><a href="#example-output">Example output</a></li>
           <li class="sub"><a href="#step-search">Search</a></li>
-          <li class="sub"><a href="#step-schedule">Open the schedule</a></li>
-          <li class="sub"><a href="#step-crosscheck">Cross-check</a></li>
+          <li class="sub"><a href="#step-schedule">Open the report</a></li>
+          <li class="sub"><a href="#step-crosscheck">Check</a></li>
           <li class="sub"><a href="#final-answer">Final answer</a></li>
           <li><a href="#further-reading">Further reading</a></li>
         </ol>

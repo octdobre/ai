@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Recursive Prompting · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Recursive Prompting · Fully Prompted</title>
   <meta name="description" content="Steer an LLM toward clearer, more accurate, and more useful outputs by testing, diagnosing, and revising prompts in short loops.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,55 +38,57 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🔁 <span class="gradient-text">Recursive Prompting</span></h1>
-          <p class="lead">Recursive prompting, or iterative prompt refinement, is a practical way to steer a Large Language Model (LLM) toward clearer, more accurate, and more useful outputs. By testing, diagnosing, and revising in short loops, you convert vague intent into precise instructions the model can follow.</p>
+          <p class="lead">Your first prompt rarely gets the output you want, and a Large Language Model (LLM) won't tell you what it misunderstood. <em>Recursive prompting</em> treats the prompt as a draft: you test it, see what's wrong with the output, revise the prompt, and repeat until the result is right.</p>
         </header>
 
         <div class="prose" id="article">
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>Each output shows what's missing.</strong> Reading the reply tells you exactly which instruction to add next.</li>
+            <li><strong>Small changes are easy to judge.</strong> Changing one thing per round shows you what each instruction actually does.</li>
+            <li><strong>The final prompt is reusable.</strong> Once the output is right, you keep a prompt that produces it again.</li>
+          </ul>
+
           <h2 id="step-by-step">Step by step</h2>
-          <p>Every step below works toward the same task. Each revision of the prompt is shown with the output it produces, next to the output of the step before it.</p>
-          <div class="codeblock"><div class="code-head">input<button type="button">Copy</button></div><pre>Write a short product update about our app’s new offline mode.</pre></div>
+          <p>Every round below works on the same task: “Write a short product update about our app's new offline mode.” Each revised prompt is shown with its output, next to the output of the round before.</p>
 
-          <h3 id="step-1"><span class="rule-num">1</span> Vague prompt</h3>
-          <p>A <strong>vague prompt</strong> yields a <strong>generic, low-value output</strong>: little context, low relevance. 😕</p>
+          <h3 id="step-1"><span class="rule-num">1</span> Vague prompt 😕</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Prompt</span>Write a quick update.</div>
-            <div class="bubble model"><span class="who">Output</span>We launched a new feature. It’s great.</div>
+            <div class="bubble user"><span class="who">User</span>Write a quick update about our app's new offline mode.</div>
+            <div class="bubble model"><span class="who">Model</span>We launched offline mode. It's great, give it a try!<p class="note">The reply is generic: no benefit, no steps, nothing a user could act on.</p></div>
           </div>
 
-          <h3 id="step-2"><span class="rule-num">2</span> Add clear constraints</h3>
-          <p>Adding <strong>clear constraints</strong> produces a <strong>clearer, more relevant output</strong> with concrete details. ✍️✨</p>
+          <h3 id="step-2"><span class="rule-num">2</span> Add clear constraints ✍️</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Prompt</span>Write 120–150 words for end users; include the key benefit and how to enable; avoid jargon.</div>
+            <div class="bubble user"><span class="who">User</span>Write a 30–50 word update about our app's new offline mode for end users. Include the key benefit and how to turn it on, and avoid jargon.</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · step 1 output</span>We launched a new feature. It’s great.</div>
-              <div class="bubble model"><span class="who">After · step 2 output</span>Offline mode lets you keep working without internet and syncs when you’re back online. To enable it, open Settings and turn on Offline Mode. This reduces interruptions and helps you capture ideas anywhere.</div>
+              <div class="bubble before"><span class="who">Before · round 1 · Model</span>We launched offline mode. It's great, give it a try!</div>
+              <div class="bubble model"><span class="who">After · round 2 · Model</span>Offline mode lets you keep working without internet and syncs when you're back online. To enable it, open Settings and turn on Offline Mode. This reduces interruptions and helps you capture ideas anywhere.</div>
             </div>
           </div>
 
-          <h3 id="step-3"><span class="rule-num">3</span> Add structure and a tone exemplar</h3>
-          <p>Adding <strong>structure</strong> and a <strong>tone exemplar</strong> results in an <strong>on-tone, actionable output</strong>. 🧩✅</p>
+          <h3 id="step-3"><span class="rule-num">3</span> Add structure and a tone example 🧩</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Prompt</span>Three sentences: what changed, why it matters for productivity, how to turn it on in Settings; tone warm and concise. Example tone: “We built this to help you focus.”</div>
+            <div class="bubble user"><span class="who">User</span>Write a three-sentence update about our app's new offline mode: what changed, why it matters for productivity, and how to turn it on in Settings. Keep the tone warm and concise, like this example: “We built this to help you focus.”</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · step 2 output</span>Offline mode lets you keep working without internet and syncs when you’re back online. To enable it, open Settings and turn on Offline Mode. This reduces interruptions and helps you capture ideas anywhere.</div>
-              <div class="bubble model"><span class="who">After · step 3 output</span>We’re introducing offline mode so you can keep writing without an internet connection. It reduces interruptions and keeps your notes synced the moment you’re back online. To try it, open Settings → Features and switch on Offline Mode.</div>
+              <div class="bubble before"><span class="who">Before · round 2 · Model</span>Offline mode lets you keep working without internet and syncs when you're back online. To enable it, open Settings and turn on Offline Mode. This reduces interruptions and helps you capture ideas anywhere.</div>
+              <div class="bubble model"><span class="who">After · round 3 · Model</span>We're introducing offline mode so you can keep writing without an internet connection. It reduces interruptions and keeps your notes synced the moment you're back online. To try it, open Settings → Features and switch on Offline Mode.</div>
             </div>
           </div>
 
-          <h3 id="step-4"><span class="rule-num">4</span> Add a self-check</h3>
-          <p>A brief <strong>self-check</strong> reduces misses and yields a <strong>polished final answer</strong>. 🔎✅</p>
+          <h3 id="step-4"><span class="rule-num">4</span> Add a self-check 🔎</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Prompt</span>Before finalizing, verify: 3 sentences, includes benefit and enable steps, no jargon; if any fail, fix once.</div>
+            <div class="bubble user"><span class="who">User</span>Same as round 3, plus: before you finish, check that it has three sentences, includes the benefit and the steps to turn it on, and uses no jargon. If anything fails, fix it once.</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · step 3 output</span>We’re introducing offline mode so you can keep writing without an internet connection. It reduces interruptions and keeps your notes synced the moment you’re back online. To try it, open Settings → Features and switch on Offline Mode.</div>
-              <div class="bubble model"><span class="who">After · step 4 output</span>We’re introducing offline mode so you can capture ideas without an internet connection. It keeps your notes synced when you’re back online, reducing interruptions and helping you stay focused. To try it, open Settings → Features and switch on Offline Mode.</div>
+              <div class="bubble before"><span class="who">Before · round 3 · Model</span>We're introducing offline mode so you can keep writing without an internet connection. It reduces interruptions and keeps your notes synced the moment you're back online. To try it, open Settings → Features and switch on Offline Mode.</div>
+              <div class="bubble model"><span class="who">After · round 4 · Model</span>We're introducing offline mode so you can capture ideas without an internet connection. It keeps your notes synced when you're back online, reducing interruptions and helping you stay focused. To try it, open Settings → Features and switch on Offline Mode.<p class="note">The check passes, so the changes are small: the update is now polished and ready to send.</p></div>
             </div>
           </div>
 
           <h2 id="stop-rule">Choosing a stop rule ✅</h2>
           <ul>
-            <li><strong>Stability.</strong> Two consecutive iterations produce materially similar outputs.</li>
-            <li><strong>Cost.</strong> Marginal gains no longer justify additional tokens.</li>
+            <li><strong>Stability.</strong> Two rounds in a row produce nearly the same output.</li>
+            <li><strong>Cost.</strong> The improvements no longer justify another round.</li>
           </ul>
 
           <h2 id="further-reading">Further reading 🔗</h2>
@@ -103,6 +106,7 @@
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#step-by-step">Step by step</a></li>
           <li class="sub"><a href="#step-1">Vague prompt</a></li>
           <li class="sub"><a href="#step-2">Constraints</a></li>

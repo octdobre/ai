@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Template Pattern · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Output Template Pattern · Fully Prompted</title>
   <meta name="description" content="Define an exact output format with placeholders that the model fills in, for consistent, structured generation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -36,34 +37,24 @@
             <span class="badge"><span class="dot"></span> Optimize inputs and completions</span>
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
-          <h1>📐 <span class="gradient-text">Template Pattern</span></h1>
-          <p class="lead">The Template pattern instructs a Large Language Model (LLM) to generate output in a specific, predefined format. Placeholders mark where the model fills in generated content, while the overall formatting stays exactly as you wrote it.</p>
+          <h1>📐 <span class="gradient-text">Output Template Pattern</span></h1>
+          <p class="lead">Ask a Large Language Model (LLM) for the same kind of output twice, and it may format it differently each time. The <em>output template</em> pattern gives the model an exact layout with placeholders: the model fills in the placeholders and keeps the rest of your formatting exactly as you wrote it.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="overview">Overview</h2>
-          <p>Template prompting gives you fine-grained control over output structure. Instead of letting the model choose how to format its response, you:</p>
+          <h2 id="why-it-works">Why it works</h2>
           <ul>
-            <li><strong>Define the exact layout</strong> the response must follow.</li>
-            <li><strong>Use placeholders</strong> for the variable content.</li>
-            <li><strong>Instruct the model to populate them</strong> while preserving everything else.</li>
+            <li><strong>The layout is fixed.</strong> You define exactly how the response looks, so the model can't choose its own structure.</li>
+            <li><strong>Placeholders mark what changes.</strong> The model fills only the variable parts and leaves everything else exactly as written.</li>
+            <li><strong>Every run matches.</strong> The output stays consistent across many generations, which makes it easy to process further.</li>
           </ul>
-          <p>This keeps output consistent across multiple generations and makes downstream processing more predictable.</p>
 
           <h2 id="the-prompt">The template prompt</h2>
-          <p>A practical example that turns data into question–answer flashcards:</p>
-
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>I am going to give you a template for an output. Capitalized words are my placeholders.
-Fill in my placeholders with your output. Preserve the overall formatting of my template.
-
-My template is
-
-Question word in Italic followed by : and placeholder QUESTION, write the letters capitalized.
-
-Answer word in Italic followed by : and placeholder ANSWER
-
-I will give you the data to format in the next prompt. Create twenty questions using my template.
-Wait for me to give you the data.</pre></div>
+          <p>A practical example that turns facts into question–answer flashcards:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>I am going to give you a template for an output. Capitalized words are my placeholders. Fill in my placeholders with your output. Preserve the overall formatting of my template.<br><br>My template is<br><br>Question word in Italic followed by : and placeholder QUESTION, write the letters capitalized.<br><br>Answer word in Italic followed by : and placeholder ANSWER<br><br>I will give you the data to format in the next prompt. Create twenty questions using my template. Wait for me to give you the data.</div>
+            <div class="bubble model"><span class="who">Model</span>Understood. Send me the data, and I'll turn it into questions and answers using your template.</div>
+          </div>
 
           <h3 id="what-it-sets">What this prompt establishes</h3>
           <ul>
@@ -75,16 +66,17 @@ Wait for me to give you the data.</pre></div>
           </ul>
 
           <h2 id="before-after">Before and after</h2>
-          <p>The same facts, answered without a template and then following the template above:</p>
+          <p>The same facts, sent to a model without the template and to the model above:</p>
           <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Photosynthesis is the process by which plants convert light energy into chemical energy. The telephone was invented by Alexander Graham Bell in 1876.</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · no template</span>Photosynthesis is the process by which plants convert light energy into chemical energy. The telephone was invented by Alexander Graham Bell in 1876.</div>
-              <div class="bubble model"><span class="who">After · with template</span><em>Question:</em> WHAT IS PHOTOSYNTHESIS?<br><br><em>Answer:</em> The process by which plants convert light energy into chemical energy<br><br><em>Question:</em> WHO INVENTED THE TELEPHONE?<br><br><em>Answer:</em> Alexander Graham Bell invented the telephone in 1876</div>
+              <div class="bubble before"><span class="who">Before · no template · Model</span>Those are two interesting facts! Photosynthesis is how plants turn sunlight into energy, and Alexander Graham Bell patented the telephone in 1876. Would you like to know more about either one?<p class="note">Without a template, the model just chats about the facts instead of formatting them.</p></div>
+              <div class="bubble model"><span class="who">After · with template · Model</span><em>Question:</em> WHAT IS PHOTOSYNTHESIS?<br><br><em>Answer:</em> The process by which plants convert light energy into chemical energy<br><br><em>Question:</em> WHO INVENTED THE TELEPHONE?<br><br><em>Answer:</em> Alexander Graham Bell invented the telephone in 1876<p class="note">Every card follows the template: italic labels, a capitalized question, and the answer below it.</p></div>
             </div>
           </div>
 
           <h2 id="use-cases">Use cases</h2>
-          <p>The Template pattern excels in scenarios requiring consistent formatting:</p>
+          <p>The <em>output template</em> pattern works best wherever the format has to be the same every time:</p>
           <ul>
             <li><strong>Structured data generation</strong> 📊 — Generate CSV, JSON, or XML-like formats.</li>
             <li><strong>Educational content</strong> 📚 — Create flashcards, quizzes, or study materials.</li>
@@ -94,10 +86,10 @@ Wait for me to give you the data.</pre></div>
           </ul>
 
           <h2 id="related-patterns">Related patterns</h2>
-          <p>The Template pattern combines well with other prompting strategies:</p>
+          <p>The <em>output template</em> pattern combines well with other prompting strategies:</p>
           <ul>
             <li><a class="ext" href="few_shot.html"><strong>Few-Shot</strong></a> — Provide filled template examples to guide the model.</li>
-            <li><a class="ext" href="persona_pattern.html"><strong>Persona</strong></a> — Apply templates to persona-specific outputs.</li>
+            <li><a class="ext" href="persona.html"><strong>Persona</strong></a> — Apply templates to persona-specific outputs.</li>
             <li><a class="ext" href="chain_of_thought.html"><strong>Chain-of-Thought</strong></a> — Template the reasoning steps before the final answer.</li>
           </ul>
 
@@ -110,14 +102,14 @@ Wait for me to give you the data.</pre></div>
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="meta_language_prompt_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Meta language creation</span></a>
+          <a class="card" href="meta_language.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Meta language creation</span></a>
         </nav>
       </article>
 
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#overview">Overview</a></li>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#the-prompt">The template prompt</a></li>
           <li class="sub"><a href="#what-it-sets">What it establishes</a></li>
           <li><a href="#before-after">Before and after</a></li>

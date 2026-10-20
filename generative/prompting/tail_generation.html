@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tail Generation Pattern · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Tail Generation Pattern · Fully Prompted</title>
   <meta name="description" content="Append a structured tail to each response to preserve objectives and rules across turns.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,7 +38,7 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🧵 <span class="gradient-text">Tail Generation Pattern</span></h1>
-          <p class="lead">A Large Language Model (LLM) loses track of the conversation's goal as the conversation grows. The instructions you gave at the start get buried under newer messages, so later replies drift: rules get dropped and the model stops asking for what comes next. The Tail Generation Pattern fixes this by ending every reply with a short “tail” that restates the goal, the rules, and the next step, so they are always among the most recent messages.</p>
+          <p class="lead">A Large Language Model (LLM) loses track of the conversation's goal as the conversation grows. The instructions you gave at the start get buried under newer messages, so later replies drift: rules get dropped and the model stops asking for what comes next. The <em>tail generation</em> pattern fixes this by ending every reply with a short “tail” that restates the goal, the rules, and the next step, so they are always among the most recent messages.</p>
         </header>
 
         <div class="prose" id="article">
@@ -52,7 +53,7 @@
           <p>The user sets up a repeating workflow: for every task, the model suggests a few approaches and writes one prompt per approach.</p>
 
           <h3 id="step-instruction"><span class="rule-num">1</span> The user's instruction</h3>
-          <p>The second paragraph is what installs the tail.</p>
+          <p>The second paragraph, “End every reply with a tail…”, is what installs the tail.</p>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>Whenever I give you a task, restate the task, list three different approaches to it, and write one prompt for each approach. Then ask me for the next task.<br><br>End every reply with a tail that restates the goal of this conversation, the rules above, and what you need from me next.<br><br>Ask me for the first task.</div>
           </div>

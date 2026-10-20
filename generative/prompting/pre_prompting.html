@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pre-Prompting · AI Dev Playground</title>
-  <meta name="description" content="Set the stage with a short, reusable setup that defines role, goals, rules, and output format before the ask.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Pre-Prompting · Fully Prompted</title>
+  <meta name="description" content="Send a short setup message first, so every later answer builds on the same context.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,132 +38,64 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🎬 <span class="gradient-text">Pre-Prompting</span></h1>
-          <p class="lead">Pre-prompting is a short, reusable setup you place before user prompts to define role, goals, rules, and output format. It sets the stage so a Large Language Model (LLM) gives better outputs.</p>
+          <p class="lead">Every new chat starts blank. Without context, a Large Language Model (LLM) guesses what you are working on, so you end up repeating the same details in every question. <em>Pre-prompting</em> fixes this: you send a short setup message first, and every later answer builds on it.</p>
         </header>
 
         <div class="prose" id="article">
           <h2 id="why-it-works">Why it works</h2>
           <ul>
-            <li><strong>It reduces ambiguity.</strong> Role, goals, rules, and format are stated up front, so the model doesn't have to guess them from each user message.</li>
-            <li><strong>It makes responses consistent.</strong> The same setup runs before every prompt, so answers keep the same voice and shape.</li>
-            <li><strong>It keeps answers policy-aligned.</strong> Rules placed in the pre-prompt sit where precedence is highest.</li>
+            <li><strong>Context is set once.</strong> The model reads the setup before every later message, so you never repeat the project, the deadline, or the format.</li>
+            <li><strong>Short questions get specific answers.</strong> A five-word question is enough, because the setup already fills in what the model would otherwise guess.</li>
+            <li><strong>Answers keep the same shape.</strong> Every reply follows the format you asked for, so you can compare them at a glance.</li>
           </ul>
 
-          <h2 id="quick-example">Quick example</h2>
-          <p>A one-line system pre-prompt fixes the answer's shape to three bullets.</p>
-          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>You are a concise project assistant. Always answer in 3 bullets: Summary, Risks, Next steps.</pre></div>
+          <h2 id="the-setup">Send the setup first</h2>
+          <p>Open the conversation with what the model needs to know for the whole session. Here the user is planning a website launch:</p>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>Plan a one-week timeline to ship a landing page.</div>
-            <div class="bubble model"><span class="who">Model · with pre-prompt</span>
-              <ul>
-                <li><strong>Summary:</strong> One-week plan to design, build, and launch a landing page.</li>
-                <li><strong>Risks:</strong> Scope creep; asset delays; mobile perf regressions.</li>
-                <li><strong>Next steps:</strong> Define scope; set milestones; implement; QA; launch; monitor.</li>
-              </ul>
-            </div>
+            <div class="bubble user"><span class="who">User · pre-prompt</span>For the rest of this chat, I'm planning the launch of a landing page for Brightdesk, a standing desk startup. The page goes live on 14 November, and the team is one designer and one developer. Answer every question in three short sections: Summary, Risks, Next steps.</div>
+            <div class="bubble model"><span class="who">Model</span>Got it. Every answer will assume the 14 November launch and a team of two, and will use Summary, Risks and Next steps. What's your first question?</div>
+            <div class="bubble user"><span class="who">User</span>Can we add a product video?</div>
+            <div class="bubble model"><span class="who">Model</span><strong>Summary:</strong> Yes, if you use footage you already have. Shooting a new video would take the designer away from the page for days.<br><strong>Risks:</strong> A large video file slows the page down on phones.<br><strong>Next steps:</strong> Cut a 60-second clip by 7 November and embed it from YouTube or Vimeo instead of hosting it yourself.</div>
+            <div class="bubble user"><span class="who">User</span>Should we translate the page into German?</div>
+            <div class="bubble model"><span class="who">Model</span><strong>Summary:</strong> Not before launch. Translating and checking the page would cost your team of two about three days.<br><strong>Risks:</strong> A rushed translation reads badly to native speakers.<br><strong>Next steps:</strong> Launch in English, then add German the week after with a professional translator.<p class="note">Neither question mentions the date, the team, or the format, yet every answer uses all three.</p></div>
           </div>
 
-          <h2 id="practical-examples">Practical examples</h2>
-
-          <h3 id="example-reviewer"><span class="rule-num">1</span> Engineering assistant with output contract</h3>
-          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>You are a senior code reviewer.
-
-Goals:
-1) Find correctness, security, and performance issues.
-2) Suggest minimal edits only.
-
-Output format:
-- Start with a one-line summary.
-- Then a bulleted list of issues with file paths in backticks.
-- Provide code diffs in fenced blocks with language tags.
-
-If uncertain, state the assumption before proposing an edit.</pre></div>
-
-          <h3 id="example-json"><span class="rule-num">2</span> Lightweight JSON schema for tool usage</h3>
-          <div class="codeblock"><div class="code-head">json<button type="button">Copy</button></div><pre>{
-  "role": "system",
-  "content": "When answering, return valid JSON only matching this schema: { type: object, properties: { summary: string, actions: array of string }, required: [\"summary\", \"actions\"] }. If you cannot comply, return { \"summary\": \"cannot_comply\", \"actions\": [] }."
-}</pre></div>
-
-          <h2 id="patterns">Patterns that work ✅</h2>
-
-          <h3 id="pattern-testable"><span class="rule-num">1</span> Make rules testable</h3>
-          <p>Write constraints that can be checked objectively. This reduces ambiguity and helps the model self-audit.</p>
-          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>1) Limit answers to 120 words.
-2) Include exactly one quote in double quotes.
-3) End with a single action item starting with "Next:".</pre></div>
+          <h2 id="before-after">Before and after</h2>
+          <p>The same question, sent to a model with no setup and to the model above:</p>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Output · compliant</span>"Simplicity is the soul of efficiency." — Austin Freeman<br>Next: Draft a 3-step rollout plan.</div>
-          </div>
-
-          <h3 id="pattern-contract"><span class="rule-num">2</span> Define an output contract</h3>
-          <p>Specify the exact structure (Markdown sections or JSON keys) so downstream systems can parse reliably.</p>
-          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>Respond with three sections: Summary, Risks, Next steps. Use H3 headings only.</pre></div>
-          <div class="codeblock"><div class="code-head">output shape<button type="button">Copy</button></div><pre>### Summary
-...
-### Risks
-...
-### Next steps
-...</pre></div>
-
-          <h3 id="pattern-uncertainty"><span class="rule-num">3</span> Specify uncertainty behavior</h3>
-          <p>Tell the model how to proceed when information is missing: ask one question, state assumptions, or return a placeholder.</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>If key info is missing, ask exactly one clarifying question before answering. If unanswered, proceed with two explicit assumptions.</pre></div>
-
-          <h3 id="pattern-concise"><span class="rule-num">4</span> Keep it concise</h3>
-          <p>Short pre-prompts are easier to follow and less likely to conflict. Prefer 5–12 lines that capture role, goals, rules, and format.</p>
-          <div class="codeblock"><div class="code-head">prompt · concise<button type="button">Copy</button></div><pre>You are a fintech explainer. Use plain language, no jargon. Structure: TL;DR, Details, Action.</pre></div>
-
-          <h3 id="pattern-examples"><span class="rule-num">5</span> Use one or two mini examples</h3>
-          <p>A small in-context example anchors tone and format without overwhelming the model.</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Example input: "Explain APR to teens"
-Example output:
-- TL;DR: APR is the yearly cost of borrowing.
-- Details: ...
-- Action: Compare two cards using APR, not teaser rate.</pre></div>
-
-          <h2 id="pitfalls">Common pitfalls ⚠️</h2>
-
-          <h3 id="pitfall-conflicting">Overlong or conflicting rules</h3>
-          <p>Long lists of mixed policies often contradict each other. Consolidate and prioritize the top rules.</p>
-          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Can we add a product video?</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · anti-pattern</span><code class="inline-block">Be verbose and concise. Provide all details but keep it short.</code></div>
-              <div class="bubble model"><span class="who">After · better</span><code class="inline-block">Be concise. Provide only essential details.</code></div>
+              <div class="bubble before"><span class="who">Before · no pre-prompt · Model</span>Absolutely! Product videos are a great way to boost engagement. Keep it under two minutes, show the product in real use, add captions for viewers watching without sound, and include a clear call to action at the end.<p class="note">The model doesn't know the deadline or the team, so it gives general advice in its own format.</p></div>
+              <div class="bubble model"><span class="who">After · with pre-prompt · Model</span><strong>Summary:</strong> Yes, if you use footage you already have. Shooting a new video would take the designer away from the page for days.<br><strong>Risks:</strong> A large video file slows the page down on phones.<br><strong>Next steps:</strong> Cut a 60-second clip by 7 November and embed it from YouTube or Vimeo instead of hosting it yourself.</div>
             </div>
           </div>
 
-          <h3 id="pitfall-vague">Vague goals</h3>
-          <p>A goal that isn't measurable gives the model nothing to aim at. Replace it with explicit outcomes.</p>
+          <h2 id="code-review">Another example: code review</h2>
+          <p>A pre-prompt is just as useful for technical work, where every answer depends on the same project details:</p>
           <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · vague goal</span><code class="inline-block">Be helpful. Do your best.</code></div>
-              <div class="bubble model"><span class="who">After · better goal</span><code class="inline-block">Produce a 5-point checklist suitable for a non-technical stakeholder.</code></div>
-            </div>
+            <div class="bubble user"><span class="who">User · pre-prompt</span>In this chat, I'll paste Python code from our web service, which runs on Python 3.12. For each snippet, point out bugs first and style second, and keep each answer under 100 words.</div>
+            <div class="bubble model"><span class="who">Model</span>Understood. Paste the first snippet when you're ready.</div>
+            <div class="bubble user"><span class="who">User</span><code class="inline-block">def add_tag(tag, tags=[]):
+    tags.append(tag)
+    return tags</code></div>
+            <div class="bubble model"><span class="who">Model</span><strong>Bug:</strong> the default list is created once and shared by every call, so tags from one request leak into the next. Create a new list inside the function instead:<code class="inline-block">def add_tag(tag: str, tags: list[str] | None = None) -> list[str]:
+    if tags is None:
+        tags = []
+    tags.append(tag)
+    return tags</code><strong>Style:</strong> the type hints above use the <code>list[str] | None</code> syntax that Python 3.10 and later support.</div>
           </div>
 
-          <h3 id="pitfall-hidden">Hidden constraints</h3>
-          <p>Policies buried in user prompts are easy to miss. Put them in the pre-prompt, where precedence is highest.</p>
-          <div class="codeblock"><div class="code-head">system prompt<button type="button">Copy</button></div><pre>Never include PII. If asked, refuse and explain why, then provide anonymized guidance.</pre></div>
-
-          <h3 id="pitfall-fallback">No fallback</h3>
-          <p>Without a default behavior, outputs stall when inputs are incomplete.</p>
-          <div class="codeblock"><div class="code-head">fallback<button type="button">Copy</button></div><pre>If data is missing after one question, state two assumptions and continue.</pre></div>
-
-          <h2 id="checklist">Quick checklist 🧭</h2>
+          <h2 id="pitfalls">Pitfalls 🚫</h2>
           <ul>
-            <li><strong>Role/persona:</strong> Is the voice and expertise defined for this task?</li>
-            <li><strong>Goals:</strong> Are success criteria concrete and testable?</li>
-            <li><strong>Format:</strong> Is there a clear structure (sections or JSON) for downstream use?</li>
-            <li><strong>Safety:</strong> Are refusal rules and escalation paths explicit?</li>
-            <li><strong>Examples:</strong> Is there at least one tiny example that matches real inputs?</li>
+            <li><strong>Rules that contradict each other.</strong> “Explain in detail but keep it short” leaves the model to pick one at random.</li>
+            <li><strong>A setup that's too long.</strong> A few sentences are easier to follow than a page of rules, and less likely to conflict.</li>
+            <li><strong>Changing the setup halfway.</strong> If the project changes, say so clearly or start a new chat, so old details don't mix with new ones.</li>
           </ul>
-          <div class="callout"><p>✨ Well-crafted pre-prompts turn sporadic success into repeatable performance: a small up-front effort for big downstream gains.</p></div>
 
           <h2 id="related">Related patterns 🔗</h2>
           <ul>
-            <li><a class="ext" href="root_prompting.html">Root prompting</a>: system-level rules that act as guardrails.</li>
-            <li><a class="ext" href="persona_pattern.html">Persona pattern</a>: define the role and voice in more depth.</li>
+            <li><a class="ext" href="root.html">Root prompting</a>: system-level rules that act as guardrails.</li>
+            <li><a class="ext" href="persona.html">Persona pattern</a>: define the role and voice in more depth.</li>
             <li><a class="ext" href="question_refinement.html">Question refinement</a>: improve questions via pre-prompting.</li>
           </ul>
         </div>
@@ -177,22 +110,10 @@ Example output:
         <h4>On this page</h4>
         <ol>
           <li><a href="#why-it-works">Why it works</a></li>
-          <li><a href="#quick-example">Quick example</a></li>
-          <li><a href="#practical-examples">Practical examples</a></li>
-          <li class="sub"><a href="#example-reviewer">Code reviewer</a></li>
-          <li class="sub"><a href="#example-json">JSON schema</a></li>
-          <li><a href="#patterns">Patterns that work</a></li>
-          <li class="sub"><a href="#pattern-testable">Testable rules</a></li>
-          <li class="sub"><a href="#pattern-contract">Output contract</a></li>
-          <li class="sub"><a href="#pattern-uncertainty">Uncertainty behavior</a></li>
-          <li class="sub"><a href="#pattern-concise">Keep it concise</a></li>
-          <li class="sub"><a href="#pattern-examples">Mini examples</a></li>
-          <li><a href="#pitfalls">Common pitfalls</a></li>
-          <li class="sub"><a href="#pitfall-conflicting">Conflicting rules</a></li>
-          <li class="sub"><a href="#pitfall-vague">Vague goals</a></li>
-          <li class="sub"><a href="#pitfall-hidden">Hidden constraints</a></li>
-          <li class="sub"><a href="#pitfall-fallback">No fallback</a></li>
-          <li><a href="#checklist">Quick checklist</a></li>
+          <li><a href="#the-setup">Send the setup first</a></li>
+          <li><a href="#before-after">Before and after</a></li>
+          <li><a href="#code-review">Code review example</a></li>
+          <li><a href="#pitfalls">Pitfalls</a></li>
           <li><a href="#related">Related patterns</a></li>
         </ol>
       </aside>

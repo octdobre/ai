@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fact Check List Pattern · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Fact Check List Pattern · Fully Prompted</title>
   <meta name="description" content="Force the model to enumerate atomic claims for downstream verification to reduce hallucinations.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,7 +38,7 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🕵️ <span class="gradient-text">Fact Check List Pattern</span></h1>
-          <p class="lead">The fact check list pattern makes a Large Language Model (LLM) list the discrete facts its answer relies on. Once those atomic claims are explicit, a human or a second checker can verify them and catch hallucinations early.</p>
+          <p class="lead">The <em>fact check list</em> pattern makes a Large Language Model (LLM) list the discrete facts its answer relies on. Once those atomic claims are explicit, a human or a second checker can verify them and catch hallucinations early.</p>
         </header>
 
         <div class="prose" id="article">
@@ -95,8 +96,8 @@
               <strong>3. Supported.</strong> It is about 330 meters tall, including the antennas at the top.<br>
               <strong>4. Not Supported.</strong> The Chrysler Building in New York passed it in 1930, a year before the Empire State Building opened.</div>
           </div>
-          <p>Fix the answer with the corrected fact, then run the check again until every fact is Supported.</p>
-          <div class="callout"><p>🔐 A checker model can be wrong too. For anything that matters, confirm the Not Supported facts against a primary source, such as official documentation or a reference work.</p></div>
+          <p>Fix the answer with the corrected fact, then run the check again until every fact is “Supported”.</p>
+          <div class="callout"><p>🔐 A checker model can be wrong too. For anything that matters, confirm the “Not Supported” facts against a primary source, such as official documentation or a reference work.</p></div>
 
           <h2 id="example-technical">Another example: a technical answer 💻</h2>
           <p>The pattern is especially useful for version numbers and dates, which models often mix up.</p>
@@ -125,7 +126,7 @@
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="tail_generation_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Tail generation pattern</span></a>
+          <a class="card" href="tail_generation.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Tail generation pattern</span></a>
         </nav>
       </article>
 

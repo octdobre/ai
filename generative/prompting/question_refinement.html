@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Question Refinement · AI Dev Playground</title>
-  <meta name="description" content="Use a reusable pre-prompt that asks the model to suggest a better version of each question before answering.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Question Refinement · Fully Prompted</title>
+  <meta name="description" content="Have the model suggest a sharper version of each question before it answers.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,64 +38,54 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🔍 <span class="gradient-text">Question Refinement</span></h1>
-          <p class="lead">Question refinement uses <a class="ext" href="pre_prompting.html">pre-prompting</a>: a brief, reusable directive that runs before any conversation and asks a Large Language Model (LLM) to clarify or improve each user input. It turns vague queries into precise questions that yield higher-quality answers.</p>
+          <p class="lead">Most questions are vaguer than they feel. A Large Language Model (LLM) answers what you typed, not what you meant, so a loose question gets a generic answer. <em>Question refinement</em> asks the model to suggest a sharper version of each question first, so you can switch to the better one before it answers.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="why-it-matters">Why it matters</h2>
+          <h2 id="why-it-works">Why it works</h2>
           <ul>
-            <li><strong>Higher answer quality.</strong> Specific, well-scoped questions reduce ambiguity and error.</li>
-            <li><strong>Faster resolution.</strong> Fewer back-and-forth turns to reach the real need.</li>
-            <li><strong>Better user trust.</strong> The model demonstrates listening and intent alignment.</li>
-            <li><strong>Reusability.</strong> The same pre-prompt works across many domains with minimal tuning.</li>
+            <li><strong>The model knows which details matter.</strong> It has seen countless similar questions, so it knows what changes the answer: the platform, the size, the deadline.</li>
+            <li><strong>You stay in control.</strong> The model asks before switching, so you can accept the new question, adjust it, or keep your own.</li>
+            <li><strong>You learn to ask better.</strong> After a few rounds, you start including those details yourself.</li>
           </ul>
 
-          <h2 id="the-prompt">The prompt 🔧</h2>
-          <p>Paste this once at the start of a conversation, or put it in the system prompt:</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Whenever i ask a question, suggest a better question and ask me if i would like to use it instead.</pre></div>
+          <h2 id="the-prompt">Ask for a better question</h2>
+          <p>Send the instruction once at the start of the chat, as a <a class="ext" href="pre_prompting.html">pre-prompt</a>. From then on, every question gets a sharper version first:</p>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>Make my site faster</div>
-            <div class="bubble model"><span class="who">Model · with pre-prompt</span>A better question might be: “Which pages have slow Largest Contentful Paint (LCP), and can we prioritize image optimization for those pages first?” Would you like to use it instead?</div>
+            <div class="bubble user"><span class="who">User · pre-prompt</span>Whenever I ask a question, suggest a better version of it and ask whether I want to use it instead.</div>
+            <div class="bubble model"><span class="who">Model</span>Will do. What's your first question?</div>
+            <div class="bubble user"><span class="who">User</span>How do I make my website faster?</div>
+            <div class="bubble model"><span class="who">Model</span>A better question might be: <em>“Which part of my homepage loads slowest on phones, and what single fix would help most?”</em> Would you like to use it? If you tell me what the site is built with, I can be more specific.</div>
+            <div class="bubble user"><span class="who">User</span>Yes. It's a WordPress blog with lots of photos.</div>
+            <div class="bubble model"><span class="who">Model</span>On a photo-heavy WordPress blog, the slowest part on phones is almost always the first large photo. Run your homepage through PageSpeed Insights and check which element it names under Largest Contentful Paint. The single fix that helps most is converting your photos to WebP: WordPress already creates smaller copies of each image for phones, and a plugin such as EWWW Image Optimizer can do the conversion for you.<p class="note">The refined question asked for one fix, and the user's reply added the platform, so the answer is short and specific.</p></div>
           </div>
 
           <h2 id="before-after">Before and after</h2>
-          <p>Each example pairs an original ask with the refined question the model could suggest.</p>
-
-          <h3 id="example-site"><span class="rule-num">1</span> Make my site faster</h3>
+          <p>The same first question, answered directly and answered after refinement:</p>
           <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>How do I make my website faster?</div>
             <div class="compare">
-              <div class="bubble before"><span class="who">Before · original ask</span>Make my site faster</div>
-              <div class="bubble model"><span class="who">After · refined question</span>Which pages have slow Largest Contentful Paint (LCP), and can we prioritize image optimization for those pages first?</div>
+              <div class="bubble before"><span class="who">Before · no refinement · Model</span>There are many ways to speed up a website: optimize images, enable caching, minify CSS and JavaScript, use a content delivery network, reduce HTTP requests, upgrade your hosting, and lazy-load content below the fold.<p class="note">The model lists every common fix, with no way to know which one matters for this site.</p></div>
+              <div class="bubble model"><span class="who">After · with refinement · Model</span>On a photo-heavy WordPress blog, the slowest part on phones is almost always the first large photo. Run your homepage through PageSpeed Insights and check which element it names under Largest Contentful Paint. The single fix that helps most is converting your photos to WebP.</div>
             </div>
           </div>
-          <p>Targets a web performance metric and concrete action.</p>
 
-          <h3 id="example-data"><span class="rule-num">2</span> Help with data</h3>
+          <h2 id="learning">Another example: a health question</h2>
+          <p>Refinement works just as well when you are trying to learn something. A broad question becomes one that has a clear answer:</p>
           <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · original ask</span>Help with data</div>
-              <div class="bubble model"><span class="who">After · refined question</span>Should we use a star schema or snowflake schema for a 10 TB analytics warehouse with hourly batch updates and 50 concurrent BI users?</div>
-            </div>
+            <div class="bubble user"><span class="who">User</span>Is coffee bad for you?</div>
+            <div class="bubble model"><span class="who">Model</span>A better question might be: <em>“How much coffee a day is safe for a healthy adult, and who should drink less?”</em> Would you like to use it?</div>
+            <div class="bubble user"><span class="who">User</span>Yes.</div>
+            <div class="bubble model"><span class="who">Model</span>For most healthy adults, up to about 400 mg of caffeine a day, roughly four cups of brewed coffee, is not linked to harmful effects, according to both the US Food and Drug Administration and the European Food Safety Authority. Pregnant women are advised to stay under 200 mg a day, and people with heart rhythm problems or anxiety may need to drink less because they react more strongly to caffeine.</div>
           </div>
-          <p>Adds scale, workload, and decision framing.</p>
-
-          <h3 id="example-email"><span class="rule-num">3</span> Write an email</h3>
-          <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · original ask</span>Write an email</div>
-              <div class="bubble model"><span class="who">After · refined question</span>Draft a 150-word, friendly reminder email to ACME’s CFO, due Friday, summarizing Q3 budget variances and requesting a 30-minute call next week.</div>
-            </div>
-          </div>
-          <p>Specifies length, tone, recipient, content, and timeline.</p>
 
           <h2 id="faq">FAQ</h2>
 
           <h3 id="faq-cot">Is this the same as chain-of-thought (CoT)?</h3>
-          <p>No. <a class="ext" href="chain_of_thought.html">Chain-of-thought</a> reveals intermediate reasoning steps. Question refinement focuses on clarifying <em>what</em> to answer before answering. They can be combined but serve different goals.</p>
+          <p>No. <a class="ext" href="chain_of_thought.html">Chain-of-thought</a> reveals intermediate reasoning steps. <em>Question refinement</em> focuses on clarifying <em>what</em> to answer before answering. They can be combined but serve different goals.</p>
 
-          <h3 id="faq-skip">When should I skip refinement?</h3>
-          <p>When the user is clearly specifying a deterministic action, such as “convert this JSON to CSV”.</p>
-          <div class="callout"><p>⚠️ Over-refinement becomes friction.</p></div>
+          <h3 id="when-to-skip">When should I skip refinement?</h3>
+          <p>Turn refinement off for exact instructions, such as “convert this JSON to CSV”. There is nothing to sharpen, so the extra step only slows you down.</p>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
@@ -111,15 +102,13 @@
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#why-it-matters">Why it matters</a></li>
-          <li><a href="#the-prompt">The prompt</a></li>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#the-prompt">Ask for a better question</a></li>
           <li><a href="#before-after">Before and after</a></li>
-          <li class="sub"><a href="#example-site">Site speed</a></li>
-          <li class="sub"><a href="#example-data">Data</a></li>
-          <li class="sub"><a href="#example-email">Email</a></li>
+          <li><a href="#learning">A health question</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li class="sub"><a href="#faq-cot">Chain-of-thought?</a></li>
-          <li class="sub"><a href="#faq-skip">When to skip</a></li>
+          <li class="sub"><a href="#when-to-skip">When to skip</a></li>
           <li><a href="#further-reading">Further reading</a></li>
         </ol>
       </aside>

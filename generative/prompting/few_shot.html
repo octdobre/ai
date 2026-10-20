@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Few-Shot Prompting · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Few-Shot Prompting · Fully Prompted</title>
   <meta name="description" content="Teach the model a format and decision pattern with short exemplars.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,114 +38,55 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🎯 <span class="gradient-text">Few-Shot Prompting</span></h1>
-          <p class="lead">Few-shot prompting gives a Large Language Model (LLM) a small set of labeled examples directly inside the prompt. By pairing inputs with the outputs you expect, you teach the model a pattern to imitate (format, tone, constraints, and decision criteria) without retraining. In effect, the prompt itself becomes a compact specification and tutorial. ✍️</p>
+          <p class="lead">Instructions alone often leave a Large Language Model (LLM) guessing at the exact format or judgment you want. <em>Few-shot</em> prompting puts a small set of example inputs and outputs directly in the prompt, and the model copies the pattern: format, tone, constraints and decision rules, without any retraining. ✍️</p>
         </header>
 
         <div class="prose" id="article">
           <h2 id="why-it-works">Why it works 🧠</h2>
           <ul>
             <li><strong>Pattern induction.</strong> The model learns the structure and constraints from your examples and mimics them in its response.</li>
-            <li><strong>Format control.</strong> You specify exact output shapes (lists, tables, JSON, etc.) by demonstrating them.</li>
-          </ul>
-
-          <h2 id="when-to-use">When to use ✅</h2>
-          <ul>
-            <li><strong>Ambiguous tasks</strong> where instructions alone are under-specified.</li>
-            <li><strong>Domain- or style-sensitive outputs</strong> (e.g., legal tone, editorial voice, code style).</li>
+            <li><strong>Format control.</strong> You set the exact output shape (a label, a list, a table, JSON) by showing it instead of describing it.</li>
+            <li><strong>Judgment by example.</strong> Borderline cases in your examples, like a mixed review labelled neutral, teach the decision rule better than a definition does.</li>
           </ul>
 
           <h2 id="how-to-write">How to write effective few-shot prompts ✍️</h2>
           <ul>
-            <li>Pick 2–5 clean, representative examples (include one edge case).</li>
-            <li>Use explicit, consistent labels (for example, <code>input:</code>) and a fixed output schema.</li>
+            <li>Pick 2–5 clean, representative examples, including one edge case.</li>
+            <li>Use explicit, consistent labels (for example, <code>input:</code>) and a fixed output format.</li>
           </ul>
 
           <h2 id="worked-examples">Worked examples 🧪</h2>
           <p>Each prompt below has the same shape: an instruction with a fixed response format, a few <code>example</code> input/output pairs, and a <code>test</code> input for the model to answer.</p>
 
           <h3 id="example-sentiment"><span class="rule-num">1</span> Sentiment classification</h3>
-          <div class="codeblock"><div class="code-head">few-shot prompt<button type="button">Copy</button></div><pre>You are a sentiment classifier. Classify each input as one of: positive, negative, neutral.
-Respond using exactly the format: "sentiment: &lt;label&gt;".
-
-example
-input:  The movie was good but a bit too long
-sentiment: neutral
-
-input: I didnt like this book, it lacked details
-sentiment: negative
-
-input: i loved this book, it was really helpfull
-sentiment: positive
-
-test
-
-input: i dont know what to think about this restaurant, the service was slow but the dishes were good.
-what is the sentiment ?</pre></div>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Test input</span>i dont know what to think about this restaurant, the service was slow but the dishes were good.</div>
-            <div class="bubble model"><span class="who">Expected shape</span>sentiment: neutral</div>
+            <div class="bubble user"><span class="who">User</span>You are a sentiment classifier. Classify each input as one of: positive, negative, neutral.<br>Respond using exactly the format: "sentiment: &lt;label&gt;".<br><br>example<br>input: The movie was good but a bit too long<br>sentiment: neutral<br><br>input: I didnt like this book, it lacked details<br>sentiment: negative<br><br>input: i loved this book, it was really helpfull<br>sentiment: positive<br><br>test<br><br>input: i dont know what to think about this restaurant, the service was slow but the dishes were good.<br>what is the sentiment ?</div>
+            <div class="bubble model"><span class="who">Model</span>sentiment: neutral<p class="note">The reply copies the format of the examples exactly, and treats the mixed review the way the first example did.</p></div>
+          </div>
+
+          <h4 id="sentiment-before-after">Before and after</h4>
+          <p>The same review, sent on its own and inside the few-shot prompt above:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>What is the sentiment of this review? i dont know what to think about this restaurant, the service was slow but the dishes were good.</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no examples · Model</span>The sentiment of this review is mixed. The customer was unhappy with the slow service but enjoyed the food, so overall it's somewhere between positive and negative.<p class="note">Without examples, the model invents its own label (“mixed”) and answers in prose instead of the required format.</p></div>
+              <div class="bubble model"><span class="who">After · with examples · Model</span>sentiment: neutral</div>
+            </div>
           </div>
 
           <h3 id="example-situation"><span class="rule-num">2</span> Situation classification and suggested action</h3>
-          <p>You can also teach the model to classify a situation and recommend an appropriate action. Provide a few input/output pairs where the output includes both a situation label and a concise next step. Keep labels constrained and actions specific.</p>
-          <div class="codeblock"><div class="code-head">few-shot prompt<button type="button">Copy</button></div><pre>You are a driving safety assistant. Classify each situation as one of: dangerous, caution, normal.
-Then propose a single next action. Respond exactly as:
-"situation: &lt;label&gt;\naction: &lt;short imperative sentence&gt;".
-
-example
-input: Heavy rain reduces visibility; wipers struggling; highway speed is 65 mph.
-situation: dangerous
-action: Slow down, increase following distance, and exit safely if visibility worsens.
-
-input: Tire pressure warning light just turned on; car handles normally; gas station nearby.
-situation: caution
-action: Stop at the station and inflate tires to the recommended PSI now.
-
-input: Clear weather, light traffic, driver alert, speed within the posted limit.
-situation: normal
-action: Maintain speed and lane; continue scanning mirrors and the road ahead.
-
-test
-
-input: The car ahead brakes suddenly on a city street; you are two car lengths behind at 35 mph.
-What is the situation and what should we do next?</pre></div>
+          <p>The model can also learn to classify a situation and recommend one next step. Keep the labels limited and the actions specific.</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>You are a driving safety assistant. Classify each situation as one of: dangerous, caution, normal.<br>Then propose a single next action. Respond exactly as:<br>"situation: &lt;label&gt;\naction: &lt;short imperative sentence&gt;".<br><br>example<br>input: Heavy rain reduces visibility; wipers struggling; highway speed is 65 mph.<br>situation: dangerous<br>action: Slow down, increase following distance, and exit safely if visibility worsens.<br><br>input: Tire pressure warning light just turned on; car handles normally; gas station nearby.<br>situation: caution<br>action: Stop at the station and inflate tires to the recommended PSI now.<br><br>input: Clear weather, light traffic, driver alert, speed within the posted limit.<br>situation: normal<br>action: Maintain speed and lane; continue scanning mirrors and the road ahead.<br><br>test<br><br>input: The car ahead brakes suddenly on a city street; you are two car lengths behind at 35 mph.<br>What is the situation and what should we do next?</div>
+            <div class="bubble model"><span class="who">Model</span>situation: dangerous<br>action: Brake firmly now, and leave a larger gap once traffic moves again.</div>
+          </div>
 
           <h3 id="example-decomposition"><span class="rule-num">3</span> Action decomposition to desired outcome</h3>
-          <p>Teach the model to break a goal into clear intermediate steps and end with a concise outcome. Provide a few pairs that demonstrate the exact structure you want.</p>
-          <div class="codeblock"><div class="code-head">few-shot prompt<button type="button">Copy</button></div><pre>You are a travel planning assistant. For a given travel goal, produce a minimal, ordered list of steps.
-Include any necessary pre-checks (for example, passports/visas) and a final verification step. Respond exactly as:
-"steps:
-1. &lt;step one&gt;
-2. &lt;step two&gt;
-...
-result: &lt;one-sentence outcome&gt;"
-
-example
-input: Plan a 5-day budget trip to Tokyo in May under $2,500 including flights and lodging.
-steps:
-1. Verify passport validity (6+ months) and Japan entry requirements.
-2. Compare round-trip flights from preferred airports; choose &lt;=1 stop and good arrival times.
-3. Reserve lodging near rail transit (JR lines) with free cancellation.
-4. Outline a balanced daily itinerary (Shibuya/Shinjuku, Asakusa/Ueno, day trip option).
-5. Arrange airport transfer and transit cards (Suica/PASMO) for arrival.
-6. Allocate budget across flights, lodging, food, and activities; track in one sheet.
-7. Consolidate confirmations and add calendar holds for key activities.
-result: Flights and lodging booked within $2,500 and a practical 5-day itinerary with transit ready.
-
-input: Book a last-minute weekend road trip to a national park within 4 hours driving, with pet-friendly lodging.
-steps:
-1. Check weather, park alerts, and road conditions for target dates.
-2. List parks within 4 hours; pick the best option based on conditions and interest.
-3. Reserve a pet-friendly hotel or campsite near the park entrance.
-4. Plan the driving route, fuel stops, and park entry timing.
-5. Pack essentials: water, snacks, pet supplies, first aid, and layers.
-6. Download offline maps, trail info, and required permits.
-result: Confirmed pet-friendly lodging and a safe, time-bound route for a two-day park visit.
-
-test
-
-input: Organize a 7-day family vacation to Barcelona under $4,000 including flights and lodging; ensure passports are valid and reserve timed tickets for Sagrada Família.
-What are the steps and the final result?</pre></div>
+          <p>The model can learn to break a goal into ordered steps and end with a one-sentence outcome.</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>You are a travel planning assistant. For a given travel goal, produce a minimal, ordered list of steps.<br>Include any necessary pre-checks (for example, passports/visas) and a final verification step. Respond exactly as:<br>"steps:<br>1. &lt;step one&gt;<br>2. &lt;step two&gt;<br>...<br>result: &lt;one-sentence outcome&gt;"<br><br>example<br>input: Plan a 5-day budget trip to Tokyo in May under $2,500 including flights and lodging.<br>steps:<br>1. Verify passport validity (6+ months) and Japan entry requirements.<br>2. Compare round-trip flights from preferred airports; choose &lt;=1 stop and good arrival times.<br>3. Reserve lodging near rail transit (JR lines) with free cancellation.<br>4. Outline a balanced daily itinerary (Shibuya/Shinjuku, Asakusa/Ueno, day trip option).<br>5. Arrange airport transfer and transit cards (Suica/PASMO) for arrival.<br>6. Allocate budget across flights, lodging, food, and activities; track in one sheet.<br>7. Consolidate confirmations and add calendar holds for key activities.<br>result: Flights and lodging booked within $2,500 and a practical 5-day itinerary with transit ready.<br><br>input: Book a last-minute weekend road trip to a national park within 4 hours driving, with pet-friendly lodging.<br>steps:<br>1. Check weather, park alerts, and road conditions for target dates.<br>2. List parks within 4 hours; pick the best option based on conditions and interest.<br>3. Reserve a pet-friendly hotel or campsite near the park entrance.<br>4. Plan the driving route, fuel stops, and park entry timing.<br>5. Pack essentials: water, snacks, pet supplies, first aid, and layers.<br>6. Download offline maps, trail info, and required permits.<br>result: Confirmed pet-friendly lodging and a safe, time-bound route for a two-day park visit.<br><br>test<br><br>input: Organize a 7-day family vacation to Barcelona under $4,000 including flights and lodging; ensure passports are valid and reserve timed tickets for Sagrada Família.<br>What are the steps and the final result?</div>
+            <div class="bubble model"><span class="who">Model</span>steps:<br>1. Check that every family member's passport is valid for the whole trip and meets Spain's entry requirements.<br>2. Compare round-trip flights for the family; choose times that suit the children.<br>3. Reserve a family apartment or hotel near a metro line, with free cancellation.<br>4. Book timed tickets for the Sagrada Família on the official website.<br>5. Outline a daily plan that mixes sights, beach time and rest days.<br>6. Split the $4,000 across flights, lodging, food and activities; track it in one sheet.<br>7. Collect all confirmations and add calendar holds for timed entries.<br>result: Flights, lodging and Sagrada Família tickets booked within $4,000, with valid passports and a balanced 7-day plan.</div>
+          </div>
 
           <h2 id="alternatives">Alternatives and complements</h2>
           <ul>
@@ -163,7 +105,7 @@ What are the steps and the final result?</pre></div>
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="template_prompt_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Template pattern</span></a>
+          <a class="card" href="template.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Output template pattern</span></a>
         </nav>
       </article>
 
@@ -171,7 +113,6 @@ What are the steps and the final result?</pre></div>
         <h4>On this page</h4>
         <ol>
           <li><a href="#why-it-works">Why it works</a></li>
-          <li><a href="#when-to-use">When to use</a></li>
           <li><a href="#how-to-write">How to write</a></li>
           <li><a href="#worked-examples">Worked examples</a></li>
           <li class="sub"><a href="#example-sentiment">Sentiment</a></li>

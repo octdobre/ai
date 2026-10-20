@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Flipped Interaction Pattern · AI Dev Playground</title>
-  <meta name="description" content="Let the model ask one-at-a-time questions, then deliver when ready.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Flipped Interaction Pattern · Fully Prompted</title>
+  <meta name="description" content="Let the model interview you, one question at a time, before it answers.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,87 +38,85 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🔁 <span class="gradient-text">Flipped Interaction Pattern</span></h1>
-          <p class="lead">The flipped interaction pattern reverses the usual flow of prompting: instead of the prompter delivering all context up-front, the Large Language Model (LLM) proactively asks clarifying questions. This adaptive questioning helps the LLM collect the right information before synthesizing a final answer or deliverable.</p>
+          <p class="lead">You often don't know which details a good answer needs. Ask a Large Language Model (LLM) for a running plan, and it fills the gaps with guesses about your goal, your fitness and your schedule. <em>Flipped interaction</em> turns the conversation around: the model interviews you, one question at a time, and answers only once it knows enough.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="core-idea">Core idea ❓</h2>
-          <p>You explicitly tell the LLM to become the interviewer:</p>
+          <h2 id="why-it-works">Why it works</h2>
           <ul>
-            <li><strong>Ask targeted questions.</strong> The model asks incremental questions to gather only what it needs.</li>
-            <li><strong>Re-check after each answer.</strong> It evaluates whether it has enough context to produce the deliverable.</li>
-            <li><strong>Stop and deliver.</strong> Once it has enough, it stops asking and presents the result.</li>
+            <li><strong>The model knows what to ask.</strong> It knows which details shape a running plan or a budget, so you don't have to work them out yourself.</li>
+            <li><strong>Short questions are easy to answer.</strong> One question at a time gets quick, specific replies. A long form gets skipped or half-answered.</li>
+            <li><strong>The answer fits you.</strong> Every detail in the result comes from your replies, not from the model's defaults.</li>
           </ul>
 
-          <h2 id="example-prompt">Example prompt 🏃</h2>
-          <p>Use this prompt:</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Ask me questions about my running goal until you have enough information to show me a personalized running training plan.
-When you have enough information, show me the running plan.
-Ask me the first question.</pre></div>
-
-          <h2 id="one-question">Forcing one question at a time ✅</h2>
-          <p>LLMs often try to batch questions. Prevent this by stating both the pacing rule and an explicit starter instruction:</p>
-          <ul>
-            <li><strong>Pacing rule:</strong> “Ask ONE question at a time.”</li>
-            <li><strong>Starter:</strong> “Ask me the first question.”</li>
-          </ul>
-
-          <h3 id="why-starter"><span class="rule-num">1</span> Why “Ask me the first question” matters</h3>
-          <p>The starter line ends the initial interaction cleanly, prompting the LLM to output exactly one question rather than a list. It also ensures the conversation turns into a simple Q&amp;A loop.</p>
+          <h2 id="interview">Let the model interview you</h2>
+          <p>Tell the model what you want at the end, ask it to question you one step at a time, and ask for the first question:</p>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>Ask me questions about my running goal until you have enough information to show me a personalized running training plan.</div>
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · no pacing rule or starter</span>Sure! To build your plan, please tell me:
-                <ul>
-                  <li>What is your goal distance?</li>
-                  <li>How many days a week can you run?</li>
-                  <li>What is your current weekly mileage?</li>
-                </ul>
-              </div>
-              <div class="bubble model"><span class="who">After · with pacing rule and starter</span>What distance or event are you training for?</div>
+            <div class="bubble user"><span class="who">User</span>Ask me questions, one at a time, until you have enough information to write me a personalized running plan. Then show me the plan. Ask me the first question.</div>
+            <div class="bubble model"><span class="who">Model</span>What are you training for, and when is it?</div>
+            <div class="bubble user"><span class="who">User</span>A 10K race in ten weeks.</div>
+            <div class="bubble model"><span class="who">Model</span>How much do you run now, and how long is your longest recent run?</div>
+            <div class="bubble user"><span class="who">User</span>About 15 km a week. My longest run is 6 km.</div>
+            <div class="bubble model"><span class="who">Model</span>How many days a week can you train, and are there days you can't run?</div>
+            <div class="bubble user"><span class="who">User</span>Four days, but never on Wednesdays.</div>
+            <div class="bubble model"><span class="who">Model</span>Any injuries or pain I should plan around?</div>
+            <div class="bubble user"><span class="who">User</span>My left knee hurts when I run downhill.</div>
+            <div class="bubble model"><span class="who">Model</span>Thanks, that's everything I need. Here's your ten-week plan.<br><br><strong>Tuesday:</strong> intervals. Start with 6 × 400 m at a hard pace and build to 5 × 1 km by week 7.<br><strong>Thursday:</strong> an easy 4 to 6 km.<br><strong>Saturday:</strong> an easy 3 to 5 km.<br><strong>Sunday:</strong> a long run that grows from 6 km to 12 km by week 8.<br><br>Your weekly distance starts at about 16 km and builds to around 28 km, never more than 10% a week, and every fourth week is lighter. Choose flat routes and walk any steep descents to protect your knee. In the last ten days, cut your distance by half so you start the race fresh.<p class="note">Every answer changed the plan: the race date sets its length, the current distance sets the starting point, Wednesdays stay free, and the routes avoid downhill running.</p></div>
+          </div>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>The same request, without the interview and with it:</p>
+          <div class="exchange">
+          <div class="compare">
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · before</span>Write me a personalized running plan.</div>
+              <div class="bubble before"><span class="who">Before · no interview · Model</span>Here's a 12-week half marathon plan. Run four days a week: an easy run on Monday, intervals on Wednesday, a tempo run on Friday, and a long run on Sunday that builds from 10 km to 18 km.<p class="note">The model guessed the race, the timeline, the fitness level and the training days, and got all four wrong for this runner.</p></div>
             </div>
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · after</span>Ask me questions, one at a time, until you have enough information to write me a personalized running plan. Then show me the plan. Ask me the first question.</div>
+              <div class="bubble model"><span class="who">After · with interview · Model</span>What are you training for, and when is it?</div>
+            </div>
+          </div>
+          </div>
+
+          <h2 id="one-question">One question at a time</h2>
+          <p>Without “one at a time” and “Ask me the first question”, the model tends to send every question at once:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Ask me questions until you have enough information to write me a personalized running plan.</div>
+            <div class="bubble before"><span class="who">Model</span>Sure! Please tell me: what distance you're training for, your race date, your current weekly distance, your longest recent run, how many days you can train, any injuries, your preferred surfaces, and whether you use a heart rate monitor.<p class="note">Eight questions in one message turn the interview back into a form, and most people answer only the first few.</p></div>
           </div>
 
           <h2 id="blueprint">Prompt blueprint 🧭</h2>
           <p>Use this structure to reliably flip the interaction and control pacing:</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are an expert [role]. Your task is to deliver [deliverable].
-
-Interaction rules:
-- Ask targeted clarification questions to gather only necessary information.
-- Ask ONE question at a time. After each answer, decide whether more information is needed.
-- If you have enough information, stop asking questions and produce [deliverable].
-- Optional: Ask at most [N] total questions.
-
-Begin now. Ask me the first question.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>You are an expert [role]. Your task is to deliver [deliverable].<br><br>Interaction rules:<br>- Ask targeted clarification questions to gather only necessary information.<br>- Ask ONE question at a time. After each answer, decide whether more information is needed.<br>- If you have enough information, stop asking questions and produce [deliverable].<br>- Optional: Ask at most [N] total questions.<br><br>Begin now. Ask me the first question.</div>
+          </div>
 
           <h2 id="template">Putting it all together</h2>
           <p>A concise template that combines the interviewer role, pacing, and starter:</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>You are an expert [role]. Your goal is to deliver [deliverable] that fits my needs and constraints.
-Ask ONE question at a time to collect only the necessary information. After each answer, reevaluate
-whether you can produce the deliverable. If you have enough information, stop asking and present it.
-Optional: Ask at most [N] questions.
-
-Begin by asking me the first question.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>You are an expert [role]. Your goal is to deliver [deliverable] that fits my needs and constraints. Ask ONE question at a time to collect only the necessary information. After each answer, reevaluate whether you can produce the deliverable. If you have enough information, stop asking and present it. Optional: Ask at most [N] questions.<br><br>Begin by asking me the first question.</div>
+          </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
-            <li><a class="ext" href="https://arxiv.org/abs/2210.03350" target="_blank" rel="noopener">Self-Ask Prompting</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2210.03350" target="_blank" rel="noopener">Measuring and Narrowing the Compositionality Gap in Language Models (Self-Ask)</a></li>
           </ul>
         </div>
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="alternative_approaches_prompting_pattern.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Alternative approaches pattern</span></a>
+          <a class="card" href="alternative_approaches.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Alternative approaches pattern</span></a>
         </nav>
       </article>
 
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#core-idea">Core idea</a></li>
-          <li><a href="#example-prompt">Example prompt</a></li>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#interview">Let the model interview you</a></li>
+          <li><a href="#before-after">Before and after</a></li>
           <li><a href="#one-question">One question at a time</a></li>
-          <li class="sub"><a href="#why-starter">Why the starter matters</a></li>
           <li><a href="#blueprint">Prompt blueprint</a></li>
           <li><a href="#template">Putting it all together</a></li>
           <li><a href="#further-reading">Further reading</a></li>

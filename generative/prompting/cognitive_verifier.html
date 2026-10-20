@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cognitive Verifier · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Cognitive Verifier · Fully Prompted</title>
   <meta name="description" content="Break a question into sub-questions, answer each, then synthesize a verified final answer.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,93 +38,84 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🧩 <span class="gradient-text">Cognitive Verifier</span></h1>
-          <p class="lead">The Cognitive Verifier pattern improves answer reliability by explicitly generating sub-questions, answering them independently, and synthesizing a final response from those grounded partial answers. It reduces hallucinations, surfaces missing information early, and creates a transparent reasoning trail you can audit.</p>
+          <p class="lead">Ask a Large Language Model (LLM) a broad question, and it answers right away, filling every gap with assumptions you never see. The <em>cognitive verifier</em> pattern makes the model list the smaller questions it needs answered first, then combine those answers into the final one.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="core-idea">Core idea in one sentence 💡</h2>
-          <p>Break the problem into targeted questions, answer each, then combine the results to form the overall answer, verifying assumptions along the way.</p>
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>Missing information surfaces early.</strong> The sub-questions show what the model doesn't know before it commits to an answer.</li>
+            <li><strong>Each part can be checked.</strong> Small questions have small answers, which are easier to verify than one big conclusion.</li>
+            <li><strong>The final answer shows its reasons.</strong> It is built from the partial answers, so you can see which one led to which part of the result.</li>
+          </ul>
 
           <h2 id="the-prompt">The prompt 🔧</h2>
-          <p>Use this snippet as a drop-in behavior modifier:</p>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When you are asked a question, follow these rules:
-
-Generate a number of additional questions that would help more accurately answer the question.
-
-Combine the answers to the individual questions to produce the final answer to the overall question.</pre></div>
-
-          <h2 id="template">Template you can adapt 📝</h2>
-          <div class="codeblock"><div class="code-head">template<button type="button">Copy</button></div><pre>Task: [the original question]
-
-Step 1 — Sub-questions:
-- Q1: [...]
-- Q2: [...]
-- Q3: [...]
-
-Step 2 — Brief answers:
-- A1: [...]
-- A2: [...]
-- A3: [...]
-
-Step 3 — Synthesis:
-- Final answer: [...]
-- Rationale: A1 + A2 + A3 → [...]
-
-Step 4 — Checks and gaps:
-- Assumptions: [...]
-- Missing info that would change the outcome: [...]</pre></div>
+          <p>Send these rules once. They change how the model handles every question after them:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>When you are asked a question, follow these rules:<br><br>Generate a number of additional questions that would help more accurately answer the question.<br><br>Combine the answers to the individual questions to produce the final answer to the overall question.</div>
+          </div>
 
           <h2 id="example">Example: choosing a laptop 🤖</h2>
-          <p>With the prompt in place, the model first generates sub-questions (operating system, workload types, battery life priority, screen size, ports, and upgradeability), then answers them briefly and synthesizes a conclusion.</p>
 
           <h3 id="example-subquestions"><span class="rule-num">1</span> Generate sub-questions</h3>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>Which laptop should I buy for software development under $1,500?</div>
-            <div class="bubble model"><span class="who">Model · generated sub-questions</span>
+            <div class="bubble model"><span class="who">Model</span>To answer accurately, I need to know a few things:
               <ul>
                 <li>What OS do you prefer or need (Windows, macOS, Linux)?</li>
-                <li>Are you compiling large codebases or running VMs/containers regularly?</li>
+                <li>Are you compiling large codebases or running VMs or containers regularly?</li>
                 <li>Do you prioritize battery life over raw performance?</li>
                 <li>What screen size and resolution do you prefer?</li>
-                <li>Any required ports (HDMI, Ethernet, SD) or upgradeability needs (RAM/SSD)?</li>
+                <li>Do you need particular ports (HDMI, Ethernet, SD) or upgradeable RAM and SSD?</li>
               </ul>
             </div>
           </div>
 
           <h3 id="example-answers"><span class="rule-num">2</span> Answer each one</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User · brief answers (hypothetical)</span>
+            <div class="bubble user"><span class="who">User</span>
               <ul>
-                <li>OS: Prefer Windows or Linux.</li>
-                <li>Workload: Medium projects, some Docker containers; no heavy GPU needs.</li>
-                <li>Battery: Prefer all-day battery over peak performance.</li>
-                <li>Display: 14–15" 1080p+.</li>
-                <li>Ports: USB-C + HDMI; upgradeable RAM ideal.</li>
+                <li>OS: I prefer Windows or Linux.</li>
+                <li>Workload: medium projects and some Docker containers, no heavy GPU work.</li>
+                <li>Battery: all-day battery matters more than peak performance.</li>
+                <li>Display: 14 to 15 inches, at least 1080p.</li>
+                <li>Ports: USB-C and HDMI. Upgradeable RAM would be ideal.</li>
               </ul>
             </div>
           </div>
 
-          <h3 id="example-synthesis"><span class="rule-num">3</span> Synthesize the answer</h3>
+          <h3 id="example-synthesis"><span class="rule-num">3</span> Combine the answers</h3>
           <div class="exchange">
-            <div class="bubble model"><span class="who">Model · final synthesized answer</span>Consider a 14–15" Windows laptop with 16 GB RAM and Ryzen 7 or Intel i7 U-series CPU, such as the Lenovo ThinkPad T14 or ASUS Zenbook 14. They balance battery life and multi-core performance, offer USB-C and HDMI, and often allow RAM/SSD upgrades, meeting your Docker use and budget.</div>
+            <div class="bubble model"><span class="who">Model</span>Look at a 14 to 15 inch Windows laptop with 16 GB of RAM and a Ryzen 7 or Intel Core i7 U-series processor, such as the Lenovo ThinkPad T14 or the ASUS Zenbook 14. Both balance battery life with enough multi-core power for Docker, have USB-C and HDMI, and fit your budget. The ThinkPad is the better pick if upgradeable RAM matters, since many configurations have a free memory slot.<p class="note">Every part of the recommendation traces back to one of the user's answers: the OS, the workload, the battery, the screen and the ports.</p></div>
+          </div>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>The same question, sent without the rules and with them:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Which laptop should I buy for software development under $1,500?</div>
+            <div class="compare">
+              <div class="bubble before"><span class="who">Before · no pattern · Model</span>Get a MacBook Air. It has excellent battery life, a great screen, and handles most development work easily.<p class="note">The model assumed the operating system and the workload, and recommended a Mac to someone who prefers Windows or Linux.</p></div>
+              <div class="bubble model"><span class="who">After · with pattern · Model</span>To answer accurately, I need to know a few things: What OS do you prefer or need? Are you running VMs or containers regularly? Do you prioritize battery life over raw performance?</div>
+            </div>
+          </div>
+
+          <h2 id="template">Template you can adapt 📝</h2>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>Task: [the original question]<br><br>Step 1 — Sub-questions:<br>- Q1: [...]<br>- Q2: [...]<br>- Q3: [...]<br><br>Step 2 — Brief answers:<br>- A1: [...]<br>- A2: [...]<br>- A3: [...]<br><br>Step 3 — Synthesis:<br>- Final answer: [...]<br>- Rationale: A1 + A2 + A3 → [...]<br><br>Step 4 — Checks and gaps:<br>- Assumptions: [...]<br>- Missing info that would change the outcome: [...]</div>
           </div>
 
           <h2 id="tailored-examples">Tailored examples 🎯</h2>
           <p>The same rules adapt to specific tasks by naming the sub-questions to ask and what the combined answer should produce.</p>
 
           <h3 id="example-debug">🐞 Debug a web service</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When you are asked to debug a failing web service, follow these rules:
-
-Generate a number of additional questions about recent deployments, error logs, and upstream or downstream dependencies.
-
-Combine the answers to isolate the failing component and propose a minimal rollback or targeted fix.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>When you are asked to debug a failing web service, follow these rules:<br><br>Generate a number of additional questions about recent deployments, error logs, and upstream or downstream dependencies.<br><br>Combine the answers to isolate the failing component and propose a minimal rollback or targeted fix.</div>
+          </div>
 
           <h3 id="example-datastore">🗄️ Choose a data store</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>When you are asked to select a data storage option, follow these rules:
-
-Generate a number of additional questions about data volume, access patterns, latency needs, and compliance constraints.
-
-Combine the answers to recommend a store (e.g., relational vs. document vs. key-value) with a brief rationale.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>When you are asked to select a data storage option, follow these rules:<br><br>Generate a number of additional questions about data volume, access patterns, latency needs, and compliance constraints.<br><br>Combine the answers to recommend a store (e.g., relational vs. document vs. key-value) with a brief rationale.</div>
+          </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
@@ -133,20 +125,21 @@ Combine the answers to recommend a store (e.g., relational vs. document vs. key-
 
         <nav class="pager" aria-label="Pagination">
           <a class="card" href="../../index.html#prompting"><span class="label">← Back</span><span class="card-title">All prompting patterns</span></a>
-          <a class="card" href="recursive_prompting.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Recursive prompting</span></a>
+          <a class="card" href="recursive.html" style="text-align:right"><span class="label">Next →</span><span class="card-title" style="justify-content:flex-end">Recursive prompting</span></a>
         </nav>
       </article>
 
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#core-idea">Core idea</a></li>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#the-prompt">The prompt</a></li>
-          <li><a href="#template">Template</a></li>
           <li><a href="#example">Example</a></li>
           <li class="sub"><a href="#example-subquestions">Sub-questions</a></li>
           <li class="sub"><a href="#example-answers">Answers</a></li>
-          <li class="sub"><a href="#example-synthesis">Synthesis</a></li>
+          <li class="sub"><a href="#example-synthesis">Combine</a></li>
+          <li><a href="#before-after">Before and after</a></li>
+          <li><a href="#template">Template</a></li>
           <li><a href="#tailored-examples">Tailored examples</a></li>
           <li class="sub"><a href="#example-debug">Debug a web service</a></li>
           <li class="sub"><a href="#example-datastore">Choose a data store</a></li>

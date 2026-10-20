@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How LLMs Predict the Next Word · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>How LLMs Predict the Next Word · Fully Prompted</title>
   <meta name="description" content="How LLMs turn a prompt into a probability distribution over the vocabulary and decode the next token.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,32 +38,39 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>🔤 <span class="gradient-text">How LLMs Predict the Next Word</span></h1>
-          <p class="lead">Large language models (LLMs) predict the next word by estimating a probability distribution over the vocabulary conditioned on the prompt 🧠. The input is tokenized, embedded, and processed by transformer layers with self‑attention, which lets the model focus on the most relevant context.</p>
+          <p class="lead">A Large Language Model (LLM) doesn't look answers up. It predicts the next word, one token at a time, from probabilities it learned during training 🧠. Knowing this explains why the same prompt can give different answers, and why settings like temperature change the result.</p>
         </header>
 
         <div class="prose" id="article">
-          <p>The network outputs <strong>logits</strong> for each token; <strong>softmax</strong> turns these into probabilities 🎯. Decoding then selects the next token using <strong>greedy selection</strong> or sampling methods like <strong>temperature</strong>, <strong>top‑k</strong>, or <strong>nucleus sampling</strong> 🎲. The chosen token is appended and fed back, repeating step by step.</p>
-          <p>Trained on vast corpora, LLMs internalize linguistic patterns, enabling coherent, contextually appropriate continuations 📚.</p>
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>Training builds the probabilities.</strong> Trained on vast amounts of text, the model has learned which words tend to follow which, so its continuations sound natural. 📚</li>
+            <li><strong>The prompt steers them.</strong> Every word you write changes the odds for the next one. Self-attention lets the model focus on the parts of the prompt that matter most.</li>
+            <li><strong>Decoding picks from them.</strong> A setting such as temperature decides whether the model always takes the likeliest word or sometimes a less likely one.</li>
+          </ul>
+
+          <h2 id="how">How the next word is chosen 🎯</h2>
+          <p>The prompt is split into tokens, turned into numbers, and passed through the model's transformer layers. The network outputs a score called a <strong>logit</strong> for every token in its vocabulary, and <strong>softmax</strong> turns those scores into probabilities. Decoding then picks the next token, either the most likely one (<strong>greedy</strong> decoding) or a sample using <strong>temperature</strong>, <strong>top‑k</strong> or <strong>nucleus</strong> sampling. 🎲 The chosen token is added to the text and fed back in, and the process repeats until the answer is complete.</p>
 
           <h2 id="examples">Examples</h2>
           <p>Each example shows a prompt and the continuation the model produces under a different decoding strategy.</p>
 
           <h3 id="example-greedy"><span class="rule-num">1</span> Greedy decoding</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Prompt</span>The capital of France is</div>
-            <div class="bubble model"><span class="who">Completion</span>Paris</div>
+            <div class="bubble user"><span class="who">User · prompt</span>The capital of France is</div>
+            <div class="bubble model"><span class="who">Model · completion</span>Paris<p class="note">Greedy decoding always takes the most likely token, so this prompt gives the same completion every time.</p></div>
           </div>
 
           <h3 id="example-temperature"><span class="rule-num">2</span> Temperature = 1.0 (more diverse)</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Prompt</span>The story begins at midnight and</div>
-            <div class="bubble model"><span class="who">Completion</span>the city exhales; lanterns flicker as footsteps scatter into alleys.</div>
+            <div class="bubble user"><span class="who">User · prompt</span>The story begins at midnight and</div>
+            <div class="bubble model"><span class="who">Model · completion</span>the city exhales; lanterns flicker as footsteps scatter into alleys.<p class="note">At a higher temperature, less likely words get a real chance, so each run can tell a different story.</p></div>
           </div>
 
           <h3 id="example-top-k"><span class="rule-num">3</span> Top‑k / nucleus sampling</h3>
           <div class="exchange">
-            <div class="bubble user"><span class="who">Prompt</span>A recipe for pancakes includes</div>
-            <div class="bubble model"><span class="who">Completion</span>flour, eggs, milk, a pinch of salt, and butter.</div>
+            <div class="bubble user"><span class="who">User · prompt</span>A recipe for pancakes includes</div>
+            <div class="bubble model"><span class="who">Model · completion</span>flour, eggs, milk, a pinch of salt, and butter.<p class="note">Sampling only from the top few candidates keeps the list varied but sensible: no odd ingredients slip in.</p></div>
           </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
@@ -82,6 +90,8 @@
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#how">How the next word is chosen</a></li>
           <li><a href="#examples">Examples</a></li>
           <li class="sub"><a href="#example-greedy">Greedy decoding</a></li>
           <li class="sub"><a href="#example-temperature">Temperature</a></li>

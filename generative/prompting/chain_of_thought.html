@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chain-of-Thought Prompting · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Chain-of-Thought Prompting · Fully Prompted</title>
   <meta name="description" content="Elicit intermediate reasoning steps from an LLM for multi-step reasoning, planning, and decomposition.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,41 +38,55 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>⛓️ <span class="gradient-text">Chain-of-Thought Prompting</span></h1>
-          <p class="lead">Chain-of-thought (CoT) prompting elicits intermediate reasoning steps from a Large Language Model (LLM). Instead of jumping directly to the answer, the model articulates a brief sequence of thoughts, which strengthens its performance on tasks that require multi-step reasoning, planning, or decomposition.</p>
+          <p class="lead">On a problem with several steps, a Large Language Model (LLM) that jumps straight to the answer often gets it wrong, and you can't see why. <em>Chain-of-thought</em> (CoT) prompting asks the model to write out its reasoning step by step first, so each step builds on the last and mistakes show up where they happen.</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="when-to-use">When to use ⛓️</h2>
+          <h2 id="why-it-works">Why it works ⛓️</h2>
           <ul>
-            <li><strong>Multi-step problems.</strong> Clarify math, logic, and word problems that need several steps to solve.</li>
-            <li><strong>Complex instructions.</strong> Decompose them into smaller steps you can verify one by one.</li>
+            <li><strong>Each step builds on a written result.</strong> The model works from what it has already written down, instead of holding the whole problem at once.</li>
+            <li><strong>Mistakes become visible.</strong> A wrong step is easy to spot in a short chain, so you can see where an answer went wrong.</li>
+            <li><strong>Complex instructions break into checkable parts.</strong> Math, logic, and multi-step tasks turn into small steps you can verify one by one.</li>
           </ul>
 
-          <h2 id="example">Example: making an omelette 🍳</h2>
-          <p>The prompt asks for the task <em>and</em> for the reasoning behind it, laid out in steps. The model answers with a short, ordered chain instead of a single block of text.</p>
+          <h2 id="example">Example prompt ⛓️</h2>
+          <p>The prompt asks for the task <em>and</em> for the reasoning behind it in steps. The model answers with a short, ordered chain instead of a single block of text.</p>
           <div class="exchange">
-            <div class="bubble user"><span class="who">User</span>Task: Please describe how to create an omelette. Briefly explain your reasoning behind it in steps.<br>Instruction: Briefly explain your reasoning behind it in steps.</div>
-            <div class="bubble model"><span class="who">Model · step-by-step reasoning</span>
-              <ul>
-                <li><strong>1.</strong> Gather ingredients (eggs, salt, butter) and tools (nonstick pan, whisk, spatula).</li>
-                <li><strong>2.</strong> Whisk eggs with a pinch of salt until uniform; preheat pan on medium-low and melt butter.</li>
-                <li><strong>3.</strong> Pour eggs in; gently stir and push curds, then smooth surface to set a thin layer.</li>
-                <li><strong>4.</strong> Add optional fillings, fold the omelette, cook briefly until just set, and serve.</li>
-              </ul>
+            <div class="bubble user"><span class="who">User</span>Task: Please describe how to create an omellete. Briefly explain your reasoning behind it in steps.<br>Instruction: Briefly explain your reasoning behind it in steps.</div>
+            <div class="bubble model"><span class="who">Model</span>1) Gather ingredients (eggs, salt, butter) and tools (nonstick pan, whisk, spatula).<br>2) Whisk eggs with a pinch of salt until uniform; preheat pan on medium-low and melt butter.<br>3) Pour eggs in; gently stir and push curds, then smooth surface to set a thin layer.<br>4) Add optional fillings, fold the omelette, cook briefly until just set, and serve.</div>
+          </div>
+
+          <h2 id="before-after">Before and after</h2>
+          <p>A classic word problem where the quick answer is wrong:</p>
+          <div class="exchange">
+          <div class="compare">
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · before</span>A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?</div>
+              <div class="bubble before"><span class="who">Before · no chain · Model</span>The ball costs $0.10.<p class="note">The intuitive answer: if the ball cost $0.10, the bat would cost $1.10 and the total would be $1.20.</p></div>
             </div>
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · after</span>A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost? Think step by step, then give the answer.</div>
+              <div class="bubble model"><span class="who">After · with chain · Model</span><strong>1.</strong> Call the ball's price <em>x</em>. The bat costs <em>x</em> + $1.00.<br><strong>2.</strong> Together: <em>x</em> + (<em>x</em> + $1.00) = $1.10, so 2<em>x</em> = $0.10.<br><strong>3.</strong> <em>x</em> = $0.05.<br><strong>Answer:</strong> the ball costs $0.05, and the bat costs $1.05.</div>
+            </div>
+          </div>
           </div>
 
           <h2 id="reusable-prompts">Example prompts you can reuse ⛓️</h2>
 
           <h3 id="prompt-step-by-step"><span class="rule-num">1</span> Think step by step</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Think step by step. Use 2–5 concise, factual steps. Then provide a single "Answer:" line.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>Think step by step. Use 2–5 concise, factual steps. Then provide a single "Answer:" line.</div>
+          </div>
 
           <h3 id="prompt-verification"><span class="rule-num">2</span> Short chain for verification</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Show a short chain of thought for verification. Keep it under 5 lines, then give the answer.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>Show a short chain of thought for verification. Keep it under 5 lines, then give the answer.</div>
+          </div>
 
           <h3 id="prompt-multiple-paths"><span class="rule-num">3</span> Several paths, one checked answer</h3>
-          <div class="codeblock"><div class="code-head">prompt<button type="button">Copy</button></div><pre>Generate three brief reasoning paths and answers; pick the answer that passes a units check.
-Return only the final answer.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>Generate three brief reasoning paths and answers; pick the answer that passes a units check. Return only the final answer.</div>
+          </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
@@ -88,8 +103,9 @@ Return only the final answer.</pre></div>
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#when-to-use">When to use</a></li>
-          <li><a href="#example">Example</a></li>
+          <li><a href="#why-it-works">Why it works</a></li>
+          <li><a href="#example">Example prompt</a></li>
+          <li><a href="#before-after">Before and after</a></li>
           <li><a href="#reusable-prompts">Reusable prompts</a></li>
           <li class="sub"><a href="#prompt-step-by-step">Think step by step</a></li>
           <li class="sub"><a href="#prompt-verification">Verification</a></li>

@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Compressing Input Information · AI Dev Playground</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Compressing Input Information · Fully Prompted</title>
   <meta name="description" content="Compress only the relevant information so large sources fit inside an LLM's input context window.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +14,7 @@
 <body>
   <header class="nav">
     <div class="nav-inner">
-      <a class="brand" href="../../index.html"><span class="brand-mark">🧠</span> AI Dev Playground <span class="byline">– by Octavian Dobre</span></a>
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
         <a href="../../index.html#prompting">Prompting</a>
         <a href="../../index.html#applications">Applications</a>
@@ -37,16 +38,23 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1>✂️ <span class="gradient-text">Compressing Input Information</span></h1>
-          <p class="lead">Large Language Models (LLMs) accept prompts up to a fixed input context window. They can reason over any data placed inside that window, but if the raw data is too large it cannot be included directly. The solution is to compress only the relevant information so it fits, enabling the model to answer questions accurately and efficiently. ✂️🧠</p>
+          <p class="lead">A Large Language Model (LLM) can only read what fits in its input context window. Paste in fifty full articles and most of them won't fit, so the model never sees the facts it needs. <em>Compressing input information</em> means extracting only the relevant sentences, each with an ID, so the important facts fit and the model can still cite where each one came from. ✂️🧠</p>
         </header>
 
         <div class="prose" id="article">
-          <h2 id="scenario">Scenario</h2>
-          <p>You want to ask historical questions using dozens of Wikipedia articles (e.g., World War II, the French Revolution, the Industrial Revolution).</p>
+          <h2 id="why-it-works">Why it works</h2>
+          <ul>
+            <li><strong>Only the relevant facts take up space.</strong> Dates, figures, causes and named actors stay; background and repetition go.</li>
+            <li><strong>Every fact stays traceable.</strong> Each sentence keeps a stable ID such as <code>W3.S112</code>, so the answer can cite exactly where a claim came from.</li>
+            <li><strong>The model can't stray.</strong> When it may use only the compressed sentences, it has nothing else to guess from.</li>
+          </ul>
 
+          <h2 id="scenario">Scenario ✂️</h2>
+          <p>You want to answer history questions from dozens of Wikipedia articles, such as World War II, the French Revolution and the Industrial Revolution.</p>
           <div class="exchange">
-            <div class="compare">
-              <div class="bubble before"><span class="who">Before · full articles</span>A naive prompt tries to paste entire articles. This would exceed most context windows.<code class="inline-block">You are a historian. Answer questions using ONLY the provided sources.
+          <div class="compare">
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · before · full articles</span><code class="inline-block">You are a historian. Answer questions using ONLY the provided sources.
 
 Sources (full articles):
 - [W1] Wikipedia: World War II — full text
@@ -54,90 +62,69 @@ Sources (full articles):
 - [W3] Wikipedia: Industrial Revolution — full text
 - [W4..W50] Additional history articles — full text
 
-Question: How did industrial capacity influence major European conflicts between 1789 and 1945?</code></div>
-              <div class="bubble model"><span class="who">After · compressed</span>Only the most informative sentences, each with a stable ID, go into the prompt.<code class="inline-block">Artifacts:
+Question: How did industrial capacity influence major European conflicts between 1789 and 1945?</code><p class="note">Fifty full articles add up to far more text than most context windows can hold, so this prompt can't be sent.</p></div>
+            </div>
+            <div class="exchange">
+              <div class="bubble user"><span class="who">User · after · compressed</span><code class="inline-block">Artifacts:
 [W3.S112] British iron output exceeded 2.25M tons by mid‑19th century.
 [W1.S487] U.S. aircraft production rose from 6k (1940) to 96k (1944).
 [W2.S233] Price controls (1793) sought to curb wartime inflation in France.
 
 Question: How did industrial capacity influence major European conflicts between 1789 and 1945?</code></div>
+              <div class="bubble model"><span class="who">Model</span>Industrial capacity shaped how long these conflicts could be fought and who could win them. In revolutionary France, the strain of war led to price controls in 1793 to curb inflation [W2.S233]. By the mid-19th century, Britain's iron output had passed 2.25 million tons, the industrial base behind its power [W3.S112]. In the Second World War, US aircraft production rose from about 6,000 in 1940 to 96,000 in 1944, turning factory output directly into military strength [W1.S487].<p class="note">Every claim cites the sentence it came from, although the full articles never entered the prompt.</p></div>
             </div>
           </div>
-
-          <p><strong>Solution:</strong> extract only the most informative sentences from each article (dates, causal claims, quantitative figures, key actors), attribute them to stable IDs (e.g., <code>W1.S17</code>), and include just those in the prompt. The compressed set of sentences fits the input window and still lets the model answer questions about the original content.</p>
+          </div>
 
           <h2 id="workflow">A practical workflow 🚀</h2>
 
           <h3 id="step-scope"><span class="rule-num">1</span> 🔎 Scope and select</h3>
-          <ul>
-            <li><strong>Define the question</strong> (who/what/why/how, timeframe). Keep only relevant sources.</li>
-            <li><strong>Skip</strong> tangential articles to save tokens.</li>
-          </ul>
-          <div class="codeblock"><div class="code-head">prompt example<button type="button">Copy</button></div><pre>System: You are a research assistant. Identify which sources are relevant to the question.
-User: Question: How did industrial capacity affect European conflicts (1789–1945)?
-Sources: [W1..W50]
-Return: IDs of relevant sources only, with 1‑line rationale per source.</pre></div>
+          <p>Define the question, then keep only the sources that matter to it:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>System: You are a research assistant. Identify which sources are relevant to the question.<br>User: Question: How did industrial capacity affect European conflicts (1789–1945)?<br>Sources: [W1..W50]<br>Return: IDs of relevant sources only, with 1‑line rationale per source.</div>
+          </div>
 
           <h3 id="step-extract"><span class="rule-num">2</span> ✂️ Extract key sentences (with citations)</h3>
-          <ul>
-            <li><strong>Pull verbatim sentences</strong> that carry dates, metrics, causes, or named actors.</li>
-            <li><strong>Attach IDs</strong> like <code>W3.S112</code> for traceability.</li>
-          </ul>
-          <div class="codeblock"><div class="code-head">prompt example<button type="button">Copy</button></div><pre>System: Extract only factual sentences from the given sources. No paraphrasing.
-User: Return ≤ 20 sentences that best answer the question. Include source IDs.
-Question: How did industrial capacity influence major European conflicts (1789–1945)?
-Sources: &lt;relevant snippets&gt;
-Format:
-- [W3.S112] &lt;sentence&gt;
-- [W1.S487] &lt;sentence&gt;</pre></div>
+          <p>Pull the sentences that carry dates, figures, causes or named actors, word for word, and attach an ID to each:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>System: Extract only factual sentences from the given sources. No paraphrasing.<br>User: Return ≤ 20 sentences that best answer the question. Include source IDs.<br>Question: How did industrial capacity influence major European conflicts (1789–1945)?<br>Sources: &lt;relevant snippets&gt;<br>Format:<br>- [W3.S112] &lt;sentence&gt;<br>- [W1.S487] &lt;sentence&gt;</div>
+          </div>
 
           <h3 id="step-summarize"><span class="rule-num">3</span> 🧠 Summarize tightly (optional)</h3>
-          <ul>
-            <li><strong>Condense</strong> the extracted sentences into a 50–100 token synthesis.</li>
-            <li><strong>Cite</strong> the supporting IDs at the end.</li>
-          </ul>
-          <div class="codeblock"><div class="code-head">prompt example<button type="button">Copy</button></div><pre>Write a 70‑token synthesis using ONLY these sentences. Append cited IDs.
-[W3.S112] ...
-[W1.S487] ...
-[W2.S233] ...</pre></div>
+          <p>Condense the extracted sentences into a short synthesis, with the supporting IDs at the end:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>Write a 70‑token synthesis using ONLY these sentences. Append cited IDs.<br>[W3.S112] ...<br>[W1.S487] ...<br>[W2.S233] ...</div>
+          </div>
 
           <h3 id="step-assemble"><span class="rule-num">4</span> 📦 Assemble the bounded prompt</h3>
-          <ul>
-            <li><strong>Compose</strong> the final prompt with instructions, the user question, and compressed artifacts.</li>
-            <li><strong>Leave headroom</strong> (10–15%) for the model’s answer. ✅</li>
-          </ul>
-          <div class="codeblock"><div class="code-head">prompt skeleton<button type="button">Copy</button></div><pre>System: You are a precise historian. Use only the artifacts below. Cite IDs.
-User question: &lt;insert&gt;
-Artifacts (≤ 300 tokens):
-[W3.S112] British iron output exceeded 2.25M tons by mid‑19th century.
-[W1.S487] U.S. aircraft production rose from 6k (1940) to 96k (1944).
-[W2.S233] Price controls (1793) sought to curb wartime inflation in France.
-Constraints: If information is missing, say so and stop.</pre></div>
+          <p>Combine the instructions, the question and the compressed sentences, and leave 10–15% of the window free for the answer: ✅</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>System: You are a precise historian. Use only the artifacts below. Cite IDs.<br>User question: &lt;insert&gt;<br>Artifacts (≤ 300 tokens):<br>[W3.S112] British iron output exceeded 2.25M tons by mid‑19th century.<br>[W1.S487] U.S. aircraft production rose from 6k (1940) to 96k (1944).<br>[W2.S233] Price controls (1793) sought to curb wartime inflation in France.<br>Constraints: If information is missing, say so and stop.</div>
+          </div>
 
           <h3 id="step-answer"><span class="rule-num">5</span> ✅ Answer with citations</h3>
-          <ul>
-            <li><strong>Constrain reasoning</strong> to the provided artifacts; <strong>cite</strong> after each claim.</li>
-          </ul>
-          <div class="codeblock"><div class="code-head">prompt example<button type="button">Copy</button></div><pre>System: Answer using only artifacts. After each paragraph, list cited IDs.
-User: How did industrial capacity influence major European conflicts (1789–1945)?</pre></div>
+          <p>Keep the model's reasoning inside the provided sentences, with a citation after each claim:</p>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User</span>System: Answer using only artifacts. After each paragraph, list cited IDs.<br>User: How did industrial capacity influence major European conflicts (1789–1945)?</div>
+          </div>
 
           <h2 id="templates">Prompt templates</h2>
 
           <h3 id="template-extraction"><span class="rule-num">1</span> Faithful extraction (with citations)</h3>
-          <div class="codeblock"><div class="code-head">template<button type="button">Copy</button></div><pre>You are a precise analyst. Extract only facts that appear verbatim in the sources.
-Return JSON with fields: claim, citation_ids[], source_span.
-If uncertain, output an empty array.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>You are a precise analyst. Extract only facts that appear verbatim in the sources.<br>Return JSON with fields: claim, citation_ids[], source_span.<br>If uncertain, output an empty array.</div>
+          </div>
 
           <h3 id="template-synthesis"><span class="rule-num">2</span> Abstractive synthesis (bounded)</h3>
-          <div class="codeblock"><div class="code-head">template<button type="button">Copy</button></div><pre>Write a concise synthesis for the given question using ONLY the provided artifacts.
-Hard limit: 200 tokens. Cite artifact IDs after each paragraph.
-If information is missing, say what is missing and stop.</pre></div>
+          <div class="exchange">
+            <div class="bubble user"><span class="who">User · template</span>Write a concise synthesis for the given question using ONLY the provided artifacts.<br>Hard limit: 200 tokens. Cite artifact IDs after each paragraph.<br>If information is missing, say what is missing and stop.</div>
+          </div>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
             <li><a class="ext" href="https://github.com/openai/tiktoken" target="_blank" rel="noopener">tiktoken</a></li>
             <li><a class="ext" href="https://arxiv.org/abs/2302.11382" target="_blank" rel="noopener">A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT</a></li>
-            <li><a class="ext" href="https://python.langchain.com/docs/use_cases/summarization" target="_blank" rel="noopener">LangChain Summarization</a></li>
+            <li><a class="ext" href="https://developers.openai.com/cookbook/examples/summarizing_long_documents" target="_blank" rel="noopener">OpenAI Cookbook: Summarizing Long Documents</a></li>
             <li><a class="ext" href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a></li>
             <li><a class="ext" href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">OpenAI Prompt engineering</a></li>
           </ul>
@@ -152,6 +139,7 @@ If information is missing, say what is missing and stop.</pre></div>
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
+          <li><a href="#why-it-works">Why it works</a></li>
           <li><a href="#scenario">Scenario</a></li>
           <li><a href="#workflow">A practical workflow</a></li>
           <li class="sub"><a href="#step-scope">Scope and select</a></li>
