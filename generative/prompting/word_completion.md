@@ -1,5 +1,7 @@
 # How LLMs predict the next word
 
+*Created: August 26, 2025*
+
 Large language models (LLMs) predict the next word by estimating a probability distribution over the vocabulary conditioned on the prompt 🧠🔤. The input is tokenized, embedded, and processed by transformer layers with self‑attention, which lets the model focus on the most relevant context.
 
 The network outputs logits for each token; softmax turns these into probabilities 🎯. Decoding then selects the next token using greedy selection or sampling methods like temperature, top‑k, or nucleus sampling 🎲. The chosen token is appended and fed back, repeating step by step. Trained on vast corpora, LLMs internalize linguistic patterns, enabling coherent, contextually appropriate continuations 📚.

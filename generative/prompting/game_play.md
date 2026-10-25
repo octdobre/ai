@@ -1,5 +1,7 @@
 # Game Play Prompting Pattern
 
+*Created: October 13, 2025*
+
 Design interactive sessions where a large language model (LLM) acts as a Game Master (GM),
 guiding a structured game to practice skills, explore ideas, or generate content. The model
 sets or negotiates rules, runs turns, evaluates actions, and produces rich in-world outputs

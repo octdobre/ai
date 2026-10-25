@@ -355,7 +355,7 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
 .prose .bubble ul li { margin: 4px 0; }
 
 .doc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
-.readtime { color: var(--faint); font-size: 13px; }
+.readtime, .created { color: var(--faint); font-size: 13px; }
 
 @media (max-width: 640px) {
   .bubble { max-width: 100%; }

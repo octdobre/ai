@@ -1,5 +1,7 @@
 # Recipe Prompting Pattern
 
+*Created: October 13, 2025*
+
 The Recipe Prompting Pattern guides Large Language Models (LLMs) to complete partial plans by filling
 in missing steps while maintaining your known sequence. This pattern works like giving a chef a recipe
 with some ingredients listed—the AI fills in what's missing to create a complete, actionable plan.

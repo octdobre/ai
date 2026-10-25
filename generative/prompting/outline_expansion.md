@@ -1,5 +1,7 @@
 # Outline Expansion Pattern 🗺️🧱
 
+*Created: October 13, 2025*
+
 The Outline Expansion pattern overcomes model input/output length limits by progressively
 structuring, expanding, and assembling content in controllable chunks. Instead of asking
 for a full large artifact in one shot (risking truncation or generic filler), you iteratively

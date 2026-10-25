@@ -1,5 +1,7 @@
 # Alternative Approaches Pattern
 
+*Created: October 13, 2025*
+
 The Alternative Approaches Pattern instructs a Large Language Model (LLM) to identify and present
 multiple ways to accomplish a given task. Rather than providing a single solution, this pattern
 encourages the LLM to explore different strategies, methodologies, or implementations that could

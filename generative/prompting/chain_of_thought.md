@@ -1,5 +1,7 @@
 # Chain-of-Thought Prompting ⛓️🧠
 
+*Created: September 10, 2025*
+
 Chain-of-thought (CoT) prompting is a pattern that elicits intermediate reasoning steps
 from a large language model (LLM). Instead of jumping directly to the answer, the model
 articulates a brief sequence of thoughts, enabling stronger performance on tasks that

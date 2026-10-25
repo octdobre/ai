@@ -1,5 +1,7 @@
 # Pre‑Prompting: Setting the Stage for Better LLM Outputs
 
+*Created: August 26, 2025*
+
 Pre‑prompting is a short, reusable setup you place before user prompts to define role, goals, rules,
 and output format. It reduces ambiguity and makes responses more consistent and policy‑aligned.
 
@@ -169,5 +171,9 @@ If uncertain, state the assumption before proposing an edit.
 
 Well‑crafted pre‑prompts turn sporadic success into repeatable performance—small up‑front effort,
 big downstream gains.
+
+## Further Reading 🔗
+
+- [Learn Prompting: Prompt Priming, Setting Context for AI](https://learnprompting.org/docs/basics/priming_prompt)
 
 

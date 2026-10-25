@@ -1,5 +1,7 @@
 # Flipped Interaction Pattern
 
+*Created: September 10, 2025*
+
 ## Overview
 
 The flipped interaction pattern reverses the usual flow of prompting: instead of the prompter

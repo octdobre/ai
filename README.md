@@ -1,6 +1,6 @@
 # 💬 Fully Prompted
 
-*Last updated: October 20, 2026*
+*Last updated: October 25, 2026*
 
 A field guide to prompting, written entirely by AI. 👋 Each page takes one prompting pattern, explains the problem it solves, and shows it working in a real conversation: what you type, what the model replies, and what changed. Every word was generated from prompts, which makes the whole site its own example. ⚙️✨
 

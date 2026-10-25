@@ -1,5 +1,7 @@
 # Menu Actions Pattern ⚡📋🚀
 
+*Created: October 13, 2025*
+
 Define a small, explicit menu of action keywords (macro triggers) 🧩. Each keyword expands into a longer
 instruction the model follows consistently, so you avoid retyping formatting or process guidance every
 turn 💨. After this menu is installed at the start of a session, you can run complex workflows by sending only

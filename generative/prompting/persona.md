@@ -1,5 +1,7 @@
 # Persona Pattern for Prompting ✨
 
+*Created: August 26, 2025*
+
 The persona pattern asks the model to “act as” a specific role with a defined voice, expertise, and constraints. By shaping the assistant’s identity and goals, you improve consistency, tone, depth, and structure of outputs.
 
 ## Understanding the core template 🧩

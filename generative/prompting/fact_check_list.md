@@ -1,5 +1,7 @@
 # Fact Check List Pattern 🕵️‍♂️✅
 
+*Created: October 13, 2025*
+
 ## Introduction 🧭
 
 Large language models are probabilistic text generators, so they inevitably make mistakes, confidently

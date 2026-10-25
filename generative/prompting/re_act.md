@@ -1,5 +1,7 @@
 # ReAct Prompting 🏁
 
+*Created: September 10, 2025*
+
 ReAct (Reason + Act) is a prompting pattern that instructs a large language model (LLM) to
 explicitly alternate between short reasoning steps and taking actions with tools that access
 external knowledge (e.g., documents, wiki pages, APIs, search). The model consults sources,

@@ -1,5 +1,7 @@
 # Few-Shot Prompting
 
+*Created: September 10, 2025*
+
 Few-shot prompting is a technique where you provide a large language model (LLM) with a
 small set of labeled examples directly inside your prompt. By pairing inputs with the
 outputs you expect, you teach the model a pattern to imitate—format, tone, constraints,

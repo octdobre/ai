@@ -1,5 +1,7 @@
 # Iterative Prompt Refinement
 
+*Created: August 27, 2025*
+
 Iterative prompt refinement is a practical way to steer a large language model (LLM) toward
 clearer, more accurate, and more useful outputs. By testing, diagnosing, and revising in short
 loops, you convert vague intent into precise instructions the model can follow. 🔁

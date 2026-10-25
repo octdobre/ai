@@ -1,5 +1,7 @@
 # LLM Question Refinement with Pre‑Prompting
 
+*Created: September 10, 2025*
+
 Pre‑prompting equips a large language model (LLM) with instructions that run before any
 conversation. By adding a brief, reusable directive that asks the model to clarify or improve a
 user’s input, you can turn vague queries into precise questions that yield higher‑quality answers.

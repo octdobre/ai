@@ -1,5 +1,7 @@
 # Compressing information to fit inside an LLM input context
 
+*Created: August 27, 2025*
+
 Large Language Models (LLMs) accept prompts up to a fixed input context window. They can
 reason over any data placed inside that window, but if the raw data is too large it cannot be
 included directly. The solution is to compress only the relevant information so it fits, enabling

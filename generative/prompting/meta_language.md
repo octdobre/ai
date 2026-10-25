@@ -1,5 +1,7 @@
 # Meta Language Creation Pattern
 
+*Created: October 13, 2025*
+
 The Meta Language Creation Pattern enables you to teach a language model custom notation, shorthand,
 or symbolic systems instead of natural language. This allows for more efficient communication, reduced
 token usage, and precise control over complex instructions.

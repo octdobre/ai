@@ -1,5 +1,7 @@
 # Ask for Input Pattern 🛎️
 
+*Created: October 13, 2025*
+
 The Ask for Input Pattern instructs a Large Language Model (LLM) to pause before producing a full
 answer and explicitly request missing input, a next task, or clarifying data. Instead of assuming
 intent and replying immediately, the model performs a lightweight handshake: acknowledge scope,

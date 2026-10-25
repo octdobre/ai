@@ -1,5 +1,7 @@
 # Tail Generation Pattern
 
+*Created: October 13, 2025*
+
 ## Purpose
 The Tail Generation Pattern extends each Large Language Model (LLM) response with a concise, structured
 "tail" that reiterates active objectives, governing rules, next required user input, and self-reminders.

@@ -1,5 +1,7 @@
 # Root Prompting
 
+*Created: August 27, 2025*
+
 Root prompting defines system-level instructions that constrain a Large Language Model (LLM)
 so it operates within explicit guardrails. Use it to limit capability ("do X but never Y"),
 enforce safety (refuse Not Safe For Work (NSFW) content), and shape tone (politically

@@ -1,5 +1,7 @@
 # Output Template Pattern
 
+*Created: October 13, 2025*
+
 The Output Template pattern instructs a Large Language Model (LLM) to generate output in a specific,
 predefined format. This pattern provides precise control over structure and presentation by using
 placeholders that the model fills with generated content while preserving the overall formatting.

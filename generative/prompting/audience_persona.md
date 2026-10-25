@@ -1,5 +1,7 @@
 # Audience Persona Pattern 👥
 
+*Created: September 10, 2025*
+
 Design prompts so a Large Language Model (LLM) produces outputs tailored to a clearly defined
 audience. By declaring who the output is for, the model can choose the right depth, tone,
 terminology, structure, and examples—improving usefulness and trust. 🎯

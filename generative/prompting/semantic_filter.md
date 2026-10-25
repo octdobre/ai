@@ -1,5 +1,7 @@
 # Semantic Filter Pattern
 
+*Created: October 13, 2025*
+
 Semantic filtering leverages an LLM’s strength at understanding *meaning* rather than just surface tokens. Instead of brittle regexes, you instruct the model to remove (or mask / rewrite) spans of text that are unnecessary, sensitive, repetitive, stale, or outside scope—while preserving the rest. The result is a cleaner, safer, lower‑token input for downstream tasks.
 
 ## Why It Works 🧠

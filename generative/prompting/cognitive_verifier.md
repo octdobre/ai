@@ -1,5 +1,7 @@
 # Cognitive Verifier Pattern 🧩
 
+*Created: September 10, 2025*
+
 The Cognitive Verifier pattern improves answer reliability by explicitly generating sub‑questions,
 answering them independently, and synthesizing a final response from those grounded partial
 answers. It reduces hallucinations, surfaces missing information early, and creates a transparent

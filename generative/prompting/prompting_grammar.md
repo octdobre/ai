@@ -1,5 +1,7 @@
 # How Grammar Shapes LLM Outputs ✍️🧠
 
+*Created: August 26, 2025*
+
 A prompt's grammar strongly guides what a large language model (LLM) produces. Clear
 subjects, precise actions, and scoped qualifiers reduce ambiguity, leading to more
 reliable and controllable results.
