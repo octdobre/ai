@@ -82,18 +82,21 @@ Question: How did industrial capacity influence major European conflicts between
           <p>Define the question, then keep only the sources that matter to it:</p>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>System: You are a research assistant. Identify which sources are relevant to the question.<br>User: Question: How did industrial capacity affect European conflicts (1789–1945)?<br>Sources: [W1..W50]<br>Return: IDs of relevant sources only, with 1‑line rationale per source.</div>
+            <div class="bubble model"><span class="who">Model</span>W1 (World War II): wartime production of aircraft, tanks and ships.<br>W2 (French Revolution): war economy, price controls and mass conscription from 1793.<br>W3 (Industrial Revolution): growth of British iron, coal and steam power.<br>W7 (Napoleonic Wars): the Continental System and Britain's ability to finance coalitions.<br>W12 (World War I): steel output and the shell crisis of 1915.<p class="note">Five of the fifty articles survive. The other 45, such as the Renaissance and Ancient Rome, are dropped before any extraction starts.</p></div>
           </div>
 
           <h3 id="step-extract"><span class="rule-num">2</span> ✂️ Extract key sentences (with citations)</h3>
           <p>Pull the sentences that carry dates, figures, causes or named actors, word for word, and attach an ID to each:</p>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>System: Extract only factual sentences from the given sources. No paraphrasing.<br>User: Return ≤ 20 sentences that best answer the question. Include source IDs.<br>Question: How did industrial capacity influence major European conflicts (1789–1945)?<br>Sources: &lt;relevant snippets&gt;<br>Format:<br>- [W3.S112] &lt;sentence&gt;<br>- [W1.S487] &lt;sentence&gt;</div>
+            <div class="bubble model"><span class="who">Model</span>- [W2.S233] Price controls (1793) sought to curb wartime inflation in France.<br>- [W7.S118] The Continental System (1806) tried to weaken Britain by closing European ports to British trade.<br>- [W3.S112] British iron output exceeded 2.25M tons by mid‑19th century.<br>- [W12.S205] In 1913 Germany produced about 17.6M tons of steel, more than twice Britain's 7.7M.<br>- [W1.S487] U.S. aircraft production rose from 6k (1940) to 96k (1944).<p class="note">Each article shrinks to one or two sentences, copied word for word and tagged with where they came from.</p></div>
           </div>
 
           <h3 id="step-summarize"><span class="rule-num">3</span> 🧠 Summarize tightly (optional)</h3>
           <p>Condense the extracted sentences into a short synthesis, with the supporting IDs at the end:</p>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>Write a 70‑token synthesis using ONLY these sentences. Append cited IDs.<br>[W3.S112] ...<br>[W1.S487] ...<br>[W2.S233] ...</div>
+            <div class="bubble model"><span class="who">Model</span>Industrial output increasingly decided European wars. Revolutionary France fought inflation with price controls, Britain's iron industry grew past 2.25M tons, and by WWII U.S. factories went from 6k to 96k aircraft a year. [W2.S233, W3.S112, W1.S487]<p class="note">Three sentences become one short paragraph that still names its sources.</p></div>
           </div>
 
           <h3 id="step-assemble"><span class="rule-num">4</span> 📦 Assemble the bounded prompt</h3>
@@ -106,6 +109,7 @@ Question: How did industrial capacity influence major European conflicts between
           <p>Keep the model's reasoning inside the provided sentences, with a citation after each claim:</p>
           <div class="exchange">
             <div class="bubble user"><span class="who">User</span>System: Answer using only artifacts. After each paragraph, list cited IDs.<br>User: How did industrial capacity influence major European conflicts (1789–1945)?</div>
+            <div class="bubble model"><span class="who">Model</span>In the early period, war strained economies more than it drew on industry. France had to impose price controls in 1793 to curb wartime inflation.<br>Cited: W2.S233<br><br>By the mid-19th century, Britain's iron output had passed 2.25 million tons, giving it an industrial base no rival could yet match.<br>Cited: W3.S112<br><br>In the Second World War, production itself became a weapon: US aircraft output rose from about 6,000 in 1940 to 96,000 in 1944.<br>Cited: W1.S487<br><br>The artifacts say nothing about 1850–1939, so I can't describe how industry shaped the wars of that period.<p class="note">Every paragraph ends with its sources, and the model says where the artifacts run out instead of filling the gap from memory.</p></div>
           </div>
 
           <h2 id="templates">Prompt templates</h2>
