@@ -88,10 +88,13 @@
     .tile.linked { position: relative; transition: border-color .18s, transform .18s; }
     .tile.linked:hover { border-color: var(--border-hover); transform: translateY(-2px); }
     .tile.linked .tile-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
-    .tile.linked .chips a, .tile.linked .latest-all { position: relative; z-index: 1; }
+    .tile.linked { display: flex; flex-direction: column; }
+    .tile.linked .chips a, .tile.linked .random-link { position: relative; z-index: 1; }
+    .random-link .link-card { padding: 14px 16px; background: var(--bg-elev); }
+    .random-link .link-card:hover { background: var(--card-hover); }
     .tile-link .arrow, .tile-go .arrow { display: inline-block; color: var(--faint); transition: transform .18s, color .18s; }
     .tile.linked:hover .tile-link .arrow, .tile.linked:hover .tile-go .arrow { color: var(--accent); transform: translateX(3px); }
-    .tile-go { font-size: 14px; color: var(--muted); margin-top: 4px; }
+    .tile-go { font-size: 14px; color: var(--muted); margin-top: auto; padding-top: 4px; }
     .tile.linked:hover .tile-go { color: var(--text); }
     .tile > p { margin: 0; color: var(--muted); font-size: 0.93rem; }
     .tile h4 {
@@ -397,14 +400,15 @@
           </div>
         </article>
 
-        <article class="tile">
+        <article class="tile linked">
           <div class="tile-head">
-            <h3><a href="links/index.html">Links</a></h3>
+            <h3><a class="tile-link" href="links/index.html">Links <span class="arrow">→</span></a></h3>
             <span class="status on" id="link-status"></span>
           </div>
-          <p>Tools, articles, courses and videos worth keeping. Here's a random one:</p>
-          <div id="random-link"></div>
-          <a class="latest-all" href="links/index.html">All links <span class="arrow">→</span></a>
+          <p>Tools, articles, courses and videos worth keeping.</p>
+          <h4>Random pick</h4>
+          <div class="random-link" id="random-link"></div>
+          <span class="tile-go" id="link-go">Browse all links <span class="arrow">→</span></span>
         </article>
       </div>
     </section>
@@ -462,6 +466,7 @@
     // One random link per page load, read from links/links.js
     document.getElementById('random-link').innerHTML = randomLinks(1).map(linkCard).join('');
     document.getElementById('link-status').textContent = `${LINKS.length} links`;
+    document.getElementById('link-go').firstChild.textContent = `Browse all ${LINKS.length} links `;
     document.getElementById('link-count').innerHTML = `<b>${LINKS.length}</b> links`;
 
     // Newest blog post, read from blog/posts.js
