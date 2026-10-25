@@ -1,0 +1,68 @@
+<!doctype html>
+<!-- Template for a new blog post. Copy to blog/<slug>.html, replace every TODO, then add the post to blog/posts.js. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>TODO title · Fully Prompted</title>
+  <meta name="description" content="TODO summary, same as in posts.js">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../index.html#practice">Practice</a>
+        <a href="../index.html#foundations">Foundations</a>
+        <a href="../index.html#library">Library</a>
+        <a href="index.html">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span>/</span>
+      <a href="index.html">Blog</a><span>/</span>
+      <span>TODO title</span>
+    </nav>
+
+    <article>
+      <header class="doc-hero">
+        <div class="doc-meta">
+          <span class="badge"><span class="dot"></span> Blog</span>
+          <span class="created">📅 <time datetime="2026-01-01">TODO Month D, YYYY</time></span>
+          <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+        </div>
+        <h1><span class="gradient-text">TODO title</span></h1>
+        <p class="lead">TODO one-paragraph lead.</p>
+      </header>
+
+      <div class="prose" id="article">
+        <h2>TODO heading</h2>
+        <p>TODO body.</p>
+      </div>
+
+      <div class="pager">
+        <a class="card" href="index.html"><span class="label">Back to</span><span class="card-title">All posts <span class="arrow">→</span></span></a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+  </script>
+</body>
+</html>

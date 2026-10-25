@@ -5,20 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
   <title>Fully Prompted</title>
-  <meta name="description" content="A field guide to prompting, written entirely by AI: prompting patterns shown as real before-and-after conversations.">
+  <meta name="description" content="A field guide to working with LLMs, written entirely by AI: prompting patterns, agent development, the science underneath, and a reading library.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css">
+  <style>
+    /* Front page styles */
+    .hero { padding: 72px 0 8px; }
+    .hero .lead { max-width: 640px; }
+
+    /* Global search */
+    .omni { position: relative; margin-top: 32px; max-width: 640px; }
+    .omni .search { width: 100%; }
+    .omni .search input { padding: 14px 64px 14px 42px; font-size: 15px; border-radius: 12px; }
+    .omni .search svg { left: 15px; }
+    .omni kbd {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-family: var(--mono); font-size: 12px; color: var(--faint);
+      border: 1px solid var(--border); border-radius: 6px; padding: 1px 7px; background: var(--card);
+    }
+    .results {
+      position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 5;
+      background: var(--bg-elev); border: 1px solid var(--border-hover); border-radius: 12px;
+      padding: 6px; max-height: 360px; overflow-y: auto; display: none;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+    .results.open { display: block; }
+    .results a, .results .none { display: flex; justify-content: space-between; gap: 12px; padding: 9px 12px; border-radius: 8px; font-size: 14px; }
+    .results a:hover, .results a.sel { background: var(--card-hover); }
+    .results .where { color: var(--faint); font-size: 12px; white-space: nowrap; }
+    .results .soon { color: var(--faint); }
+    .results .none { color: var(--faint); }
+
+    .stats { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; font-size: 14px; color: var(--faint); }
+    .stats b { color: var(--text); font-weight: 600; }
+
+    /* Latest blog post */
+    .latest { padding-top: 0; margin-top: 44px; }
+    .latest-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+    .latest-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-2); font-weight: 700; }
+    .latest-all { font-size: 14px; color: var(--muted); }
+    .latest-all:hover { color: var(--text); }
+    .latest-all:hover .arrow { color: var(--accent); }
+    .post-feature { padding: 24px 26px; border-color: rgba(34, 211, 238, 0.3); background: linear-gradient(160deg, rgba(34, 211, 238, 0.08), var(--card) 60%); }
+    .post-feature time { font-size: 13px; color: var(--faint); }
+    .post-feature .card-title { font-size: 1.4rem; letter-spacing: -0.02em; }
+    .post-feature p { font-size: 1rem; }
+
+    /* Paths */
+    .paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; }
+    .path { padding: 20px 22px; }
+    .path .step { font-family: var(--mono); font-size: 12px; color: var(--accent-2); }
+    .path .card-title { font-size: 1.05rem; }
+    .path .start { margin-top: 8px; font-size: 13px; color: var(--faint); }
+    .path .start span { color: var(--muted); }
+
+    /* Track headings */
+    .track { padding-top: 64px; }
+    .track-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+    .track-head .section-desc { margin: 0; }
+
+    /* Bento */
+    .bento { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 22px; grid-auto-flow: dense; }
+    .bento.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* Agent development on the left, two tiles stacked on the right; widths chosen so both sides end level */
+    .bento.practice { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+    .tile {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px 22px; display: grid; align-content: start; gap: 10px; min-width: 0;
+    }
+    .tile.wide { grid-column: span 2; }
+    .tile.tall { grid-row: span 2; }
+    .tile.full { grid-column: 1 / -1; }
+    .tile-cols { display: grid; gap: 16px; margin-top: 4px; }
+    .tile-cols h4 { margin: 0 0 8px; }
+    .tile.live { border-color: rgba(139, 92, 246, 0.35); background: linear-gradient(160deg, rgba(139, 92, 246, 0.12), var(--card) 60%); }
+    .tile-head { display: flex; justify-content: space-between; align-items: start; gap: 10px; }
+    .tile h3 { margin: 0; font-size: 1.15rem; letter-spacing: -0.01em; }
+    .tile h3 a:hover { color: #c4b5fd; }
+    /* Whole tile opens its page; links inside it stay clickable on top */
+    .tile.linked { position: relative; transition: border-color .18s, transform .18s; }
+    .tile.linked:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .tile.linked .tile-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+    .tile.linked .chips a, .tile.linked .latest-all { position: relative; z-index: 1; }
+    .tile-link .arrow, .tile-go .arrow { display: inline-block; color: var(--faint); transition: transform .18s, color .18s; }
+    .tile.linked:hover .tile-link .arrow, .tile.linked:hover .tile-go .arrow { color: var(--accent); transform: translateX(3px); }
+    .tile-go { font-size: 14px; color: var(--muted); margin-top: 4px; }
+    .tile.linked:hover .tile-go { color: var(--text); }
+    .tile > p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+    .tile h4 {
+      margin: 8px 0 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--faint);
+    }
+
+    .status { font-size: 12px; white-space: nowrap; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border); color: var(--faint); }
+    .status.on { color: #6ee7b7; border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.08); }
+
+    /* Inline chips, not a wrapping flex row: Chrome sizes wrapping flex rows inside grid tiles
+       for an extra line, which left a gap under single-row chip groups. */
+    .chips { font-size: 0; margin-bottom: -6px; }
+    .chips > * { display: inline-block; vertical-align: top; margin: 0 6px 6px 0; }
+    .chip {
+      font-size: 13px; padding: 4px 10px; border-radius: 8px;
+      border: 1px solid var(--border); color: var(--muted); background: var(--bg-elev);
+      transition: border-color .15s, color .15s;
+    }
+    a.chip:hover { color: var(--text); border-color: var(--accent); }
+    .chip.soon { border-style: dashed; color: var(--faint); background: transparent; }
+    .chip .n { color: var(--faint); margin-left: 4px; font-family: var(--mono); font-size: 11px; }
+
+    /* Library rows */
+    .rows { display: flex; flex-direction: column; }
+    .row { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; padding: 10px 0; border-top: 1px solid var(--border); font-size: 14px; }
+    .row:first-child { border-top: 0; }
+    .row .id { font-family: var(--mono); font-size: 12px; color: var(--accent-2); padding-top: 2px; }
+    .row .meta { grid-column: 2; color: var(--faint); font-size: 12.5px; }
+    a.row:hover .t { color: #c4b5fd; }
+    .placeholder { color: var(--faint); font-size: 14px; border: 1px dashed var(--border); border-radius: 10px; padding: 14px; }
+
+    /* Pattern catalog */
+    .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }
+    .tabs button {
+      font: inherit; font-size: 13px; color: var(--muted); cursor: pointer;
+      background: var(--bg-elev); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px;
+    }
+    .tabs button[aria-pressed="true"] { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+    .catalog { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin-top: 14px; }
+    .catalog a { display: flex; flex-direction: column; padding: 12px 0; border-top: 1px solid var(--border); }
+    .catalog a .t { font-weight: 600; font-size: 15px; display: flex; justify-content: space-between; }
+    .catalog a .t .arrow { color: var(--faint); transition: transform .18s, color .18s; }
+    .catalog a:hover .arrow { color: var(--accent); transform: translateX(3px); }
+    .catalog a .d { color: var(--muted); font-size: 13.5px; }
+    .catalog a .g { color: var(--faint); font-size: 12px; }
+
+    @media (max-width: 860px) {
+      .paths, .bento, .bento.two, .bento.practice, .catalog { grid-template-columns: minmax(0, 1fr); }
+      .tile.wide { grid-column: auto; }
+      .tile.tall { grid-row: auto; }
+    }
+  </style>
 </head>
 <body>
   <header class="nav">
     <div class="nav-inner">
       <a class="brand" href="#top"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
-        <a href="#prompting">Prompting</a>
-        <a href="#applications">Applications</a>
-        <a href="#layout">Layout</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="#practice">Practice</a>
+        <a href="#foundations">Foundations</a>
+        <a href="#library">Library</a>
+        <a href="#patterns">All patterns</a>
       </nav>
     </div>
   </header>
@@ -27,132 +163,290 @@
     <section class="hero">
       <span class="badge"><span class="dot"></span> Last updated: October 25, 2026</span>
       <h1>💬 <span class="gradient-text">Fully Prompted</span></h1>
-      <p class="lead">A field guide to prompting, written entirely by AI. 👋 Each page takes one prompting pattern, explains the problem it solves, and shows it working in a real conversation: what you type, what the model replies, and what changed. Every word was generated from prompts, which makes the whole site its own example. ⚙️✨</p>
+      <p class="lead">A field guide to working with LLMs, written entirely by AI. Start with prompting patterns, move on to building agents, then dig into the science underneath. Every word was generated from prompts, which makes the whole site its own example.</p>
 
-      <div class="highlights">
-        <div class="highlight"><span class="icon">📝</span>Prompting patterns, each shown as a before-and-after conversation</div>
-        <div class="highlight"><span class="icon">🧩</span>Runnable prompt applications, such as a Tic Tac Toe game engine</div>
-        <div class="highlight"><span class="icon">🤖</span>Fully AI-generated, prompted by Octavian Dobre</div>
-      </div>
-    </section>
-
-    <section id="prompting">
-      <div class="section-head">
-        <div>
-          <h2>🚀 Prompting</h2>
-          <p class="section-desc">High-signal guides and reusable patterns for crafting effective prompts across tasks and models.</p>
-        </div>
+      <div class="omni">
         <label class="search">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="filter" type="search" placeholder="Filter patterns…" aria-label="Filter prompting patterns">
+          <input id="omni" type="search" placeholder="Search patterns, topics, papers…" aria-label="Search the site" autocomplete="off">
         </label>
+        <kbd>/</kbd>
+        <div class="results" id="results" role="listbox"></div>
       </div>
 
-      <div class="group">
-        <h3>Role and guardrails</h3>
-        <div class="grid">
-          <a class="card" href="generative/prompting/root.html"><span class="card-title">Root prompting <span class="arrow">→</span></span><p>Establish invariant principles to guide downstream prompts.</p></a>
-          <a class="card" href="generative/prompting/persona.html"><span class="card-title">Persona pattern <span class="arrow">→</span></span><p>Structure a model's role, voice, and constraints.</p></a>
-          <a class="card" href="generative/prompting/audience.html"><span class="card-title">Audience pattern <span class="arrow">→</span></span><p>Tailor outputs to a specific reader with appropriate depth, tone, and structure.</p></a>
-          <a class="card" href="generative/prompting/prompting_grammar.html"><span class="card-title">Grammar and prompting <span class="arrow">→</span></span><p>How nouns, verbs, and modifiers shape LLM outputs.</p></a>
-          <a class="card" href="generative/prompting/game_play.html"><span class="card-title">Game play pattern <span class="arrow">→</span></span><p>Let the model act as a Game Master to run rules-based sessions for practice and content.</p></a>
-          <a class="card" href="generative/prompting/menu_actions.html"><span class="card-title">Menu actions pattern <span class="arrow">→</span></span><p>Install a small menu of trigger keywords that expand into longer instructions for faster, consistent prompting.</p></a>
-          <a class="card" href="generative/prompting/fact_check_list.html"><span class="card-title">Fact Check List pattern <span class="arrow">→</span></span><p>Force the model to enumerate atomic claims for downstream verification to reduce hallucinations.</p></a>
-          <a class="card" href="generative/prompting/tail_generation.html"><span class="card-title">Tail generation pattern <span class="arrow">→</span></span><p>Append a structured tail to each response to preserve objectives and rules across turns.</p></a>
+      <div class="stats">
+        <span><b>25</b> prompting patterns</span>
+        <span><b>1</b> application</span>
+        <span><b>3</b> papers</span>
+        <span id="post-count"><b>0</b> posts</span>
+        <span id="link-count"><b>0</b> links</span>
+        <span><b>7</b> sections in progress</span>
+      </div>
+
+      <section class="latest" id="blog" aria-label="Latest blog post">
+        <div class="latest-head">
+          <span class="latest-label">✍️ Latest post</span>
+          <a class="latest-all" href="blog/index.html">All posts <span class="arrow">→</span></a>
         </div>
-      </div>
-
-      <div class="group">
-        <h3>Clarify and refine questions</h3>
-        <div class="grid">
-          <a class="card" href="generative/prompting/pre_prompting.html"><span class="card-title">Pre-prompting <span class="arrow">→</span></span><p>Set context and constraints before the ask.</p></a>
-          <a class="card" href="generative/prompting/question_refinement.html"><span class="card-title">Question refinement <span class="arrow">→</span></span><p>Improve questions via pre‑prompting.</p></a>
-          <a class="card" href="generative/prompting/flipped_interraction.html"><span class="card-title">Flipped interaction <span class="arrow">→</span></span><p>Let the model ask one-at-a-time questions, then deliver when ready.</p></a>
-          <a class="card" href="generative/prompting/alternative_approaches.html"><span class="card-title">Alternative approaches pattern <span class="arrow">→</span></span><p>Instruct the model to list and compare multiple ways to accomplish a task.</p></a>
-          <a class="card" href="generative/prompting/ask_for_input.html"><span class="card-title">Ask for input pattern <span class="arrow">→</span></span><p>Force a handshake so the model requests required inputs before solving.</p></a>
+        <div id="latest-post">
+          <div class="placeholder">No posts yet. The newest post will show up here.</div>
         </div>
-      </div>
+      </section>
 
-      <div class="group">
-        <h3>Decompose and verify</h3>
-        <div class="grid">
-          <a class="card" href="generative/prompting/cognitive_verifier.html"><span class="card-title">Cognitive verifier <span class="arrow">→</span></span><p>Decompose with sub‑questions, then synthesize.</p></a>
-          <a class="card" href="generative/prompting/recursive.html"><span class="card-title">Recursive prompting <span class="arrow">→</span></span><p>Iteratively refine outputs with self-critique and re-asking.</p></a>
-          <a class="card" href="generative/prompting/chain_of_thought.html"><span class="card-title">Chain-of-thought prompting <span class="arrow">→</span></span><p>Elicit intermediate reasoning steps for complex tasks.</p></a>
-          <a class="card" href="generative/prompting/re_act.html"><span class="card-title">ReAct prompting <span class="arrow">→</span></span><p>Reason-and-act workflow to retrieve evidence and compile answers.</p></a>
-          <a class="card" href="generative/prompting/recipe.html"><span class="card-title">Recipe prompting pattern <span class="arrow">→</span></span><p>Fill in missing steps to complete a sequence while respecting known constraints.</p></a>
-          <a class="card" href="generative/prompting/outline_expansion.html"><span class="card-title">Outline expansion pattern <span class="arrow">→</span></span><p>Iteratively outline and selectively expand branches to assemble large outputs within token limits.</p></a>
-        </div>
-      </div>
-
-      <div class="group">
-        <h3>Optimize inputs and completions</h3>
-        <div class="grid">
-          <a class="card" href="generative/prompting/compressing_input_information.html"><span class="card-title">Compressing input information <span class="arrow">→</span></span><p>Strategies to shrink inputs without losing signal.</p></a>
-          <a class="card" href="generative/prompting/word_completion.html"><span class="card-title">Word completion <span class="arrow">→</span></span><p>Encourage targeted completions with minimal context.</p></a>
-          <a class="card" href="generative/prompting/few_shot.html"><span class="card-title">Few-shot prompting <span class="arrow">→</span></span><p>Teach the model a format and decision pattern with short exemplars.</p></a>
-          <a class="card" href="generative/prompting/template.html"><span class="card-title">Output template pattern <span class="arrow">→</span></span><p>Define exact output format with placeholders for structured generation.</p></a>
-          <a class="card" href="generative/prompting/meta_language.html"><span class="card-title">Meta language creation <span class="arrow">→</span></span><p>Teach the model custom notation or shorthand instead of natural language.</p></a>
-          <a class="card" href="generative/prompting/semantic_filter.html"><span class="card-title">Semantic filter pattern <span class="arrow">→</span></span><p>Redact or remove low-signal, sensitive, or redundant spans while preserving meaning.</p></a>
-        </div>
-      </div>
-
-      <p class="empty" id="empty">No patterns match your filter.</p>
-    </section>
-
-    <section id="applications">
-      <h2>🧩 Applications</h2>
-      <p class="section-desc">Concrete, self-contained prompt artifacts and mini systems you can run end-to-end to study structure, constraint handling, state tracking, and evaluation. These go beyond patterns into runnable specs.</p>
-      <div class="grid" style="margin-top: 24px">
-        <a class="card app-card" href="generative/text/tictactoe_game.html"><span class="card-title">Tic Tac Toe game engine <span class="arrow">→</span></span><p>Rule‑enforced conversational game with structured action tail.</p></a>
+      <div class="paths">
+        <a class="card path" href="generative/prompting/root.html">
+          <span class="step">01 · write better prompts</span>
+          <span class="card-title">Prompting <span class="arrow">→</span></span>
+          <p>One pattern per page, shown as a real before-and-after conversation.</p>
+          <span class="start">Start with <span>Root prompting</span></span>
+        </a>
+        <a class="card path" href="#agents">
+          <span class="step">02 · build with agents</span>
+          <span class="card-title">Agent development <span class="arrow">→</span></span>
+          <p>Skills, subagents, harnesses, and the loop that ties them together.</p>
+          <span class="start">Start with <span>Under the hood</span></span>
+        </a>
+        <a class="card path" href="#foundations">
+          <span class="step">03 · understand the model</span>
+          <span class="card-title">Science <span class="arrow">→</span></span>
+          <p>Neural networks to LLMs, and what psychology and philosophy add.</p>
+          <span class="start">Start with <span>Large language models</span></span>
+        </a>
       </div>
     </section>
 
-    <section id="layout">
-      <h2>📦 Repository layout</h2>
-      <div class="tree">
-        <div class="tree-bar"><span></span><span></span><span></span></div>
-<pre>.
-├─ <span class="dir">agentic/</span>
-├─ <span class="dir">generative/</span>
-│  ├─ <span class="dir">audio/</span>
-│  ├─ <span class="dir">image/</span>
-│  ├─ <span class="dir">prompting/</span>
-│  │  ├─ alternative_approaches.html
-│  │  ├─ ask_for_input.html
-│  │  ├─ audience.html
-│  │  ├─ chain_of_thought.html
-│  │  ├─ cognitive_verifier.html
-│  │  ├─ fact_check_list.html
-│  │  ├─ compressing_input_information.html
-│  │  ├─ few_shot.html
-│  │  ├─ flipped_interraction.html
-│  │  ├─ game_play.html
-│  │  ├─ semantic_filter.html
-│  │  ├─ meta_language.html
-│  │  ├─ menu_actions.html
-│  │  ├─ persona.html
-│  │  ├─ pre_prompting.html
-│  │  ├─ prompting_grammar.html
-│  │  ├─ question_refinement.html
-│  │  ├─ re_act.html
-│  │  ├─ recipe.html
-│  │  ├─ recursive.html
-│  │  ├─ root.md
-│  │  ├─ template.html
-│  │  ├─ tail_generation.html
-│  │  └─ word_completion.html
-│  ├─ <span class="dir">text/</span>
-│  │  ├─ <span class="dir">ai_samples/</span>
-│  │  │  └─ markdown.txt
-│  │  └─ <span class="dir">human_samples/</span>
-│  │     ├─ csharpbackend.txt
-│  │     └─ markdown.txt
-│  └─ <span class="dir">video/</span>
-├─ <span class="dir">tools/</span>
-│  ├─ <span class="dir">llm/</span>
-│  └─ <span class="dir">mcp/</span>
-└─ README.md</pre>
+    <!-- PRACTICE -->
+    <section class="track" id="practice">
+      <div class="track-head">
+        <h2>🛠️ Practice</h2>
+        <p class="section-desc">Things you can use today: prompts, reusable instructions, and agent workflows.</p>
+      </div>
+
+      <div class="bento practice">
+        <article class="tile tall" id="agents">
+          <div class="tile-head">
+            <h3>Agent development</h3>
+            <span class="status">0 / 19 planned</span>
+          </div>
+          <p>How coding agents work and how to direct them, from a single instruction file to many subagents running in parallel.</p>
+          <div class="tile-cols">
+          <div>
+          <h4>Building blocks</h4>
+          <div class="chips">
+            <span class="chip soon">Agent skills</span>
+            <span class="chip soon">Agent instructions</span>
+            <span class="chip soon">Agents</span>
+            <span class="chip soon">Subagents</span>
+            <span class="chip soon">Harness</span>
+            <span class="chip soon">MCP</span>
+            <span class="chip soon">Worktrees for agents</span>
+          </div>
+          </div>
+
+          <div>
+          <h4>Agent patterns</h4>
+          <div class="chips">
+            <span class="chip soon">Inflection point: code, tests, run</span>
+            <span class="chip soon">Spec-driven development</span>
+            <span class="chip soon">Define goals</span>
+            <span class="chip soon">Split work to subagent context size</span>
+            <span class="chip soon">Context engineering</span>
+            <span class="chip soon">Loop engineering</span>
+            <span class="chip soon">Stochastic multi-agent consensus</span>
+            <span class="chip soon">60/30/10 model rule</span>
+          </div>
+          </div>
+
+          <div>
+          <h4>Under the hood</h4>
+          <div class="chips">
+            <span class="chip soon">The LLM</span>
+            <span class="chip soon">The tools</span>
+            <span class="chip soon">The loop</span>
+            <span class="chip soon">The memory</span>
+          </div>
+          </div>
+          </div>
+        </article>
+
+        <article class="tile live linked">
+          <div class="tile-head">
+            <h3><a class="tile-link" href="generative/prompting/index.html">Prompting patterns <span class="arrow">→</span></a></h3>
+            <span class="status on">25 pages</span>
+          </div>
+          <p>Each pattern explained and shown working in a real conversation.</p>
+          <div class="chips">
+            <a class="chip group" href="generative/prompting/index.html#role">Role and guardrails<span class="n">8</span></a>
+            <a class="chip group" href="generative/prompting/index.html#clarify">Clarify and refine<span class="n">5</span></a>
+            <a class="chip group" href="generative/prompting/index.html#verify">Decompose and verify<span class="n">6</span></a>
+            <a class="chip group" href="generative/prompting/index.html#optimize">Optimize inputs<span class="n">6</span></a>
+          </div>
+          <h4>Applications</h4>
+          <div class="chips">
+            <a class="chip" href="generative/text/tictactoe_game.html">Tic Tac Toe game engine</a>
+          </div>
+          <span class="tile-go">Browse all 25 patterns <span class="arrow">→</span></span>
+        </article>
+
+        <article class="tile">
+          <div class="tile-head">
+            <h3>Reusable prompting patterns</h3>
+            <span class="status">0 / 4 planned</span>
+          </div>
+          <p>Prompts you write once and reuse: skills, standing instructions, specs.</p>
+          <div class="chips">
+            <span class="chip soon">Skills</span>
+            <span class="chip soon">Taste as a frontend skill</span>
+            <span class="chip soon">Instructions</span>
+            <span class="chip soon">Spec-driven development</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- FOUNDATIONS -->
+    <section class="track" id="foundations">
+      <div class="track-head">
+        <h2>🔬 Foundations</h2>
+        <p class="section-desc">Why prompts work the way they do.</p>
+      </div>
+
+      <div class="bento two">
+        <article class="tile">
+          <div class="tile-head">
+            <h3>Science</h3>
+            <span class="status">0 / 8 planned</span>
+          </div>
+          <p>The machinery: how models learn, represent and score text.</p>
+          <div class="chips">
+            <span class="chip soon">Neural networks</span>
+            <span class="chip soon">Machine learning</span>
+            <span class="chip soon">Large language models</span>
+            <span class="chip soon">Pattern recognition</span>
+            <span class="chip soon">Sentiment analysis</span>
+            <span class="chip soon">Ranking and scoring</span>
+            <span class="chip soon">Categorizing</span>
+            <span class="chip soon">Language</span>
+          </div>
+        </article>
+
+        <article class="tile">
+          <div class="tile-head">
+            <h3>Humanities</h3>
+            <span class="status">0 / 3 planned</span>
+          </div>
+          <p>The human side: minds, power and meaning.</p>
+          <div class="chips">
+            <span class="chip soon">Psychology</span>
+            <span class="chip soon">Politics</span>
+            <span class="chip soon">Philosophy</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- INFRASTRUCTURE -->
+    <section class="track" id="infrastructure">
+      <div class="track-head">
+        <h2>🖥️ Infrastructure</h2>
+        <p class="section-desc">Where the models run.</p>
+      </div>
+
+      <div class="bento">
+        <article class="tile full">
+          <div class="tile-head">
+            <h3>Infrastructure</h3>
+            <span class="status">0 / 1 planned</span>
+          </div>
+          <div class="chips">
+            <span class="chip soon">Running local LLMs</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section class="track" id="library">
+      <div class="track-head">
+        <h2>📚 Library</h2>
+        <p class="section-desc">Papers and links worth keeping.</p>
+      </div>
+
+      <div class="bento two">
+        <article class="tile">
+          <div class="tile-head">
+            <h3>Papers</h3>
+            <span class="status on">3 papers</span>
+          </div>
+          <div class="rows">
+            <a class="row" href="https://arxiv.org/abs/2606.18902">
+              <span class="id">2606.18902</span>
+              <span class="t">SAGE: Stochastic Prompt Optimization via Agent-Guided Exploration</span>
+              <span class="meta">Zhu et al., 2026</span>
+            </a>
+            <a class="row" href="https://arxiv.org/abs/2506.03926">
+              <span class="id">2506.03926</span>
+              <span class="t">Multiple Stochastic Prompt Tuning for Few-shot Adaptation under Extreme Domain Shift</span>
+              <span class="meta">Brahma and Biswas, 2025</span>
+            </a>
+            <a class="row" href="https://arxiv.org/abs/2302.11382">
+              <span class="id">2302.11382</span>
+              <span class="t">A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT</span>
+              <span class="meta">White et al., 2023</span>
+            </a>
+          </div>
+        </article>
+
+        <article class="tile">
+          <div class="tile-head">
+            <h3><a href="links/index.html">Links</a></h3>
+            <span class="status on" id="link-status"></span>
+          </div>
+          <p>Tools, articles, courses and videos worth keeping. Here's a random one:</p>
+          <div id="random-link"></div>
+          <a class="latest-all" href="links/index.html">All links <span class="arrow">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <!-- FULL PATTERN CATALOG -->
+    <section class="track" id="patterns">
+      <div class="track-head">
+        <h2>🚀 All prompting patterns</h2>
+      </div>
+      <div class="tabs" role="toolbar" aria-label="Filter by group">
+        <button aria-pressed="true" data-tab="all">All 25</button>
+        <button aria-pressed="false" data-tab="role">Role and guardrails</button>
+        <button aria-pressed="false" data-tab="clarify">Clarify and refine</button>
+        <button aria-pressed="false" data-tab="verify">Decompose and verify</button>
+        <button aria-pressed="false" data-tab="optimize">Optimize inputs</button>
+      </div>
+      <div class="catalog">
+        <a data-g="role" href="generative/prompting/root.html"><span class="t">Root prompting <span class="arrow">→</span></span><span class="d">Establish invariant principles to guide downstream prompts.</span></a>
+        <a data-g="role" href="generative/prompting/persona.html"><span class="t">Persona pattern <span class="arrow">→</span></span><span class="d">Structure a model's role, voice, and constraints.</span></a>
+        <a data-g="role" href="generative/prompting/audience.html"><span class="t">Audience pattern <span class="arrow">→</span></span><span class="d">Tailor outputs to a specific reader with appropriate depth, tone, and structure.</span></a>
+        <a data-g="role" href="generative/prompting/prompting_grammar.html"><span class="t">Grammar and prompting <span class="arrow">→</span></span><span class="d">How nouns, verbs, and modifiers shape LLM outputs.</span></a>
+        <a data-g="role" href="generative/prompting/game_play.html"><span class="t">Game play pattern <span class="arrow">→</span></span><span class="d">Let the model act as a Game Master to run rules-based sessions.</span></a>
+        <a data-g="role" href="generative/prompting/menu_actions.html"><span class="t">Menu actions pattern <span class="arrow">→</span></span><span class="d">Trigger keywords that expand into longer instructions.</span></a>
+        <a data-g="role" href="generative/prompting/fact_check_list.html"><span class="t">Fact Check List pattern <span class="arrow">→</span></span><span class="d">Enumerate atomic claims for verification to reduce hallucinations.</span></a>
+        <a data-g="role" href="generative/prompting/tail_generation.html"><span class="t">Tail generation pattern <span class="arrow">→</span></span><span class="d">Append a structured tail to preserve objectives across turns.</span></a>
+        <a data-g="clarify" href="generative/prompting/pre_prompting.html"><span class="t">Pre-prompting <span class="arrow">→</span></span><span class="d">Set context and constraints before the ask.</span></a>
+        <a data-g="clarify" href="generative/prompting/question_refinement.html"><span class="t">Question refinement <span class="arrow">→</span></span><span class="d">Improve questions via pre‑prompting.</span></a>
+        <a data-g="clarify" href="generative/prompting/flipped_interraction.html"><span class="t">Flipped interaction <span class="arrow">→</span></span><span class="d">Let the model ask one-at-a-time questions, then deliver when ready.</span></a>
+        <a data-g="clarify" href="generative/prompting/alternative_approaches.html"><span class="t">Alternative approaches pattern <span class="arrow">→</span></span><span class="d">List and compare multiple ways to accomplish a task.</span></a>
+        <a data-g="clarify" href="generative/prompting/ask_for_input.html"><span class="t">Ask for input pattern <span class="arrow">→</span></span><span class="d">Force a handshake so the model requests inputs before solving.</span></a>
+        <a data-g="verify" href="generative/prompting/cognitive_verifier.html"><span class="t">Cognitive verifier <span class="arrow">→</span></span><span class="d">Decompose with sub‑questions, then synthesize.</span></a>
+        <a data-g="verify" href="generative/prompting/recursive.html"><span class="t">Recursive prompting <span class="arrow">→</span></span><span class="d">Iteratively refine outputs with self-critique and re-asking.</span></a>
+        <a data-g="verify" href="generative/prompting/chain_of_thought.html"><span class="t">Chain-of-thought prompting <span class="arrow">→</span></span><span class="d">Elicit intermediate reasoning steps for complex tasks.</span></a>
+        <a data-g="verify" href="generative/prompting/re_act.html"><span class="t">ReAct prompting <span class="arrow">→</span></span><span class="d">Reason-and-act workflow to retrieve evidence and compile answers.</span></a>
+        <a data-g="verify" href="generative/prompting/recipe.html"><span class="t">Recipe prompting pattern <span class="arrow">→</span></span><span class="d">Fill in missing steps while respecting known constraints.</span></a>
+        <a data-g="verify" href="generative/prompting/outline_expansion.html"><span class="t">Outline expansion pattern <span class="arrow">→</span></span><span class="d">Outline, then expand branches to build large outputs within token limits.</span></a>
+        <a data-g="optimize" href="generative/prompting/compressing_input_information.html"><span class="t">Compressing input information <span class="arrow">→</span></span><span class="d">Strategies to shrink inputs without losing signal.</span></a>
+        <a data-g="optimize" href="generative/prompting/word_completion.html"><span class="t">Word completion <span class="arrow">→</span></span><span class="d">Encourage targeted completions with minimal context.</span></a>
+        <a data-g="optimize" href="generative/prompting/few_shot.html"><span class="t">Few-shot prompting <span class="arrow">→</span></span><span class="d">Teach a format and decision pattern with short exemplars.</span></a>
+        <a data-g="optimize" href="generative/prompting/template.html"><span class="t">Output template pattern <span class="arrow">→</span></span><span class="d">Define exact output format with placeholders.</span></a>
+        <a data-g="optimize" href="generative/prompting/meta_language.html"><span class="t">Meta language creation <span class="arrow">→</span></span><span class="d">Teach the model custom notation or shorthand.</span></a>
+        <a data-g="optimize" href="generative/prompting/semantic_filter.html"><span class="t">Semantic filter pattern <span class="arrow">→</span></span><span class="d">Remove low-signal, sensitive, or redundant spans while preserving meaning.</span></a>
       </div>
     </section>
   </main>
@@ -162,25 +456,84 @@
     All content in this repository is fully AI-generated. 🤖✨😄🧪
   </footer>
 
+  <script src="blog/posts.js"></script>
+  <script src="links/links.js"></script>
   <script>
-    const input = document.getElementById('filter');
-    const groups = document.querySelectorAll('#prompting .group');
-    const empty = document.getElementById('empty');
-    input.addEventListener('input', () => {
-      const q = input.value.trim().toLowerCase();
-      let total = 0;
-      groups.forEach(group => {
-        let visible = 0;
-        group.querySelectorAll('.card').forEach(card => {
-          const match = !q || card.textContent.toLowerCase().includes(q);
-          card.style.display = match ? '' : 'none';
-          if (match) visible++;
-        });
-        group.style.display = visible ? '' : 'none';
-        total += visible;
+    // One random link per page load, read from links/links.js
+    document.getElementById('random-link').innerHTML = randomLinks(1).map(linkCard).join('');
+    document.getElementById('link-status').textContent = `${LINKS.length} links`;
+    document.getElementById('link-count').innerHTML = `<b>${LINKS.length}</b> links`;
+
+    // Newest blog post, read from blog/posts.js
+    const posts = [...(window.BLOG_POSTS || [])].sort((a, b) => b.date.localeCompare(a.date));
+    document.getElementById('post-count').innerHTML = `<b>${posts.length}</b> ${posts.length === 1 ? 'post' : 'posts'}`;
+    if (posts.length) {
+      const p = posts[0];
+      const date = new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('latest-post').innerHTML = `
+        <a class="card post-feature" href="blog/${p.slug}.html">
+          <time datetime="${p.date}">${date}</time>
+          <span class="card-title">${p.title} <span class="arrow">→</span></span>
+          <p>${p.summary}</p>
+        </a>`;
+    }
+
+    // Pattern catalog tabs
+    const tabs = document.querySelectorAll('.tabs button');
+    const rows = document.querySelectorAll('.catalog a');
+    function showTab(name) {
+      tabs.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tab === name)));
+      rows.forEach(r => r.style.display = name === 'all' || r.dataset.g === name ? '' : 'none');
+    }
+    tabs.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+
+    // Site-wide search over patterns, chips and papers
+    const index = posts.map(p => ({ title: p.title, text: p.title + ' ' + p.summary, where: 'Blog', href: `blog/${p.slug}.html` }));
+    LINKS.forEach(l => index.push({ title: l.title, text: [l.title, l.description, l.tag].join(' '), where: 'Links', href: l.url }));
+    rows.forEach(r => index.push({ title: r.querySelector('.t').firstChild.textContent.trim(), text: r.textContent, where: 'Prompting', href: r.getAttribute('href') }));
+    document.querySelectorAll('.tile').forEach(tile => {
+      const where = tile.querySelector('h3').textContent.replace('→', '').trim();
+      const anchor = '#' + (tile.id || tile.closest('section').id);
+      tile.querySelectorAll('.chip').forEach(c => {
+        if (c.classList.contains('group')) return;
+        const title = c.firstChild.textContent.trim();
+        index.push({ title, text: title, where, href: c.getAttribute('href') || anchor, soon: c.classList.contains('soon') });
       });
-      empty.style.display = total ? 'none' : 'block';
+      tile.querySelectorAll('a.row').forEach(r => index.push({ title: r.querySelector('.t').textContent, text: r.textContent, where, href: r.getAttribute('href') }));
     });
+
+    const omni = document.getElementById('omni');
+    const results = document.getElementById('results');
+    let sel = -1;
+    function render() {
+      const q = omni.value.trim().toLowerCase();
+      sel = -1;
+      if (!q) { results.classList.remove('open'); return; }
+      const hits = index.filter(i => i.text.toLowerCase().includes(q)).slice(0, 10);
+      results.innerHTML = hits.length
+        ? hits.map(h => h.soon
+            ? `<a class="soon" href="${h.href}">${h.title}<span class="where">${h.where} · planned</span></a>`
+            : `<a href="${h.href}">${h.title}<span class="where">${h.where}</span></a>`).join('')
+        : '<div class="none">Nothing matches yet.</div>';
+      results.classList.add('open');
+    }
+    omni.addEventListener('input', render);
+    omni.addEventListener('keydown', e => {
+      const links = results.querySelectorAll('a');
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+        links.forEach((l, i) => l.classList.toggle('sel', i === sel));
+      } else if (e.key === 'Enter' && links.length) {
+        links[Math.max(sel, 0)].click();
+      } else if (e.key === 'Escape') {
+        omni.value = ''; render(); omni.blur();
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement !== omni) { e.preventDefault(); omni.focus(); }
+    });
+    document.addEventListener('click', e => { if (!e.target.closest('.omni')) results.classList.remove('open'); });
   </script>
 </body>
 </html>

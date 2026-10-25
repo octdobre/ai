@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Links · Fully Prompted</title>
+  <meta name="description" content="A running list of LLM tools, articles, courses and videos worth keeping.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    .links-search { margin-top: 28px; width: min(640px, 100%); }
+    .links-search input { padding: 14px 14px 14px 42px; font-size: 15px; border-radius: 12px; }
+    .links-search svg { left: 15px; }
+    .picks { padding-top: 0; margin-top: 16px; }
+    .picks-head { display: flex; justify-content: flex-end; }
+    .all-head h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-2); }
+    .picks-head button {
+      font: inherit; font-size: 13px; color: var(--muted); cursor: pointer;
+      background: var(--bg-elev); border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px;
+    }
+    .picks-head button:hover { color: var(--text); border-color: var(--border-hover); }
+    .picks .grid, .all .grid { margin-top: 14px; }
+    .picks .link-card { border-color: rgba(34, 211, 238, 0.3); background: linear-gradient(160deg, rgba(34, 211, 238, 0.08), var(--card) 60%); }
+    .all { padding-top: 48px; }
+    .all-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .all-head .count { color: var(--faint); font-size: 14px; }
+    .picks.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../blog/index.html">Blog</a>
+        <a href="../index.html#practice">Practice</a>
+        <a href="../index.html#foundations">Foundations</a>
+        <a href="../index.html#library">Library</a>
+        <a href="index.html">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a><span>/</span>
+      <a href="../index.html#library">Library</a><span>/</span>
+      <span>Links</span>
+    </nav>
+
+    <header class="doc-hero">
+      <h1>🔗 <span class="gradient-text">Links</span></h1>
+      <p class="lead">Tools, articles, courses and videos about LLMs and agents, worth keeping.</p>
+      <label class="search links-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="filter" type="search" placeholder="Search links…" aria-label="Search links" autocomplete="off">
+      </label>
+    </header>
+
+    <section class="picks" id="picks" aria-label="Random picks">
+      <div class="picks-head">
+        <button id="shuffle" type="button">Shuffle</button>
+      </div>
+      <div class="grid" id="pick-grid"></div>
+    </section>
+
+    <section class="all" aria-label="All links">
+      <div class="all-head">
+        <h2>All links</h2>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="grid" id="all-grid"></div>
+      <p class="empty" id="empty">No links match your search.</p>
+    </section>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script src="links.js"></script>
+  <script>
+    const pickGrid = document.getElementById('pick-grid');
+    const showPicks = () => pickGrid.innerHTML = randomLinks(3).map(linkCard).join('');
+    showPicks();
+    document.getElementById('shuffle').addEventListener('click', showPicks);
+
+    const allGrid = document.getElementById('all-grid');
+    allGrid.innerHTML = LINKS.map(linkCard).join('');
+    const cards = [...allGrid.children];
+    const count = document.getElementById('count');
+    const empty = document.getElementById('empty');
+    const picks = document.getElementById('picks');
+    const input = document.getElementById('filter');
+
+    function filter() {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      cards.forEach((card, i) => {
+        const l = LINKS[i];
+        const match = !q || [l.title, l.description, l.tag, l.url].join(' ').toLowerCase().includes(q);
+        card.style.display = match ? '' : 'none';
+        if (match) shown++;
+      });
+      picks.classList.toggle('hidden', !!q);
+      count.textContent = q ? `${shown} of ${LINKS.length}` : `${LINKS.length} links`;
+      empty.style.display = shown ? 'none' : 'block';
+    }
+    input.addEventListener('input', filter);
+    filter();
+  </script>
+</body>
+</html>

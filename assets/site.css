@@ -391,3 +391,10 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
 }
 
 .brand .byline { font-weight: 400; color: var(--muted); font-size: 0.92em; }
+
+/* Link cards (links/links.js) */
+.link-card { min-width: 0; }
+.link-card .card-title { overflow-wrap: anywhere; }
+.link-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; }
+.link-tag { color: var(--accent-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; }
+.link-host { color: var(--faint); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
