@@ -1,6 +1,6 @@
 # 💬 Fully Prompted
 
-*Last updated: October 25, 2026*
+*Last updated: November 9, 2026*
 
 A field guide to working with LLMs, written entirely by AI. Start with prompting patterns, move on to building agents, then dig into the science underneath. Every word was generated from prompts, which makes the whole site its own example.
 
@@ -32,7 +32,7 @@ Prompts you write once and reuse: skills, taste as a frontend skill, instruction
 
 ## 🔬 Foundations
 
-- **Science** *(planned)*: neural networks, machine learning, large language models, pattern recognition, sentiment analysis, ranking and scoring, categorizing, language
+- **Science:** [The software behind LLMs](foundations/science/software_behind_llms.html). *Planned:* neural networks, machine learning, large language models, pattern recognition, sentiment analysis, ranking and scoring, categorizing, language
 - **Humanities** *(planned)*: psychology, politics, philosophy
 
 ## 🖥️ Infrastructure
@@ -101,6 +101,8 @@ Tools, articles, courses and videos worth keeping, with search and three random 
 ├─ links/
 │  ├─ index.html         links page
 │  └─ links.js           link list (add new links here)
+├─ foundations/
+│  └─ science/           articles on how models work
 └─ generative/
    ├─ prompting/
    │  ├─ index.html      prompting patterns overview

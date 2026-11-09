@@ -398,3 +398,65 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
 .link-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; }
 .link-tag { color: var(--accent-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; }
 .link-host { color: var(--faint); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Long-form posts: parts, figures, tables, quote bubbles */
+.prose h2.part { margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border); }
+.part-num {
+  display: block; margin-bottom: 6px;
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-2);
+}
+.prose .part-intro { font-size: 1.08rem; color: var(--text); }
+.prose > h2.part:first-child { margin-top: 24px; padding-top: 0; border-top: 0; }
+
+.prose figure {
+  margin: 22px 0 28px; padding: 18px;
+  background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.prose figure svg { display: block; width: 100%; height: auto; }
+.prose figcaption { margin-top: 14px; font-size: 0.88rem; color: var(--faint); }
+.prose figcaption strong { color: var(--muted); }
+
+.st-yes { --status: #34d399; }
+.st-part { --status: #fbbf24; }
+.st-no { --status: #fb7185; }
+
+.legend { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 22px; }
+.legend li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; font-size: 0.88rem; color: var(--muted); line-height: 1.45; }
+.legend .num {
+  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  border: 2px solid var(--status); color: var(--text); font-family: var(--mono); font-size: 12px;
+}
+.legend b { color: var(--text); font-weight: 600; }
+.legend .ai { display: block; color: var(--status); }
+.key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 6px; font-size: 0.85rem; color: var(--muted); }
+.key span::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 7px; border-radius: 50%; background: var(--status); }
+
+
+.table-wrap { overflow-x: auto; margin: 16px 0 24px; }
+.prose table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.prose th, .prose td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); color: var(--muted); }
+.prose th { color: var(--text); font-weight: 600; white-space: nowrap; }
+.prose td:first-child { color: var(--text); min-width: 140px; }
+.prose td .ai { color: var(--status); font-weight: 600; }
+
+
+.quote-bubble {
+  position: relative; max-width: 560px; margin: 34px auto 30px; padding: 24px 28px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.24), rgba(34, 211, 238, 0.10));
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  border-radius: 24px 24px 24px 6px;
+  box-shadow: 0 14px 44px -16px rgba(139, 92, 246, 0.55);
+}
+.quote-bubble::before {
+  content: "“"; position: absolute; top: -26px; left: 20px;
+  font-size: 72px; font-weight: 800; line-height: 1; color: var(--accent-2);
+}
+.quote-bubble p {
+  margin: 0; color: var(--text);
+  font-size: clamp(1.25rem, 3vw, 1.6rem); font-weight: 700; line-height: 1.35; letter-spacing: -0.02em;
+}
+
+/* People in long-form posts: role as a small label, name in bold */
+.prose .name { font-weight: 700; color: #c3cad8; }
+.prose .role { font-weight: 500; color: #c4b5fd; }
