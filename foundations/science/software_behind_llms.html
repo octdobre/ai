@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
   <title>The software behind LLMs · Fully Prompted</title>
-  <meta name="description" content="An LLM described purely as software: the engine and the model, training, tokens, why every answer is a statistical guess, and how it fails.">
+  <meta name="description" content="An LLM described purely as software: the engine and the model, training, tokens, and why every answer is a statistical guess.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -16,10 +16,11 @@
     <div class="nav-inner">
       <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
       <nav class="nav-links">
+        <a href="../../blog/index.html">Blog</a>
         <a href="../../index.html#practice">Practice</a>
         <a href="../../index.html#foundations">Foundations</a>
         <a href="../../index.html#library">Library</a>
-        <a href="../../blog/index.html">Blog</a>
+        <a href="../../index.html#patterns">All patterns</a>
       </nav>
     </div>
   </header>
@@ -40,131 +41,30 @@
             <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
           </div>
           <h1><span class="gradient-text">The software behind LLMs</span></h1>
-          <p class="lead">Take away the chat window and an LLM is software you can download, start and send text to. It has two parts: a program that runs it, and a database produced by training, called the model.</p>
+          <p class="lead">A large language model (LLM) is software with two parts: a program called the engine, and a file of trained data called the model. The engine loads the model, takes your text and returns an answer.</p>
         </header>
 
         <div class="prose" id="article">
 
-          <h2 id="files">The engine and the model</h2>
-          <p>Many programs can run LLM models. One example is <code>llama.cpp</code>, written in C++. It's the engine of the LLM: it loads a model and does the calculations. Nothing in its code knows French, Python or history. Swap the model and the same engine behaves differently.</p>
-          <p>The model is a database of numbers called <em>weights</em>. Llama 2 70B has 70 billion of them at 2 bytes each, which makes a 140 GB file. Unlike an ordinary database, it holds no sentences or facts you could look up, only the numbers that training left behind.</p>
-          <blockquote class="quote-bubble"><p>The code is short. The behaviour is in the data.</p></blockquote>
+          <h2 id="engine">The engine and the model</h2>
+          <p>Many programs can act as the engine. A popular one is <code>llama.cpp</code>, written in C++: it loads a model and does the calculations. Nothing in its code knows French, Python or history. All of that information is contained in the model it loads.</p>
+          <p>The model is a database of numbers called <em>weights</em>. “Llama 2 70B”, for example, has 70 billion of them at 2 bytes each, which makes a 140 GB file. Unlike an ordinary database, it holds no sentences or facts you could look up, only numbers that represent patterns learned from training text.</p>
+          <blockquote class="quote-bubble"><p>The engine does the work. The model holds the knowledge.</p></blockquote>
 
           <h2 id="running">From training to a running instance</h2>
-          <p>The weights are set during a <em>training process</em>, which ends with a final model file. That file is fed into <code>llama.cpp</code>, which starts an instance of the model. You can then send it input text, and the model returns output text.</p>
+          <p>The weights are set during a <em>training process</em>, which ends with a final model file. That file is fed into <code>llama.cpp</code>, which starts an instance of the model. You can then send it text and get text back, although the model itself never sees text.</p>
 
           <h2 id="tokens">Tokens</h2>
-          <p>The model doesn't see text. It understands <em>tokens</em>: words or pieces of words, each with an ID number. “Unbelievable” might become “Un”, “believ” and “able”. The engine encodes your input into an array of these numbers and decodes the numbers that come back. Llama 2 knows 32,000 different tokens.</p>
-          <p>The system prompt, the chat history and your question are all joined into that one array, like an SQL query built by joining strings. That is why <em>prompt injection</em> exists: nothing in the array separates instructions from data.</p>
+          <p>Instead, it works with <em>tokens</em>: words or pieces of words, each with an ID number. “Unbelievable” might become “Un”, “believ” and “able”. The engine encodes your input into an array of these numbers and decodes the numbers that come back. “Llama 2” knows 32,000 different tokens.</p>
 
           <h2 id="prediction">A statistical guess</h2>
-          <p>Based on its trained weights, the model predicts which tokens are likely to follow your input and returns them in encoded form. The reply is a statistical guess at what the next tokens are.</p>
+          <p>Using its trained weights, the model predicts which token is most likely to come next, one token at a time. Every reply is therefore a statistical guess.</p>
           <p>So when you ask a question, the answer depends on two factors:</p>
           <ul>
             <li><strong>How the model was trained:</strong> what data it saw and how well the training went.</li>
-            <li><strong>The quality of the model:</strong> its parameter size, meaning how many weights it has, and its <em>quantization</em>, meaning how far those weights were rounded to fit a smaller file.</li>
+            <li><strong>The quality of the model:</strong> its parameter size, meaning how many weights it has, and its <em>quantization</em>, meaning how much those weights were rounded to fit a smaller file.</li>
           </ul>
-          <p>Depending on these, the answer can be accurate or extremely imprecise. An imprecise answer presented as fact is what's now called a <em>hallucination</em>.</p>
-
-          <h2 id="loop">The main loop</h2>
-          <p>Replies come from an ordinary loop. Each run of the neural network is called a <em>forward pass</em>:</p>
-          <div class="codeblock">
-            <div class="code-head"><span>python · simplified</span></div>
-            <pre>weights = load("model.gguf")              # read-only from here on
-tokens  = tokenize(prompt)
-
-while len(tokens) &lt; context_limit:
-    probs = forward(weights, tokens)      # the neural network
-    next  = sample(probs, temperature)    # pick one, with some randomness
-    if next == END_TOKEN:
-        break
-    tokens.append(next)
-    print(detokenize(next))               # stream it to the user</pre>
-          </div>
-
-          <figure>
-            <svg viewBox="0 0 640 336" role="img" aria-labelledby="fig-pipeline-title">
-              <title id="fig-pipeline-title">The call pipeline with its data types. The tokenizer turns a string into an integer array. The forward pass, the only step that uses learned weights, turns the array into probabilities. The sampler picks one integer, which is appended to the array before the forward pass runs again. The detokenizer turns the integer into text.</title>
-              <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#9aa3b5"/></marker>
-              </defs>
-              <g font-family="Inter, system-ui, sans-serif" text-anchor="middle">
-                <rect x="50" y="10" width="280" height="60" rx="12" fill="#151922" stroke="#3a4560"/>
-                <text x="190" y="36" fill="#e6e9ef" font-size="18" font-weight="600">Tokenizer</text>
-                <text x="190" y="57" fill="#9aa3b5" font-size="14">plain code</text>
-
-                <rect x="50" y="96" width="280" height="60" rx="12" fill="rgba(139,92,246,0.16)" stroke="#8b5cf6"/>
-                <text x="190" y="122" fill="#e6e9ef" font-size="18" font-weight="600">Forward pass</text>
-                <text x="190" y="143" fill="#9aa3b5" font-size="14">small code + learned weights</text>
-
-                <rect x="50" y="182" width="280" height="60" rx="12" fill="#151922" stroke="#3a4560"/>
-                <text x="190" y="208" fill="#e6e9ef" font-size="18" font-weight="600">Sampler</text>
-                <text x="190" y="229" fill="#9aa3b5" font-size="14">plain code + random numbers</text>
-
-                <rect x="50" y="268" width="280" height="60" rx="12" fill="#151922" stroke="#3a4560"/>
-                <text x="190" y="294" fill="#e6e9ef" font-size="18" font-weight="600">Detokenizer</text>
-                <text x="190" y="315" fill="#9aa3b5" font-size="14">plain code</text>
-
-                <line x1="190" y1="72" x2="190" y2="92" stroke="#9aa3b5" stroke-width="2" marker-end="url(#arrow)"/>
-                <line x1="190" y1="158" x2="190" y2="178" stroke="#9aa3b5" stroke-width="2" marker-end="url(#arrow)"/>
-                <line x1="190" y1="244" x2="190" y2="264" stroke="#9aa3b5" stroke-width="2" marker-end="url(#arrow)"/>
-                <path d="M48 212 C14 212 14 126 46 126" fill="none" stroke="#9aa3b5" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
-              </g>
-              <g font-family="JetBrains Mono, monospace" font-size="15" fill="#22d3ee">
-                <text x="350" y="45">string → int[]</text>
-                <text x="350" y="131">int[] → float[32000]</text>
-                <text x="350" y="217">float[32000] → int</text>
-                <text x="350" y="303">int → string</text>
-              </g>
-            </svg>
-            <figcaption><strong>One call, with types.</strong> Only the violet step uses learned weights. The dashed arrow is the loop: each chosen token is appended and the forward pass runs again.</figcaption>
-          </figure>
-
-          <p>Replies appear word by word because each iteration yields one token, and APIs charge per token because the token is the unit of work.</p>
-          <p>Inside <code>forward</code>, nearly all of the work is matrix multiplication, which is why this software runs best on GPUs. No branch depends on what the input means. A tax question and a poem run the same instructions in the same order, and only the numbers differ.</p>
-
-          <h2 id="state">No state, no side effects</h2>
-          <p>Across calls, an LLM keeps nothing. The weights are read-only, and your next message works only because the host program sends the whole conversation again.</p>
-          <p>The model also makes no system calls. It can't open a file, reach the network or read the clock. When it “searches the web”, it has written text naming a tool and its arguments. A host program decides whether to run that tool and adds the result to the token array. All permissions and all effects on the world live in the host.</p>
-
-          <h2 id="build">The build</h2>
-          <p>Training is a separate program, and the closest analogy is a build. It reads text, predicts the next token, measures the error, nudges the weights and repeats billions of times. <span class="name">Andrej Karpathy</span> called this <em>Software 2.0</em>: programs written as weights instead of by hand.</p>
-          <p>Unlike a compiler, which preserves what you wrote, training is a search: you supply examples and can't say exactly what will come out. Compare two releases and you get billions of changed numbers, with no readable diff.</p>
-
-          <h2 id="failure">Failure and debugging</h2>
-          <p>The forward pass has no error path for not knowing something. It always returns valid probabilities, so the sampler always gets a token. A hallucination is therefore a successful execution: no exception, no warning, nothing in the logs.</p>
-          <p>A stack trace shows only matrix multiplication, and there's no line to patch, so the fixes are further training or a different input. Teams test with <em>evals</em>: hundreds of scored inputs, reported as a pass rate.</p>
-
-          <h2 id="stack">The stack around it</h2>
-          <p>What people call “the AI” in a chat app is several layers of conventional software with the weights at the bottom.</p>
-
-          <figure>
-            <svg viewBox="0 0 640 330" role="img" aria-labelledby="fig-stack-title">
-              <title id="fig-stack-title">The software stack, from top to bottom: chat app, API server, runtime, inference engine and weights file. The first four layers are written by hand. Only the weights file is learned.</title>
-              <g font-family="Inter, system-ui, sans-serif">
-                <rect x="10" y="6" width="620" height="56" rx="12" fill="#151922" stroke="#3a4560"/>
-                <text x="30" y="40" fill="#e6e9ef" font-size="17" font-weight="600">Chat app</text>
-                <text x="210" y="40" fill="#9aa3b5" font-size="14">interface, history, memory, running tools</text>
-
-                <rect x="10" y="71" width="620" height="56" rx="12" fill="#151922" stroke="#3a4560"/>
-                <text x="30" y="105" fill="#e6e9ef" font-size="17" font-weight="600">API server</text>
-                <text x="210" y="105" fill="#9aa3b5" font-size="14">accounts, queues, batching, rate limits</text>
-
-                <rect x="10" y="136" width="620" height="56" rx="12" fill="#151922" stroke="#3a4560"/>
-                <text x="30" y="170" fill="#e6e9ef" font-size="17" font-weight="600">Runtime</text>
-                <text x="210" y="170" fill="#9aa3b5" font-size="14">tokenizer, main loop, sampler, cache</text>
-
-                <rect x="10" y="201" width="620" height="56" rx="12" fill="#151922" stroke="#3a4560"/>
-                <text x="30" y="235" fill="#e6e9ef" font-size="17" font-weight="600">Inference engine</text>
-                <text x="210" y="235" fill="#9aa3b5" font-size="14">matrix maths on the GPU or CPU</text>
-
-                <rect x="10" y="266" width="620" height="56" rx="12" fill="rgba(139,92,246,0.16)" stroke="#8b5cf6"/>
-                <text x="30" y="300" fill="#e6e9ef" font-size="17" font-weight="600">Weights file</text>
-                <text x="210" y="300" fill="#9aa3b5" font-size="14">billions of learned numbers</text>
-              </g>
-            </svg>
-            <figcaption><strong>The stack.</strong> The top four layers are written by hand. Only the bottom one is learned, and it's where the behaviour comes from.</figcaption>
-          </figure>
+          <p>Depending on these, the answer can be accurate or extremely imprecise. A wrong answer presented confidently as fact is what's now called a <em>hallucination</em>.</p>
 
           <h2 id="further-reading">Further reading 🔗</h2>
           <ul>
@@ -172,28 +72,22 @@ while len(tokens) &lt; context_limit:
             <li><a class="ext" href="https://karpathy.medium.com/software-2-0-a64152b37c35" target="_blank" rel="noopener">Andrej Karpathy, Software 2.0 (2017)</a></li>
             <li><a class="ext" href="https://github.com/karpathy/llama2.c" target="_blank" rel="noopener">llama2.c: Llama 2 inference in one C file</a></li>
             <li><a class="ext" href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener">llama.cpp: LLM inference in C/C++</a></li>
-            <li><a class="ext" href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener">Transformer Explainer: the forward pass, interactively</a></li>
-            <li><a class="ext" href="https://simonwillison.net/2022/Sep/12/prompt-injection/" target="_blank" rel="noopener">Simon Willison, Prompt injection attacks against GPT-3 (2022)</a></li>
+            <li><a class="ext" href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener">Transformer Explainer: how a model picks the next token</a></li>
           </ul>
         </div>
 
         <div class="pager">
-          <a class="card" href="../../index.html#foundations"><span class="label">Back to</span><span class="card-title">Foundations <span class="arrow">→</span></span></a>
+          <a class="card" href="model_behind_llms.html"><span class="label">Next</span><span class="card-title">The model behind LLMs <span class="arrow">→</span></span></a>
         </div>
       </article>
 
       <aside class="toc">
         <h4>On this page</h4>
         <ol>
-          <li><a href="#files">The engine and the model</a></li>
+          <li><a href="#engine">The engine and the model</a></li>
           <li><a href="#running">From training to a running instance</a></li>
           <li><a href="#tokens">Tokens</a></li>
           <li><a href="#prediction">A statistical guess</a></li>
-          <li><a href="#loop">The main loop</a></li>
-          <li><a href="#state">No state, no side effects</a></li>
-          <li><a href="#build">The build</a></li>
-          <li><a href="#failure">Failure and debugging</a></li>
-          <li><a href="#stack">The stack around it</a></li>
           <li><a href="#further-reading">Further reading 🔗</a></li>
         </ol>
       </aside>

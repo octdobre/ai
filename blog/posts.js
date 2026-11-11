@@ -11,9 +11,9 @@
 // },
 window.BLOG_POSTS = [
   {
-    slug: "2026-11-01-the-mind-we-see-in-the-machine",
+    slug: "2026-11-11-the-mind-we-see-in-the-machine",
     title: "The mind we see in the machine",
-    date: "2026-11-01",
+    date: "2026-11-11",
     summary: "AI talks so well that many people feel someone is on the other side. What makes it look alive, and how that tricks us.",
     tags: ["llms", "consciousness"]
   },

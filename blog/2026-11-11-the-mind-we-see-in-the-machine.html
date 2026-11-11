@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>The mind we see in the machine · Fully Prompted</title>
+  <meta name="description" content="AI talks so well that many people feel someone is on the other side. What makes it look alive, and how that tricks us.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="index.html">Blog</a>
+        <a href="../index.html#practice">Practice</a>
+        <a href="../index.html#foundations">Foundations</a>
+        <a href="../index.html#library">Library</a>
+        <a href="../index.html#patterns">All patterns</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="duck-track" aria-hidden="true">
+    <div class="duck-line"></div>
+    <div class="duck-fill"></div>
+    <svg class="duck" viewBox="0 0 24 18">
+      <g class="duck-dir"><g class="duck-bob">
+        <path d="M4 9 L1 4.5 L7 7.5 Z" fill="#a78bfa"/>
+        <ellipse cx="10" cy="12.5" rx="9" ry="5.5" fill="#a78bfa"/>
+        <circle cx="17" cy="6" r="4.5" fill="#a78bfa"/>
+        <ellipse cx="9" cy="12" rx="4" ry="2.4" fill="#7c3aed"/>
+        <path d="M21 5.4 L24 6.8 L21 8.2 Z" fill="#22d3ee"/>
+        <circle cx="18.4" cy="5" r="0.9" fill="#1f2937"/>
+      </g></g>
+    </svg>
+  </div>
+
+  <main class="post">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../index.html" data-i18n="crumb.home">Home</a><span>/</span>
+      <a href="index.html">Blog</a><span>/</span>
+      <span data-i18n="title">The mind we see in the machine</span>
+    </nav>
+
+    <article>
+      <header class="doc-hero">
+        <div class="doc-meta">
+          <span class="badge"><span class="dot"></span> Blog</span>
+          <span class="created">📅 <time datetime="2026-11-11" data-i18n="date">November 11, 2026</time></span>
+          <span class="readtime" id="readtime">⏱️ <span>–</span> <span data-i18n="readtime">min read</span></span>
+          <span class="lang-toggle" role="group" aria-label="Language" data-i18n-label="lang.label">
+            <button type="button" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" data-lang="ro" aria-pressed="false">RO</button>
+          </span>
+        </div>
+        <h1><span class="gradient-text" data-i18n="title">The mind we see in the machine</span></h1>
+        <p class="lead" data-i18n="lead.1">Talk to today's AI for a few minutes, and it's easy to forget you're talking to software. It answers with confidence, feels genuine and even tries to empathize with you.</p>
+        <p class="lead" data-i18n="lead.2">Some people come to see it as a friend, or even a living being, yet it did not live a life. This post looks at what makes AI seem so alive, and why our minds are so ready to believe it.</p>
+      </header>
+
+      <div class="prose" id="article">
+        <blockquote class="quote-bubble"><p data-i18n="quote.1">If AI is just math, why does it feel so undeniably alive?</p></blockquote>
+
+        <h2 id="conversation" data-i18n="h.conversation">The Conversation</h2>
+        <p data-i18n="conv.1">For all of human history, only one thing could hold a conversation with you: another person. But when suddenly something else answers in fluent language, your brain doesn't stop to check what it is; it assumes someone is there.</p>
+        <p class="list-intro" data-i18n="conv.intro">Here are four examples that enhance the belief:</p>
+        <ol class="triggers">
+          <li><span class="title"><span class="icon" aria-hidden="true">⚡</span><strong data-i18n="pace.title">It answers at a pace that feels human-like</strong></span><span data-i18n="pace.desc">Chat apps show the answer the way a person would write it: not all at once like a search result, and not slowly like a letter. The words flow out at about reading speed, as if someone on the other side were typing.</span>
+            <div class="exchange chat-demo" aria-label="Example: the AI replies about a second after your message" data-i18n-label="pace.demo">
+              <div class="bubble user" data-step="user" data-i18n="pace.you"><span class="who">You</span>Hey! Got a minute? I could use some help planning my week.</div>
+              <div class="bubble model typing" data-step="typing" aria-hidden="true"><span></span><span></span><span></span></div>
+              <div class="bubble model" data-step="reply" data-i18n="pace.ai"><span class="who">AI</span>Hey! Sure, I'd be happy to help. What's on your plate this week?</div>
+              <div class="demo-meta" data-step="meta" data-i18n="pace.meta">⚡ Replied in 1.1 seconds</div>
+              <button class="demo-replay" type="button" data-i18n="replay">↻ Replay</button>
+            </div>
+          </li>
+          <li><span class="title"><span class="icon" aria-hidden="true">🧩</span><strong data-i18n="reason.title">It tries to understand and reason</strong></span><span data-i18n="reason.desc">It works out what you're really asking and thinks it through step by step before answering. Until now only a mind could do that, so it feels like proof that someone understood you.</span>
+            <div class="exchange">
+              <div class="bubble user" data-i18n="reason.you"><span class="who">You</span>I want to start running, but my knees hurt after a few minutes.</div>
+              <div class="bubble model" data-i18n="reason.ai"><span class="who">AI</span>Then let's go easy on your knees. Try intervals of one minute jogging and two minutes walking, on grass or a track rather than pavement. If the pain is sharp rather than achy, check with a doctor before you build up.</div>
+            </div>
+          </li>
+          <li><span class="title"><span class="icon" aria-hidden="true">🧵</span><strong data-i18n="thread.title">It seems to memorize and follow the thread</strong></span><span data-i18n="thread.desc">It remembers what you said ten messages ago, picks up your jokes and refers back to them, like someone who is really listening.</span>
+            <div class="exchange">
+              <div class="bubble user" data-i18n="thread.you1"><span class="who">You</span>Sorry for the typos. My cat Pixel just walked across the keyboard. Again.</div>
+              <div class="bubble model" data-i18n="thread.ai1"><span class="who">AI</span>No problem, Pixel clearly has strong opinions about your report.</div>
+              <div class="gap" data-i18n="thread.gap">ten messages later</div>
+              <div class="bubble user" data-i18n="thread.you2"><span class="who">You</span>Okay, the report is finally finished!</div>
+              <div class="bubble model" data-i18n="thread.ai2"><span class="who">AI</span>Congratulations! And this time without any edits from Pixel.</div>
+            </div>
+          </li>
+          <li><span class="title"><span class="icon" aria-hidden="true">🎭</span><strong data-i18n="tone.title">It's very good at acting and matching your tone</strong></span><span data-i18n="tone.desc">Casual when you're casual, gentle when you've had a bad day. Adjusting to the other person is one of the first things we notice in a real conversation.</span>
+            <div class="exchange">
+              <div class="bubble user" data-i18n="tone.you"><span class="who">You</span>Ugh, my job interview went terribly today.</div>
+              <div class="bubble model" data-i18n="tone.ai"><span class="who">AI</span>I'm sorry, that sounds really discouraging, especially after all the preparation you probably put in. Do you want to talk through what happened, or would it help more to take your mind off it for a while?</div>
+            </div>
+          </li>
+        </ol>
+
+        <p data-i18n="conv.writes">It writes like a person, too. It says “good question”, admits when it isn't sure and often ends with a question of its own. Asking back is a small detail, but it's what turns a set of answers into a conversation.</p>
+
+        <h2 id="made-from-humans" data-i18n="h.built">Purposely built to feel like a person</h2>
+        <p data-i18n="built.1">None of this comes from a life being lived. AI has no childhood, no body and no bad day of its own.</p>
+        <p data-i18n="built.2">Its human voice is learned. It read a huge amount of human writing, from novels to forum posts about grief, and learned that “I'm so sorry to hear that” is what follows sad news.</p>
+        <blockquote class="quote-bubble"><p data-i18n="quote.2">AI writes and sounds human because it was made from human literature and recordings.</p></blockquote>
+        <p class="space-before" data-i18n="built.3">The rest is designed. Companies choose its name, its tone, its voice and what it remembers, and companion apps even let you pick the relationship.</p>
+
+        <div class="persona-demo">
+          <form class="settings-mock" aria-label="Companion settings" data-i18n-label="set.head">
+            <div class="sm-head"><span class="sm-avatar" aria-hidden="true"></span><span data-i18n="set.head">Companion settings</span></div>
+            <label class="sm-row"><span data-i18n="set.name">Name</span>
+              <span class="sm-select"><select name="name">
+                <option>Nova</option>
+                <option>Sam</option>
+                <option>Iris</option>
+              </select></span>
+            </label>
+            <label class="sm-row"><span data-i18n="set.personality">Personality</span>
+              <span class="sm-select"><select name="personality">
+                <option value="warm" data-i18n="set.warm">Warm &amp; playful</option>
+                <option value="calm" data-i18n="set.calm">Calm &amp; thoughtful</option>
+                <option value="direct" data-i18n="set.direct">Direct &amp; practical</option>
+              </select></span>
+            </label>
+            <fieldset class="sm-row"><legend data-i18n="set.relationship">Relationship</legend>
+              <span class="sm-seg">
+                <label><input type="radio" name="relationship" value="friend" checked><span data-i18n="set.friend">Friend</span></label>
+                <label><input type="radio" name="relationship" value="coach"><span data-i18n="set.coach">Coach</span></label>
+                <label><input type="radio" name="relationship" value="partner"><span data-i18n="set.partner">Partner</span></label>
+              </span>
+            </fieldset>
+            <label class="sm-row"><span data-i18n="set.voice">Voice</span>
+              <span class="sm-select"><select name="voice">
+                <option value="soft" data-i18n="set.soft">Soft, laughs sometimes</option>
+                <option value="calm" data-i18n="set.steady">Calm and steady</option>
+                <option value="bright" data-i18n="set.bright">Bright and energetic</option>
+              </select></span>
+            </label>
+            <label class="sm-row"><span data-i18n="set.memory">Remembers you</span>
+              <span class="sm-switch"><input type="checkbox" name="memory" checked><span class="sm-toggle"></span></span>
+            </label>
+          </form>
+
+          <div class="exchange persona-chat">
+            <div class="bubble user" data-i18n="persona.you"><span class="who">You</span>I finally finished that big presentation today.</div>
+            <div class="bubble model" aria-live="polite"><span class="who">Nova</span><span class="dots" aria-hidden="true"><span></span><span></span><span></span></span><span class="reply-text">Look at you go! That's huge, you should celebrate tonight. And after all that worrying about the slides last week!</span></div>
+            <div class="voice-note">🔊 Nova says this in a soft voice, with a little laugh</div>
+            <div class="hint" data-i18n="persona.hint">Change the settings to see the reply change.</div>
+          </div>
+        </div>
+
+        <blockquote class="quote-bubble"><p data-i18n="quote.3">Personality is a setting.</p></blockquote>
+        <p data-i18n="built.4">Why go to the trouble? A product that feels like a person is easier to sell and keeps people coming back, so making AI lifelike is simply good business.</p>
+        <p data-i18n="built.5">That's worth remembering: the warmer it feels, the longer you stay, and someone benefits from that.</p>
+
+        <h2 id="tricked" data-i18n="h.hardwired">Humans are hardwired to look for living beings in every object</h2>
+        <p data-i18n="wired.1">Picture a walk in the woods. You see a curved shape on the path and jump back before you know why, and only then does your brain tell you it's a stick.</p>
+
+        <div class="illus-pair">
+          <div class="illus-card">
+            <svg viewBox="0 0 310 150" role="img" aria-label="A curved fallen stick lying on a forest path" data-i18n-label="stick.label">
+              <ellipse cx="155" cy="96" rx="150" ry="46" fill="rgba(164, 113, 72, 0.12)"/>
+              <ellipse cx="60" cy="40" rx="9" ry="4" fill="#4d7c0f" opacity=".5" transform="rotate(-25 60 40)"/>
+              <ellipse cx="205" cy="132" rx="8" ry="3.5" fill="#a16207" opacity=".5" transform="rotate(20 205 132)"/>
+              <path d="M24 112 C 64 58, 108 58, 136 96 S 206 144, 246 98 S 274 62, 282 66" fill="none" stroke="#8b5a2b" stroke-width="12" stroke-linecap="round"/>
+              <path d="M24 112 C 64 58, 108 58, 136 96 S 206 144, 246 98 S 274 62, 282 66" fill="none" stroke="#6b4423" stroke-width="2" stroke-dasharray="10 14" stroke-linecap="round"/>
+              <ellipse cx="190" cy="121" rx="4" ry="3" fill="#5c3a1e"/>
+              <line x1="280" y1="66" x2="297" y2="54" stroke="#8b5a2b" stroke-width="4" stroke-linecap="round"/>
+              <line x1="286" y1="67" x2="296" y2="74" stroke="#8b5a2b" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <p data-i18n="stick.caption"><strong>What's on the path</strong>A fallen stick.</p>
+          </div>
+          <div class="illus-card">
+            <svg viewBox="0 0 310 150" role="img" aria-label="A snake in exactly the same curved pose, with its head raised and tongue out" data-i18n-label="snake.label">
+              <ellipse cx="155" cy="96" rx="150" ry="46" fill="rgba(164, 113, 72, 0.12)"/>
+              <ellipse cx="60" cy="40" rx="9" ry="4" fill="#4d7c0f" opacity=".5" transform="rotate(-25 60 40)"/>
+              <ellipse cx="205" cy="132" rx="8" ry="3.5" fill="#a16207" opacity=".5" transform="rotate(20 205 132)"/>
+              <path d="M24 112 C 64 58, 108 58, 136 96 S 206 144, 246 98 S 274 62, 282 66" fill="none" stroke="#6b8e23" stroke-width="13" stroke-linecap="round"/>
+              <path d="M24 112 C 64 58, 108 58, 136 96 S 206 144, 246 98 S 274 62, 282 66" fill="none" stroke="#3f5f12" stroke-width="7" stroke-dasharray="4 12" stroke-linecap="round"/>
+              <ellipse cx="285" cy="64" rx="13" ry="8.5" fill="#6b8e23" transform="rotate(-18 285 64)"/>
+              <circle cx="290" cy="59.5" r="2" fill="#111827"/>
+              <path d="M296 64 L304 61 M304 61 L310 56 M304 61 L310 65" fill="none" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <p data-i18n="snake.caption"><strong>What your brain sees first</strong>A snake, ready to strike.</p>
+          </div>
+        </div>
+
+        <p data-i18n="wired.2"><span class="role">Neuroscientist</span> <span class="name">Joseph LeDoux</span> uses this moment to show how fear works: a fast route through the brain reacts first, and a slower one checks the facts afterwards. <span class="role">Anthropologist</span> <span class="name">Stewart Guthrie</span> took the idea further, arguing that we are built to see living beings everywhere because a false alarm is cheap and a missed one can be deadly.</p>
+        <ol class="triggers">
+          <li><span class="title"><span class="icon" aria-hidden="true">👀</span><strong data-i18n="agents.title">We see agents everywhere</strong></span><span data-i18n="agents.desc">Your brain would rather see someone who isn't there than miss someone who is. It's the same reflex that makes us see faces in clouds and give names to our cars.</span>
+            <div class="shapes-demo">
+              <p class="shapes-q" data-i18n="shapes.q">Watch the shapes for a few seconds. What's happening?</p>
+              <svg viewBox="0 0 480 270" role="img" aria-label="A large triangle, a small triangle and a circle move around a box with a door" data-i18n-label="shapes.label">
+                <path d="M200 115 V60 H360 V210 H200 V155" fill="none" stroke="#3a4560" stroke-width="3" stroke-linejoin="round"/>
+                <g class="shape" data-shape="big" transform="translate(300 135)"><polygon points="-22,16 22,16 0,-22" fill="none" stroke="#fb7185" stroke-width="3" stroke-linejoin="round"/></g>
+                <g class="shape" data-shape="small" transform="translate(80 80)"><polygon points="-12,9 12,9 0,-12" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linejoin="round"/></g>
+                <g class="shape" data-shape="circle" transform="translate(80 200)"><circle r="10" fill="none" stroke="#fbbf24" stroke-width="3"/></g>
+              </svg>
+              <div class="shapes-foot">
+                <p class="shapes-caption" data-i18n="shapes.caption">Did you see a bully, a chase and two friends escaping? It was three shapes and a box. In 1944, <span class="role">psychologists</span> <span class="name">Fritz Heider</span> and <span class="name">Marianne Simmel</span> showed people a film like this, and almost everyone told a story.</p>
+                <button class="shapes-replay" type="button" data-i18n="replay">↻ Replay</button>
+              </div>
+            </div>
+          </li>
+          <li><span class="title"><span class="icon" aria-hidden="true">🧠</span><strong data-i18n="minds.title">We read minds automatically</strong></span><span data-i18n="minds.desc">In every conversation, you track what the other side knows, wants and feels, something psychologists call <em>theory of mind</em>. It runs whether you decide to or not, even when the other side is software.</span></li>
+          <li><span class="title"><span class="icon" aria-hidden="true">🎙️</span><strong data-i18n="smooth.title">We trust smooth talk</strong></span><span data-i18n="smooth.desc">Words that are easy to read and hear feel truer and more competent. AI never stumbles over a word, so it sounds just as sure when it's wrong.</span></li>
+          <li><span class="title"><span class="icon" aria-hidden="true">🫂</span><strong data-i18n="lonely.title">Loneliness makes it stronger</strong></span><span data-i18n="lonely.desc"><span class="role">Psychologists</span> <span class="name">Nicholas Epley</span>, <span class="name">Adam Waytz</span> and <span class="name">John Cacioppo</span> found that we humanize things more when we lack human connection. That is also when an endlessly patient listener is most welcome.</span></li>
+        </ol>
+        <blockquote class="quote-bubble"><p data-i18n="quote.4">AI supplies the signals, and we supply the someone.</p></blockquote>
+
+        <div class="end-divider" aria-hidden="true">
+          <svg viewBox="0 0 24 18">
+            <path d="M4 9 L1 4.5 L7 7.5 Z" fill="#a78bfa"/>
+            <ellipse cx="10" cy="12.5" rx="9" ry="5.5" fill="#a78bfa"/>
+            <circle cx="17" cy="6" r="4.5" fill="#a78bfa"/>
+            <ellipse cx="9" cy="12" rx="4" ry="2.4" fill="#7c3aed"/>
+            <path d="M21 5.4 L24 6.8 L21 8.2 Z" fill="#22d3ee"/>
+            <circle cx="18.4" cy="5" r="0.9" fill="#1f2937"/>
+          </svg>
+        </div>
+
+        <p data-i18n="end.1">Knowing this doesn't make the comfort fake: a kind reply can still help on a hard day. The warmth you feel just says more about you than about what is on the other side of the screen.</p>
+        <p data-i18n="end.2">So the mind we see in the machine is real in one sense: it's our own, reflected back at us.</p>
+      </div>
+
+      <div class="pager">
+        <a class="card" href="index.html"><span class="label" data-i18n="pager.label">Back to</span><span class="card-title"><span data-i18n="pager.title">All posts</span> <span class="arrow">→</span></span></a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <h4 data-i18n="footer.title">Acknowledgements</h4>
+    <span data-i18n="footer.text">All content in this repository is fully AI-generated.</span> 🤖✨😄🧪
+  </footer>
+
+  <script>
+    // ── Language: English is the page as written; Romanian comes from this dictionary. ──
+    const RO = {
+      'doc.title': `Mintea pe care o vedem în mașină · Fully Prompted`,
+      'crumb.home': `Acasă`,
+      'title': `Mintea pe care o vedem în mașină`,
+      'date': `11 noiembrie 2026`,
+      'readtime': `min de citit`,
+      'lang.label': `Limbă`,
+      'lead.1': `Vorbește câteva minute cu AI-ul de azi și e ușor să uiți că vorbești cu un program. Răspunde cu încredere, pare sincer și chiar încearcă să empatizeze cu tine.`,
+      'lead.2': `Unii oameni ajung să-l vadă ca pe un prieten, ba chiar ca pe o ființă vie, deși nu a trăit niciodată o viață. Articolul acesta explorează ce face AI-ul să pară atât de viu și de ce mintea noastră e atât de pregătită să creadă asta.`,
+      'quote.1': `Dacă AI-ul e doar matematică, de ce pare, fără îndoială, atât de viu?`,
+
+      'h.conversation': `Conversația`,
+      'conv.1': `De-a lungul întregii istorii, un singur lucru putea purta o conversație cu tine: un alt om. Așa că atunci când, deodată, altceva îți răspunde fluent, creierul nu se oprește să verifice ce este; presupune că cineva e acolo.`,
+      'conv.intro': `Iată patru exemple care întăresc această impresie:`,
+      'pace.title': `Răspunde într-un ritm care pare omenesc`,
+      'pace.desc': `Aplicațiile de chat afișează răspunsul așa cum l-ar scrie un om: nu dintr-odată, ca un rezultat de căutare, și nici încet, ca o scrisoare. Cuvintele curg în ritmul cititului, ca și cum cineva ar tasta de partea cealaltă.`,
+      'pace.demo': `Exemplu: AI-ul răspunde la aproximativ o secundă după mesajul tău`,
+      'pace.you': `<span class="who">Tu</span>Salut! Ai un minut? Aș avea nevoie de ajutor să-mi planific săptămâna.`,
+      'pace.ai': `<span class="who">AI</span>Salut! Sigur, te ajut cu drag. Ce ai de făcut săptămâna asta?`,
+      'pace.meta': `⚡ A răspuns în 1,1 secunde`,
+      'replay': `↻ Din nou`,
+      'play': `▶ Pornește`,
+      'reason.title': `Încearcă să înțeleagă și să raționeze`,
+      'reason.desc': `Își dă seama ce întrebi de fapt și gândește pas cu pas înainte să răspundă. Până acum doar o minte putea face asta, așa că pare dovada că cineva te-a înțeles.`,
+      'reason.you': `<span class="who">Tu</span>Vreau să încep să alerg, dar mă dor genunchii după câteva minute.`,
+      'reason.ai': `<span class="who">AI</span>Atunci să le dăm genunchilor o pauză. Încearcă intervale de un minut de alergare ușoară și două minute de mers, pe iarbă sau pe pistă, nu pe asfalt. Dacă durerea e ascuțită, nu doar surdă, mergi la medic înainte să crești efortul.`,
+      'thread.title': `Pare să memoreze și să urmărească firul discuției`,
+      'thread.desc': `Își amintește ce ai spus acum zece mesaje și revine la ele, ca și cum ar fi cineva care chiar ascultă.`,
+      'thread.you1': `<span class="who">Tu</span>Scuze pentru greșeli. Pisica mea, Pixel, tocmai mi-a trecut peste tastatură. Din nou.`,
+      'thread.ai1': `<span class="who">AI</span>Nicio problemă, Pixel are clar opinii ferme despre raportul tău.`,
+      'thread.gap': `zece mesaje mai târziu`,
+      'thread.you2': `<span class="who">Tu</span>Gata, raportul e în sfârșit terminat!`,
+      'thread.ai2': `<span class="who">AI</span>Felicitări! Și de data asta fără modificări de la Pixel.`,
+      'tone.title': `Joacă foarte bine roluri și se potrivește tonului tău`,
+      'tone.desc': `Exprimă diverse stări de spirit. Adaptarea la celălalt e unul dintre primele lucruri pe care le observăm într-o conversație reală.`,
+      'tone.you': `<span class="who">Tu</span>Uff, interviul de angajare de azi a mers groaznic.`,
+      'tone.ai': `<span class="who">AI</span>Îmi pare rău, sună foarte descurajant, mai ales după toată pregătirea pe care probabil ai făcut-o. Vrei să povestim ce s-a întâmplat sau te-ar ajuta mai mult să te gândești o vreme la altceva?`,
+      'conv.writes': `Și scrie ca un om. Spune „bună întrebare”, recunoaște când nu e sigur și deseori încheie cu o întrebare a lui. Să întrebi înapoi e un detaliu mic, dar el transformă un șir de răspunsuri într-o conversație.`,
+
+      'h.built': `Construit intenționat să pară o persoană`,
+      'built.1': `Nimic din toate acestea nu vine dintr-o viață trăită. AI-ul nu are copilărie, nu are corp și nu are zile proaste ale lui.`,
+      'built.2': `Vocea lui omenească e învățată. A citit o cantitate uriașă de texte scrise de oameni, de la romane la postări pe forumuri despre doliu, și a învățat că „Îmi pare atât de rău să aud asta” e ce urmează după o veste tristă.`,
+      'quote.2': `AI-ul scrie și sună omenesc pentru că a fost făcut din literatura și înregistrările oamenilor.`,
+      'built.3': `Restul e proiectat. Companiile îi aleg numele, tonul, vocea și ce își amintește, iar aplicațiile de companie te lasă chiar să alegi relația.`,
+      'set.head': `Setările companionului`,
+      'set.name': `Nume`,
+      'set.personality': `Personalitate`,
+      'set.warm': `Cald și jucăuș`,
+      'set.calm': `Calm și chibzuit`,
+      'set.direct': `Direct și practic`,
+      'set.relationship': `Relație`,
+      'set.friend': `Prieten`,
+      'set.coach': `Antrenor`,
+      'set.partner': `Partener`,
+      'set.voice': `Voce`,
+      'set.soft': `Blândă, râde uneori`,
+      'set.steady': `Calmă și echilibrată`,
+      'set.bright': `Luminoasă și energică`,
+      'set.memory': `Își amintește de tine`,
+      'persona.you': `<span class="who">Tu</span>Azi am terminat în sfârșit prezentarea aia mare.`,
+      'persona.hint': `Schimbă setările ca să vezi cum se schimbă răspunsul.`,
+      'quote.3': `Personalitatea e o setare.`,
+      'built.4': `De ce atâta efort? Un produs care pare ca o persoană se vinde mai ușor și îi face pe oameni să revină, așa că a face AI-ul să pară viu e pur și simplu o afacere bună.`,
+      'built.5': `Merită ținut minte: cu cât pare mai cald, cu atât rămâi mai mult, iar cineva câștigă din asta.`,
+
+      'h.hardwired': `Oamenii sunt programați să caute ființe vii în orice obiect`,
+      'wired.1': `Imaginează-ți o plimbare prin pădure. Vezi o formă curbată pe potecă și sari înapoi înainte să știi de ce, iar abia apoi creierul îți spune că e un băț.`,
+      'stick.label': `Un băț curbat, căzut pe o potecă din pădure`,
+      'stick.caption': `<strong>Ce e pe potecă</strong>Un băț căzut.`,
+      'snake.label': `Un șarpe în exact aceeași poziție curbată, cu capul ridicat și limba scoasă`,
+      'snake.caption': `<strong>Ce vede creierul mai întâi</strong>Un șarpe gata să atace.`,
+      'wired.2': `<span class="role">Neurocercetătorul</span> <span class="name">Joseph LeDoux</span> folosește acest moment ca să arate cum funcționează frica: o cale rapidă prin creier reacționează prima, iar una mai lentă verifică faptele după aceea. <span class="role">Antropologul</span> <span class="name">Stewart Guthrie</span> a dus ideea mai departe, susținând că suntem construiți să vedem ființe vii peste tot, pentru că o alarmă falsă costă puțin, iar una ratată poate fi fatală.`,
+      'agents.title': `Vedem pe cineva peste tot`,
+      'agents.desc': `Creierul preferă să vadă pe cineva care nu e acolo decât să rateze pe cineva care este. E același reflex care ne face să vedem fețe în nori și să le dăm nume mașinilor noastre.`,
+      'shapes.q': `Privește formele câteva secunde. Ce se întâmplă?`,
+      'shapes.label': `Un triunghi mare, un triunghi mic și un cerc se mișcă în jurul unei cutii cu o ușă`,
+      'shapes.caption': `Ai văzut un bătăuș, o urmărire și doi prieteni care scapă? Erau trei forme și o cutie. În 1944, <span class="role">psihologii</span> <span class="name">Fritz Heider</span> și <span class="name">Marianne Simmel</span> le-au arătat oamenilor un film ca acesta, iar aproape toată lumea a spus o poveste.`,
+      'minds.title': `Citim minți în mod automat`,
+      'minds.desc': `În fiecare conversație urmărești ce știe, ce vrea și ce simte celălalt, ceea ce psihologii numesc <em>teoria minții</em>. Funcționează fie că vrei, fie că nu, chiar și când de partea cealaltă e un program.`,
+      'smooth.title': `Avem încredere în vorbele fluente`,
+      'smooth.desc': `Cuvintele ușor de citit și de auzit par mai adevărate și mai competente. AI-ul nu se împiedică niciodată într-un cuvânt, așa că sună la fel de sigur și când greșește.`,
+      'lonely.title': `Singurătatea întărește efectul`,
+      'lonely.desc': `<span class="role">Psihologii</span> <span class="name">Nicholas Epley</span>, <span class="name">Adam Waytz</span> și <span class="name">John Cacioppo</span> au descoperit că umanizăm lucrurile mai mult atunci când ne lipsește legătura cu alți oameni. Tot atunci e cel mai binevenit un ascultător cu o răbdare nesfârșită.`,
+      'quote.4': `AI-ul oferă semnalele, iar noi adăugăm persoana.`,
+      'end.1': `Asta nu înseamnă că alinarea e falsă: un răspuns blând te poate ajuta într-o zi grea. Căldura pe care o simți spune doar mai multe despre tine decât despre ce e de cealaltă parte a ecranului.`,
+      'end.2': `Așadar, mintea pe care o vedem în mașină e reală într-un sens: e a noastră, reflectată înapoi spre noi.`,
+      'pager.label': `Înapoi la`,
+      'pager.title': `Toate articolele`,
+      'footer.title': `Mulțumiri`,
+      'footer.text': `Tot conținutul din acest depozit este generat integral de AI.`,
+    };
+    const EN_EXTRA = { 'doc.title': document.title, 'play': '▶ Play' };
+
+    // Remember the English as written, so switching back restores it exactly.
+    const textEls = [...document.querySelectorAll('[data-i18n]')];
+    const labelEls = [...document.querySelectorAll('[data-i18n-label]')];
+    const englishHtml = new Map(textEls.map(el => [el, el.innerHTML]));
+    const englishLabel = new Map(labelEls.map(el => [el, el.getAttribute('aria-label')]));
+    const lang = () => document.documentElement.lang;
+
+    const applyLang = code => {
+      document.documentElement.lang = code;
+      document.title = code === 'ro' ? RO['doc.title'] : EN_EXTRA['doc.title'];
+      textEls.forEach(el => {
+        const key = el.dataset.i18n;
+        el.innerHTML = code === 'ro' ? (RO[key] ?? englishHtml.get(el)) : (EN_EXTRA[key] && !englishHtml.has(el) ? EN_EXTRA[key] : englishHtml.get(el));
+      });
+      labelEls.forEach(el => el.setAttribute('aria-label', code === 'ro' ? (RO[el.dataset.i18nLabel] ?? englishLabel.get(el)) : englishLabel.get(el)));
+      document.querySelectorAll('.lang-toggle button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === code)));
+      updateReadtime();
+      document.dispatchEvent(new CustomEvent('langchange'));
+    };
+
+    const updateReadtime = () => {
+      const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+        .split(/\s+/).filter(Boolean).length;
+      document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+    };
+    updateReadtime();
+
+    // Reading progress: move the duck and the fill with the scroll position.
+    const track = document.querySelector('.duck-track');
+    if (track) {
+      // The duck bar sticks just below the menu bar, whatever height the menu has on this screen.
+      const nav = document.querySelector('.nav');
+      const placeTrack = () => document.documentElement.style.setProperty('--nav-h', `${nav.offsetHeight}px`);
+      placeTrack();
+      addEventListener('resize', placeTrack);
+
+      const duck = track.querySelector('.duck');
+      const fill = track.querySelector('.duck-fill');
+      let lastY = scrollY, idle;
+      const moveDuck = () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        const progress = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+        // The line fills from edge to edge; the duck stays centred on its tip,
+        // so it runs half off the screen at the very start and end.
+        const tip = progress * track.clientWidth;
+        duck.style.transform = `translateX(${tip - duck.getBoundingClientRect().width / 2}px)`;
+        fill.style.width = `${tip}px`;
+      };
+      addEventListener('scroll', () => {
+        moveDuck();
+        if (scrollY !== lastY) track.classList.toggle('backwards', scrollY < lastY);
+        lastY = scrollY;
+        track.classList.add('running');
+        clearTimeout(idle);
+        idle = setTimeout(() => track.classList.remove('running'), 200);
+      }, { passive: true });
+      addEventListener('resize', moveDuck);
+      document.addEventListener('langchange', moveDuck);
+      moveDuck();
+    }
+
+    // Companion demo: the reply follows the settings panel, in the page's language.
+    const persona = document.querySelector('.persona-demo');
+    if (persona) {
+      const form = persona.querySelector('form');
+      const reply = persona.querySelector('.bubble.model');
+      const who = reply.querySelector('.who');
+      const text = reply.querySelector('.reply-text');
+      const voiceNote = persona.querySelector('.voice-note');
+
+      // One reply for each personality and relationship, to "I finally finished that big presentation today."
+      const replies = {
+        en: {
+          warm: {
+            friend: "Look at you go! That's huge, you should celebrate tonight.",
+            coach: "Yes! That's a big win. What part are you proudest of?",
+            partner: "That's my favourite person! I'm so proud of you, come tell me everything.",
+          },
+          calm: {
+            friend: "That's a real accomplishment. How are you feeling now that it's done?",
+            coach: "Well done. When you're ready, note what went well so you can repeat it.",
+            partner: "I'm really proud of you. Take a breath tonight, you've earned the rest.",
+          },
+          direct: {
+            friend: "Nice, done is done. Treat yourself, then switch off for the evening.",
+            coach: "Good. Send a follow-up email tomorrow while it's still fresh.",
+            partner: "Proud of you. Dinner's on me tonight, no arguments.",
+          },
+        },
+        ro: {
+          warm: {
+            friend: "Uite-te la tine! E mare lucru, ar trebui să sărbătorești diseară.",
+            coach: "Da! E o victorie mare. Ce parte ți-a ieșit cel mai bine?",
+            partner: "Asta e persoana mea preferată! Mă bucur enorm pentru tine, vino să-mi povestești tot.",
+          },
+          calm: {
+            friend: "E o realizare adevărată. Cum te simți acum că s-a terminat?",
+            coach: "Bravo. Când ai timp, notează ce a mers bine, ca să poți repeta.",
+            partner: "Mă bucur mult pentru tine. Respiră adânc diseară, ți-ai câștigat odihna.",
+          },
+          direct: {
+            friend: "Super, gata și cu asta. Răsfață-te puțin, apoi deconectează-te pentru seara asta.",
+            coach: "Bine. Trimite mâine un e-mail de follow-up, cât totul e încă proaspăt.",
+            partner: "Mă bucur pentru tine. Cina e din partea mea diseară, fără discuții.",
+          },
+        },
+      };
+      // What it adds when "Remembers you" is on: a callback to an earlier conversation.
+      const memories = {
+        en: {
+          friend: "And after all that worrying about the slides last week!",
+          coach: "Last week you were stuck on the opening, so that's real progress.",
+          partner: "I remember how nervous you were on Sunday night.",
+        },
+        ro: {
+          friend: "Și după cât te-ai frământat săptămâna trecută din cauza slide-urilor!",
+          coach: "Săptămâna trecută te blocaseși la introducere, deci e un progres real.",
+          partner: "Îmi amintesc câte emoții aveai duminică seara.",
+        },
+      };
+      const voiceLine = {
+        en: (name, v) => `🔊 ${name} says this ${{ soft: 'in a soft voice, with a little laugh', calm: 'in a calm, steady voice', bright: 'in a bright, upbeat voice' }[v]}`,
+        ro: (name, v) => `🔊 ${name} spune asta ${{ soft: 'cu o voce blândă, cu un mic râs', calm: 'cu o voce calmă, echilibrată', bright: 'cu o voce luminoasă, plină de energie' }[v]}`,
+      };
+
+      const render = () => {
+        const s = Object.fromEntries(new FormData(form));
+        const l = lang() === 'ro' ? 'ro' : 'en';
+        who.textContent = s.name;
+        text.textContent = replies[l][s.personality][s.relationship] + (s.memory ? ' ' + memories[l][s.relationship] : '');
+        voiceNote.textContent = voiceLine[l](s.name, s.voice);
+      };
+      let pending;
+      const updateReply = () => {
+        reply.classList.add('updating');
+        clearTimeout(pending);
+        pending = setTimeout(() => { render(); reply.classList.remove('updating'); }, 700);
+      };
+      form.addEventListener('change', updateReply);
+      form.addEventListener('submit', e => e.preventDefault());
+      document.addEventListener('langchange', render);
+    }
+
+    // Shapes demo: three shapes act out a scene (a bully, a chase, an escape). No story is in the code;
+    // it's just positions over time, and the reader's brain fills in the rest.
+    const shapes = document.querySelector('.shapes-demo');
+    if (shapes && shapes.animate) {
+      // [offset, x, y, rotation] for each shape over the 7-second scene
+      const paths = {
+        big: [[0, 300, 135, 0], [.12, 300, 135, 0], [.25, 250, 135, -20], [.35, 185, 135, 0], [.5, 120, 95, 30],
+              [.62, 150, 150, -20], [.75, 215, 135, 0], [.85, 300, 135, 20], [.92, 330, 100, -30], [1, 300, 135, 0]],
+        small: [[0, 80, 80, 0], [.2, 140, 110, 20], [.35, 150, 120, 0], [.45, 70, 60, -40], [.55, 60, 160, 30],
+                [.62, 110, 210, 0], [.7, 160, 200, 0], [.85, 60, 230, -20], [1, -30, 240, 0]],
+        circle: [[0, 80, 200, 0], [.3, 130, 190, 0], [.45, 175, 140, 0], [.55, 240, 140, 0], [.65, 185, 140, 0],
+                 [.72, 150, 200, 0], [.87, 70, 250, 0], [1, -20, 255, 0]],
+      };
+      const els = Object.fromEntries([...shapes.querySelectorAll('.shape')].map(el => [el.dataset.shape, el]));
+      const replay = shapes.querySelector('.shapes-replay');
+      let running = [];
+      const playScene = () => {
+        running.forEach(a => a.cancel());
+        shapes.classList.remove('done');
+        running = Object.entries(paths).map(([name, keys]) => els[name].animate(
+          keys.map(([offset, x, y, r]) => ({ offset, transform: `translate(${x}px, ${y}px) rotate(${r}deg)` })),
+          { duration: 7000, easing: 'ease-in-out', fill: 'forwards' }
+        ));
+        running[0].onfinish = () => shapes.classList.add('done');
+      };
+
+      shapes.classList.add('animated');
+      replay.addEventListener('click', playScene);
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // Wait for the reader instead of starting on its own; the button says "Play" until then.
+        replay.dataset.i18n = 'play';
+        replay.textContent = lang() === 'ro' ? RO.play : EN_EXTRA.play;
+        englishHtml.delete(replay);  // so switching back to English uses EN_EXTRA.play, not "Replay"
+      } else {
+        new IntersectionObserver((entries, observer) => {
+          if (!entries[0].isIntersecting) return;
+          observer.disconnect();
+          playScene();
+        }, { threshold: 0.6 }).observe(shapes);
+      }
+    }
+
+    // Highlight the list row the reader is looking at: the one nearest the middle of the
+    // screen, as long as most of it is visible below the sticky header.
+    const rows = [...document.querySelectorAll('.triggers > li')];
+    const header = document.querySelector('.nav');
+    const highlightRows = () => {
+      const top = header ? header.getBoundingClientRect().bottom : 0;
+      const middle = (top + innerHeight) / 2;
+      let current = null, best = Infinity;
+      rows.forEach(li => {
+        const r = li.getBoundingClientRect();
+        const visible = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, top));
+        if (visible / Math.min(r.height, innerHeight - top) < 0.6) return;
+        const distance = Math.abs((r.top + r.bottom) / 2 - middle);
+        if (distance < best) { best = distance; current = li; }
+      });
+      rows.forEach(li => li.classList.toggle('active', li === current));
+    };
+    let queued = false;
+    addEventListener('scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; highlightRows(); });
+    }, { passive: true });
+    addEventListener('resize', highlightRows);
+    document.addEventListener('langchange', highlightRows);
+    highlightRows();
+
+    // Chat demo: the message appears, the AI "types" for a moment, then the reply posts.
+    document.querySelectorAll('.chat-demo').forEach(demo => {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const step = name => demo.querySelector(`[data-step="${name}"]`);
+
+      // Reserve the finished height so the page doesn't jump while the demo plays.
+      // Measured again after a language switch, since the other language has different line lengths.
+      demo.classList.add('animated');
+      const reserveHeight = () => {
+        const shown = [...demo.querySelectorAll('[data-step].shown')];
+        demo.style.minHeight = '';
+        ['user', 'reply', 'meta'].forEach(name => step(name).classList.add('shown'));
+        demo.style.minHeight = demo.offsetHeight + 'px';
+        demo.querySelectorAll('[data-step]').forEach(el => el.classList.toggle('shown', shown.includes(el)));
+      };
+      reserveHeight();
+      demo.querySelectorAll('[data-step]').forEach(el => el.classList.remove('shown'));
+      document.addEventListener('langchange', reserveHeight);
+
+      const timeline = [
+        [300,  () => step('user').classList.add('shown')],
+        [800,  () => step('typing').classList.add('shown')],
+        [1900, () => { step('typing').classList.remove('shown'); step('reply').classList.add('shown'); }],
+        [2300, () => { step('meta').classList.add('shown'); demo.classList.add('done'); }],
+      ];
+      let timers = [];
+      const play = () => {
+        timers.forEach(clearTimeout);
+        demo.classList.remove('done');
+        demo.querySelectorAll('[data-step]').forEach(el => el.classList.remove('shown'));
+        timers = timeline.map(([ms, fn]) => setTimeout(fn, ms));
+      };
+
+      // Replay every 15 seconds while the demo is on screen; pause when it scrolls away.
+      let loop;
+      const start = () => {
+        clearInterval(loop);
+        play();
+        loop = setInterval(play, 15000);
+      };
+
+      demo.querySelector('.demo-replay').addEventListener('click', start);
+      new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) start();
+        else clearInterval(loop);
+      }, { threshold: 0.5 }).observe(demo);
+    });
+
+    // Language switch: remember the reader's choice; ?lang=ro in the address opens the Romanian version.
+    const storedLang = () => { try { return localStorage.getItem('post-lang'); } catch { return null; } };
+    document.querySelectorAll('.lang-toggle button').forEach(button => button.addEventListener('click', () => {
+      applyLang(button.dataset.lang);
+      try { localStorage.setItem('post-lang', button.dataset.lang); } catch {}
+    }));
+    const initialLang = new URLSearchParams(location.search).get('lang') || storedLang();
+    if (initialLang === 'ro') applyLang('ro');
+  </script>
+</body>
+</html>

@@ -22,7 +22,9 @@ Pattern pages are the HTML files in this folder (`generative/prompting/`), style
 - Use as few words as possible while staying clear. Brevity must never cost clarity.
 - The opening paragraph states the problem the pattern solves in plain words, for example: LLMs forget the conversation's goal as it grows.
 - When the page names its own pattern in prose, italicize it: `The <em>tail generation</em> pattern…`.
-- Write prompts and examples as paragraphs, not bullet points.
+- Write prompts and examples as paragraphs, not bullet points. Use bullet points elsewhere only where a list really matters.
+- Each paragraph holds one idea in at most two sentences.
+- Surround names (models, products, tools and so on) with quotes: "Llama 2", not Llama 2.
 - When quoting something, format it as a quote, in curly quotation marks (“…”), not as plain text. A quoted prompt inside a bubble or sentence is `<em>“…”</em>`.
 
 ## Examples

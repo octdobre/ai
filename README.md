@@ -32,7 +32,7 @@ Prompts you write once and reuse: skills, taste as a frontend skill, instruction
 
 ## 🔬 Foundations
 
-- **Science:** [The software behind LLMs](foundations/science/software_behind_llms.html). *Planned:* neural networks, machine learning, large language models, pattern recognition, sentiment analysis, ranking and scoring, categorizing, language
+- **Science:** [The software behind LLMs](foundations/science/software_behind_llms.html), [The model behind LLMs](foundations/science/model_behind_llms.html). *Planned:* neural networks, machine learning, large language models, pattern recognition, sentiment analysis, ranking and scoring, categorizing, language
 - **Humanities** *(planned)*: psychology, politics, philosophy
 
 ## 🖥️ Infrastructure

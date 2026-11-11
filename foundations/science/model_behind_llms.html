@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>The model behind LLMs · Fully Prompted</title>
+  <meta name="description" content="The model file of an LLM: its training data, how training turns text into weights, the variations models come in, and which models are closed, open weights or fully open.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../blog/index.html">Blog</a>
+        <a href="../../index.html#practice">Practice</a>
+        <a href="../../index.html#foundations">Foundations</a>
+        <a href="../../index.html#library">Library</a>
+        <a href="../../index.html#patterns">All patterns</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#foundations">Foundations</a><span>/</span>
+      <span>The model behind LLMs</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Science</span>
+            <span class="created">📅 Created: <time datetime="2026-11-09">November 9, 2026</time></span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1><span class="gradient-text">The model behind LLMs</span></h1>
+          <p class="lead">The model is the part of an LLM that holds its knowledge. This article covers its training data, its weights and its variations.</p>
+        </header>
+
+        <div class="prose" id="article">
+
+          <h2 id="data">Training data</h2>
+          <p>Every model is trained on large collections of text, such as books, crawled web pages, source code and almost any other text. The amount is measured in tokens, which are words or pieces of words: “Llama 2” was trained on 2 trillion, and “Llama 3” on over 15 trillion.</p>
+          <p>The collection stops at a date called the <em>training cutoff</em>. The model knows nothing that happened after that date.</p>
+          <p>Most companies don't publish exactly which texts they used. Whether training on copyrighted text is legal is still being decided in court.</p>
+          <blockquote class="quote-bubble"><p>A model only knows what it was trained on.</p></blockquote>
+
+          <h2 id="weights">From text to weights</h2>
+          <p>Training turns that text into weights, which start as random numbers. The training program reads some text, predicts the next token and nudges every weight slightly so the right token becomes more likely.</p>
+          <p>Over trillions of tokens, the weights settle into patterns such as grammar, facts and writing styles. The text itself isn't actually stored in the model.</p>
+          <p>Weights are also called <em>parameters</em>, and their count is often the size shown in a model's name. “Llama 2” comes in 7B, 13B and 70B versions, meaning 7, 13 and 70 billion parameters.</p>
+          <p>A model with more parameters can hold more patterns, but needs more memory and runs slower.</p>
+
+          <h2 id="open-closed">Open and closed models</h2>
+          <p><strong>Closed models</strong> never leave the company that trained them. You reach them only through its app or API, so you can't download, inspect or run them yourself, and the company can change or retire a version at any time. Examples include OpenAI's “GPT”, Anthropic's “Claude” and Google's “Gemini”.</p>
+          <p><strong>Open-weights models</strong> can be downloaded and run with an engine like <code>llama.cpp</code>. They include Meta's “Llama”, Alibaba's “Qwen”, “DeepSeek” and Google's “Gemma”.</p>
+          <p>Open-weights models still don't include the training data or the training code, so nobody else can rebuild them. <strong>Fully open models</strong> publish the weights, the data and the code, such as “OLMo” from the Allen Institute for AI and “Pythia” from EleutherAI.</p>
+          <blockquote class="quote-bubble"><p>Open weights is a free binary. Fully open is the source code too.</p></blockquote>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th></th><th>Closed</th><th>Open weights</th><th>Fully open</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Run it yourself</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Training data</td><td>Not published</td><td>Not published</td><td>Published</td></tr>
+                <tr><td>Training code</td><td>Not published</td><td>Not published</td><td>Published</td></tr>
+                <tr><td>Examples</td><td>GPT, Claude, Gemini</td><td>Llama, Qwen, DeepSeek, Gemma</td><td>OLMo, Pythia</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="variations">Variations</h2>
+          <p>A model family usually comes in several sizes, from small models that run on a phone to large ones that need a data centre.</p>
+          <p>Alibaba's open “Qwen3” family has six sizes from “Qwen3-0.6B” to “Qwen3-32B”, plus two <em>mixture-of-experts</em> models, which use only part of their weights for each token.</p>
+          <p>Those two are “Qwen3-30B-A3B” and “Qwen3-235B-A22B”, where the number after “A” is the parameters used per token: 3 billion of 30, and 22 billion of 235.</p>
+          <p>Each size can also be downloaded <em>quantized</em>, with its weights rounded to fewer bits so it fits on smaller hardware, at some cost in quality.</p>
+          <p>OpenAI's closed “GPT-6” family is split by purpose instead, and its parameter counts aren't published. You pick a tier by trading off capability, speed and cost:</p>
+          <ul>
+            <li><strong>“GPT-6 Astra”:</strong> the most capable, for the hardest reasoning, coding and professional work.</li>
+            <li><strong>“GPT-6.1 Sol”:</strong> close to Astra on complex work, at a lower cost.</li>
+            <li><strong>“GPT-6.1 Terra”:</strong> fast and efficient, for working with images, operating computer screens and writing natural text.</li>
+            <li><strong>“GPT-6 Luna”:</strong> the fastest and cheapest, for simple tasks in high volume.</li>
+          </ul>
+          <p>With “Qwen3” you choose a size and run it yourself. With “GPT-6” you choose a tier, and OpenAI runs it for you.</p>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/2307.09288" target="_blank" rel="noopener">Touvron et al., Llama 2: Open Foundation and Fine-Tuned Chat Models (2023)</a></li>
+            <li><a class="ext" href="https://qwenlm.github.io/blog/qwen3/" target="_blank" rel="noopener">Qwen, Qwen3: Think Deeper, Act Faster (2025)</a></li>
+            <li><a class="ext" href="https://developers.openai.com/api/docs/guides/latest-model" target="_blank" rel="noopener">OpenAI, Using GPT-6: choosing between Astra, Sol, Terra and Luna</a></li>
+            <li><a class="ext" href="https://commoncrawl.org/" target="_blank" rel="noopener">Common Crawl: the open web archive behind most training data</a></li>
+            <li><a class="ext" href="https://huggingface.co/docs/hub/gguf" target="_blank" rel="noopener">Hugging Face: the GGUF format and its quantization types</a></li>
+            <li><a class="ext" href="https://allenai.org/olmo" target="_blank" rel="noopener">OLMo: a fully open model from Ai2</a></li>
+            <li><a class="ext" href="https://opensource.org/ai/open-source-ai-definition" target="_blank" rel="noopener">Open Source Initiative: The Open Source AI Definition</a></li>
+          </ul>
+        </div>
+
+        <div class="pager">
+          <a class="card" href="software_behind_llms.html"><span class="label">Previous</span><span class="card-title">The software behind LLMs <span class="arrow">→</span></span></a>
+        </div>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#data">Training data</a></li>
+          <li><a href="#weights">From text to weights</a></li>
+          <li><a href="#open-closed">Open and closed models</a></li>
+          <li><a href="#variations">Variations</a></li>
+          <li><a href="#further-reading">Further reading 🔗</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>
