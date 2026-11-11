@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Imitation of intelligence · Fully Prompted</title>
+  <meta name="description" content="Part 2 of The Fabricated Mind: how intelligence is defined in humans and animals, and which parts of it an LLM shows or lacks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../blog/index.html">Blog</a>
+        <a href="../../index.html#practice">Practice</a>
+        <a href="../../index.html#foundations">Foundations</a>
+        <a href="../../index.html#library">Library</a>
+        <a href="../../index.html#patterns">All patterns</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#foundations">Foundations</a><span>/</span>
+      <span>Imitation of intelligence</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Humanities</span>
+            <span class="created">📅 Created: <time datetime="2026-11-11">November 11, 2026</time></span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1><span class="gradient-text">Imitation of intelligence</span></h1>
+          <p class="lead">An LLM can pass law exams, write working code and explain quantum physics in plain words. This article looks at how intelligence is defined in humans and animals, and which parts of it an LLM really has.</p>
+          <nav class="series" aria-label="Series">
+            <span class="series-label">Series · The Fabricated Mind</span>
+            <ol>
+              <li><a href="acted_feelings.html">Acted feelings</a></li>
+              <li class="current">Imitation of intelligence</li>
+              <li><a href="fabricated_consciousness.html">Fabricated consciousness</a></li>
+              <li><a href="statistical_reasoning.html">Statistical reasoning</a></li>
+            </ol>
+          </nav>
+        </header>
+
+        <div class="prose" id="article">
+
+          <h2 id="definition">How intelligence is defined</h2>
+          <p>There is no single agreed definition, but most researchers describe intelligence as a general ability to learn, understand and adapt. It includes reasoning, planning, solving new problems and learning quickly from experience.</p>
+          <p>In 1904, Charles Spearman noticed that children who did well on one kind of test tended to do well on the others. He called this shared factor <em>g</em>, for general intelligence, and IQ tests still measure it today.</p>
+          <p>Howard Gardner later argued for several separate intelligences, such as musical, bodily and social. His theory is debated, but it reminds us that intelligence is more than what a written test can capture.</p>
+          <p>Shane Legg and Marcus Hutter defined it more broadly as an agent's ability to achieve goals in a wide range of environments. François Chollet narrowed this further: intelligence is how <em>efficiently</em> you acquire new skills from little data and experience.</p>
+          <blockquote class="quote-bubble"><p>Knowing a lot is not the same as learning fast.</p></blockquote>
+
+          <h2 id="animals">Intelligence in other living beings</h2>
+          <p>In the 1910s, Wolfgang Köhler watched chimpanzees on Tenerife reach hanging bananas. They stacked boxes and joined two short sticks into one long one, solutions nobody had shown them.</p>
+          <p>In 2002, a New Caledonian crow called Betty was given a straight wire and a small bucket of food at the bottom of a tube. She bent the wire into a hook and lifted the bucket out, on her first tries.</p>
+          <p>Neither the chimps nor Betty had seen those exact problems before. They faced something new in the physical world, figured out a solution and used it right away.</p>
+
+          <h2 id="displays">What an LLM displays</h2>
+          <p>An LLM displays a huge amount of <strong>crystallized knowledge</strong>, the stored facts and skills that psychologists separate from the ability to solve new problems. It has absorbed more text than any human could read in thousands of lifetimes.</p>
+          <p>It also displays <strong>fluent problem-solving</strong> on familiar tasks. OpenAI reported in 2023 that “GPT-4” scored around the 90th percentile on a simulated US bar exam.</p>
+          <p>A 2024 re-analysis by Eric Martínez found that the figure was inflated and that, against first-time test takers, the score was much closer to average. It was still a passing result for a text predictor.</p>
+          <p>Within a single conversation, an LLM can also <strong>pick up a pattern from a few examples</strong>, called in-context learning. Show it three made-up words and their translations, and it can often translate a fourth.</p>
+
+          <h2 id="lacks">What an LLM lacks</h2>
+          <p>An LLM lacks <strong>learning from experience</strong>. Its weights are frozen after training, so it doesn't learn anything from your conversation unless the text is fed back to it.</p>
+          <p>It lacks <strong>efficient learning</strong>. Michael Frank pointed out in 2023 that children become fluent speakers from tens of millions of words, while LLMs need thousands of times more text to get there.</p>
+          <p>It struggles with <strong>truly new problems</strong>. Chollet's ARC-AGI benchmark uses small grid puzzles that most people solve in minutes, and when its second version launched in 2025, plain LLMs scored close to zero while every task had been solved by human testers.</p>
+          <p>Its knowledge is <strong>not organized like understanding</strong>. In the “Reversal Curse” study, Lukas Berglund and colleagues showed that “GPT-4” knew Tom Cruise's mother is Mary Lee Pfeiffer in 79% of tries, but could name Mary Lee Pfeiffer's son in only 33%.</p>
+          <p>A person who knows one direction of that fact knows the other. The model learned a sequence of words that usually appears in one order.</p>
+          <p>Finally, it lacks a <strong>body in the world</strong>. Betty learned what wire does by touching it, while an LLM only knows how people write about wire.</p>
+          <blockquote class="quote-bubble"><p>It answers like an expert. It learns like a library.</p></blockquote>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Part of intelligence</th><th>Living beings</th><th>LLM</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Stored knowledge</td><td>Yes, limited</td><td>Yes, enormous</td></tr>
+                <tr><td>Solving familiar problems</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Learning from a few examples</td><td>Yes</td><td>Partly, only inside one conversation</td></tr>
+                <tr><td>Learning from experience</td><td>Yes</td><td>No, weights stay fixed</td></tr>
+                <tr><td>Solving truly new problems</td><td>Yes</td><td>Weak</td></tr>
+                <tr><td>Grounding in the physical world</td><td>Yes</td><td>No</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="imitation">Why it's an imitation</h2>
+          <p>Alan Turing proposed in 1950 that if a machine's answers can't be told apart from a person's, we might as well call it intelligent. LLMs now pass versions of that test in short chats.</p>
+          <p>Yet the test only measures the output, not how it was produced. An LLM reaches intelligent-sounding answers by recombining patterns from human writing, which is why it shines where humans have written a lot and stumbles where they haven't.</p>
+          <div class="callout"><p>💡 Use an LLM like a very well-read assistant. Lean on it for what is widely known, and check it closely on anything new, rare or specific to your situation.</p></div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://arxiv.org/abs/0712.3329" target="_blank" rel="noopener">Legg &amp; Hutter, Universal Intelligence: A Definition of Machine Intelligence (2007)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/1911.01547" target="_blank" rel="noopener">Chollet, On the Measure of Intelligence (2019)</a></li>
+            <li><a class="ext" href="https://doi.org/10.1126/science.1073433" target="_blank" rel="noopener">Weir, Chappell &amp; Kacelnik, Shaping of Hooks in New Caledonian Crows (2002)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2303.08774" target="_blank" rel="noopener">OpenAI, GPT-4 Technical Report (2023)</a></li>
+            <li><a class="ext" href="https://doi.org/10.1007/s10506-024-09396-9" target="_blank" rel="noopener">Martínez, Re-evaluating GPT-4's bar exam performance (2024)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2309.12288" target="_blank" rel="noopener">Berglund et al., The Reversal Curse: LLMs trained on “A is B” fail to learn “B is A” (2023)</a></li>
+            <li><a class="ext" href="https://doi.org/10.1016/j.tics.2023.08.007" target="_blank" rel="noopener">Frank, Bridging the data gap between children and large language models (2023)</a></li>
+            <li><a class="ext" href="https://arcprize.org/arc-agi" target="_blank" rel="noopener">ARC Prize: the ARC-AGI benchmarks</a></li>
+          </ul>
+        </div>
+
+        <div class="pager">
+          <a class="card" href="acted_feelings.html"><span class="label">Previous · Part 1</span><span class="card-title">Acted feelings <span class="arrow">→</span></span></a>
+          <a class="card" href="fabricated_consciousness.html"><span class="label">Next · Part 3</span><span class="card-title">Fabricated consciousness <span class="arrow">→</span></span></a>
+        </div>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#definition">How intelligence is defined</a></li>
+          <li><a href="#animals">Intelligence in other living beings</a></li>
+          <li><a href="#displays">What an LLM displays</a></li>
+          <li><a href="#lacks">What an LLM lacks</a></li>
+          <li><a href="#imitation">Why it's an imitation</a></li>
+          <li><a href="#further-reading">Further reading 🔗</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

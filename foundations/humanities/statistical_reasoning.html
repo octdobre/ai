@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%92%AC%3C/text%3E%3C/svg%3E">
+  <title>Statistical reasoning · Fully Prompted</title>
+  <meta name="description" content="Part 4 of The Fabricated Mind: how reasoning is defined in living beings, which parts an LLM shows, and why its answers look like reasoning when they are not.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../../index.html"><span class="brand-mark">💬</span> Fully Prompted <span class="byline">– by Octavian Dobre</span></a>
+      <nav class="nav-links">
+        <a href="../../blog/index.html">Blog</a>
+        <a href="../../index.html#practice">Practice</a>
+        <a href="../../index.html#foundations">Foundations</a>
+        <a href="../../index.html#library">Library</a>
+        <a href="../../index.html#patterns">All patterns</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="../../index.html">Home</a><span>/</span>
+      <a href="../../index.html#foundations">Foundations</a><span>/</span>
+      <span>Statistical reasoning</span>
+    </nav>
+
+    <div class="doc">
+      <article>
+        <header class="doc-hero">
+          <div class="doc-meta">
+            <span class="badge"><span class="dot"></span> Humanities</span>
+            <span class="created">📅 Created: <time datetime="2026-11-11">November 11, 2026</time></span>
+            <span class="readtime" id="readtime">⏱️ <span>–</span> min read</span>
+          </div>
+          <h1><span class="gradient-text">Statistical reasoning</span></h1>
+          <p class="lead">Modern LLMs show their work: step one, step two, therefore the answer. This article looks at how reasoning is defined in living beings, which parts of it an LLM shows, and why its answers look like reasoning when they are not.</p>
+          <nav class="series" aria-label="Series">
+            <span class="series-label">Series · The Fabricated Mind</span>
+            <ol>
+              <li><a href="acted_feelings.html">Acted feelings</a></li>
+              <li><a href="imitation_of_intelligence.html">Imitation of intelligence</a></li>
+              <li><a href="fabricated_consciousness.html">Fabricated consciousness</a></li>
+              <li class="current">Statistical reasoning</li>
+            </ol>
+          </nav>
+        </header>
+
+        <div class="prose" id="article">
+
+          <h2 id="definition">How reasoning is defined</h2>
+          <p>Reasoning is drawing new conclusions from what you already know. Unlike recall, it can produce an answer you have never seen before.</p>
+          <p>Philosophers describe three main kinds. <em>Deduction</em> gives certain conclusions from rules, <em>induction</em> generalizes from examples, and <em>abduction</em>, named by Charles Peirce, picks the best explanation for what you observe.</p>
+          <p>Psychologist Philip Johnson-Laird argued that people reason by building <em>mental models</em>, small simulations of how the situation could be. We then check whether a conclusion holds in every model we can imagine.</p>
+          <p>Daniel Kahneman separated fast, intuitive thinking from slow, deliberate thinking. Real reasoning usually needs the slow kind, which follows rules even when the answer feels wrong.</p>
+          <blockquote class="quote-bubble"><p>To reason is to follow the rule, not the familiar answer.</p></blockquote>
+
+          <h2 id="animals">Reasoning in other living beings</h2>
+          <p>In 2007, Logan Grosenick's team let male cichlid fish watch other males fight. Having seen that A beat B and B beat C, the fish acted as if A outranked C, a deduction called <em>transitive inference</em>.</p>
+          <p>In 2009, Christopher Bird and Nathan Emery gave rooks a tube of water with a worm floating out of reach. The birds dropped stones in until the water rose high enough, much like the crow in Aesop's fable.</p>
+          <p>Josep Call showed apes two cups, one with hidden food, and shook only the empty one. The apes heard no rattle and picked the other cup, reasoning by exclusion.</p>
+          <p>These animals had no words for their reasoning. They had a model of the world and acted on what had to be true in it.</p>
+
+          <h2 id="displays">What an LLM displays</h2>
+          <p>An LLM displays the <strong>form of reasoning</strong>. Trained on textbooks, proofs and worked solutions, it produces text with premises, steps and conclusions in the right order.</p>
+          <p>In 2022, Jason Wei and colleagues found that showing models worked examples, called <em>chain-of-thought</em> prompting, more than tripled one large model's score on school maths problems. Takeshi Kojima's team got a similar boost just by adding “Let's think step by step”.</p>
+          <p>Reasoning models such as OpenAI's “o1” and “DeepSeek-R1” were trained to write long chains like this before answering. They score far higher on maths and coding benchmarks than earlier models.</p>
+          <p>Writing the steps helps because each step is fed back in as input. The model gets more text to predict from, so the final token is more likely to be right.</p>
+
+          <h2 id="lacks">What an LLM lacks</h2>
+          <p>An LLM lacks <strong>reasoning that holds when the surface changes</strong>. In 2024, Iman Mirzadeh's team at Apple took familiar maths problems and only changed names and numbers, and model accuracy dropped.</p>
+          <p>They then added one irrelevant sentence, for example that five of the kiwis someone picked were “a bit smaller than average”. Many models subtracted those five, and accuracy fell by up to 65%.</p>
+          <p>It lacks <strong>reliable rule following</strong>. Nouha Dziri's team found that “GPT-4” multiplied small numbers well, but its accuracy fell close to zero as the numbers grew to four and five digits.</p>
+          <p>It reasons best where the internet does. Tom McCoy's team showed that “GPT-4” decoded a letter-shift cipher far better with a shift of 13, which is common online, than with a shift of 2, which is just as easy.</p>
+          <p>In 2025, another Apple study by Parshin Shojaee had reasoning models solve the Tower of Hanoi puzzle. Past a certain size, accuracy collapsed to zero even when the models were given the solving algorithm, although other researchers argued output limits explain part of this.</p>
+          <p>Finally, its written steps are <strong>not always what produced the answer</strong>. As described in part 3, models given a hidden bias wrote clean explanations that never mentioned it.</p>
+          <blockquote class="quote-bubble"><p>The chain of thought is more text. It is not a look inside.</p></blockquote>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Part of reasoning</th><th>Living beings</th><th>LLM</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Step-by-step explanations</td><td>Yes, in humans</td><td>Yes, learned from human text</td></tr>
+                <tr><td>Solving familiar problems</td><td>Yes</td><td>Yes, often very well</td></tr>
+                <tr><td>Same answer when names and numbers change</td><td>Yes</td><td>Not reliably</td></tr>
+                <tr><td>Following a rule at any length</td><td>Yes, with care</td><td>No, errors grow with size</td></tr>
+                <tr><td>A model of the world to reason over</td><td>Yes</td><td>No, only patterns in text</td></tr>
+                <tr><td>Explanations that match the real cause</td><td>Partly</td><td>Not reliably</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="perceived">Why it looks like reasoning</h2>
+          <p>Humans are not perfect reasoners either. In Peter Wason's 1960s card task, fewer than one in ten people found the right answer to an abstract rule, but most solved the same logic when it was about the drinking age.</p>
+          <p>In 2022, Ishita Dasgupta, Andrew Lampinen and colleagues found that LLMs show the same content effect. They reason better when the content is familiar and believable, a sign that they too lean on what they have seen.</p>
+          <p>We also trust answers that are easy to read. Rolf Reber and Norbert Schwarz showed in 1999 that people rate statements as more likely true when they are simply printed in an easy-to-read colour.</p>
+          <p>An LLM answer is always fluent, neatly structured and confident. Our minds take that polish as a sign of careful thought, even though every word is still the most probable next token.</p>
+          <div class="callout"><p>💡 Treat an LLM's reasoning as a draft, not a proof. Check each step yourself, and test it by rephrasing the question or changing the numbers.</p></div>
+
+          <h2 id="further-reading">Further reading 🔗</h2>
+          <ul>
+            <li><a class="ext" href="https://doi.org/10.1038/nature05511" target="_blank" rel="noopener">Grosenick, Clement &amp; Fernald, Fish can infer social rank by observation alone (2007)</a></li>
+            <li><a class="ext" href="https://doi.org/10.1016/j.cub.2009.07.033" target="_blank" rel="noopener">Bird &amp; Emery, Rooks Use Stones to Raise the Water Level to Reach a Floating Worm (2009)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener">Wei et al., Chain-of-Thought Prompting Elicits Reasoning in Large Language Models (2022)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2205.11916" target="_blank" rel="noopener">Kojima et al., Large Language Models are Zero-Shot Reasoners (2022)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2410.05229" target="_blank" rel="noopener">Mirzadeh et al., GSM-Symbolic: Understanding the Limitations of Mathematical Reasoning in LLMs (2024)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2305.18654" target="_blank" rel="noopener">Dziri et al., Faith and Fate: Limits of Transformers on Compositionality (2023)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2309.13638" target="_blank" rel="noopener">McCoy et al., Embers of Autoregression (2023)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2506.06941" target="_blank" rel="noopener">Shojaee et al., The Illusion of Thinking (2025)</a></li>
+            <li><a class="ext" href="https://arxiv.org/abs/2207.07051" target="_blank" rel="noopener">Dasgupta, Lampinen et al., Language models show human-like content effects on reasoning (2022)</a></li>
+            <li><a class="ext" href="https://doi.org/10.1006/ccog.1999.0386" target="_blank" rel="noopener">Reber &amp; Schwarz, Effects of Perceptual Fluency on Judgments of Truth (1999)</a></li>
+          </ul>
+        </div>
+
+        <div class="pager">
+          <a class="card" href="fabricated_consciousness.html"><span class="label">Previous · Part 3</span><span class="card-title">Fabricated consciousness <span class="arrow">→</span></span></a>        </div>
+      </article>
+
+      <aside class="toc">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#definition">How reasoning is defined</a></li>
+          <li><a href="#animals">Reasoning in other living beings</a></li>
+          <li><a href="#displays">What an LLM displays</a></li>
+          <li><a href="#lacks">What an LLM lacks</a></li>
+          <li><a href="#perceived">Why it looks like reasoning</a></li>
+          <li><a href="#further-reading">Further reading 🔗</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <h4>Acknowledgements</h4>
+    All content in this repository is fully AI-generated. 🤖✨😄🧪
+  </footer>
+
+  <script>
+    const words = (document.querySelector('.doc-hero').innerText + ' ' + document.getElementById('article').innerText)
+      .split(/\s+/).filter(Boolean).length;
+    document.querySelector('#readtime span').textContent = Math.max(1, Math.round(words / 220));
+
+    const links = [...document.querySelectorAll('.toc a')];
+    const targets = links.map(a => document.querySelector(a.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    targets.forEach(t => t && observer.observe(t));
+  </script>
+</body>
+</html>

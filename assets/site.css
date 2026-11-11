@@ -681,3 +681,20 @@ footer h4 { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
 .lang-toggle button:hover { color: var(--text); }
 .lang-toggle button[aria-pressed="true"] { background: var(--accent-soft); color: var(--text); }
 .lang-toggle button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: -2px; }
+
+/* Article series: a small box under the lead listing every part */
+.series {
+  margin-top: 22px; padding: 14px 18px;
+  background: var(--bg-elev); border: 1px solid var(--border); border-radius: 12px;
+  font-size: 14px;
+}
+.series-label {
+  display: block; margin-bottom: 8px;
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-2);
+}
+.series ol { margin: 0; padding-left: 22px; color: var(--faint); }
+.series li { padding: 2px 0; }
+.series a { color: var(--muted); }
+.series a:hover { color: var(--text); }
+.series li.current { color: var(--text); font-weight: 600; }
